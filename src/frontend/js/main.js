@@ -2,9 +2,11 @@ function getBackendURL(endpoint = '') {
     return 'http://localhost:3000' + endpoint;
 }
 
+let movementOriginTemp;
+
 function selectPositionForMovement(positionId) {
-    if (selectPositionForMovement.prototype.movementOrigin === undefined) {
-        selectPositionForMovement.prototype.movementOrigin = positionId;
+    if (movementOriginTemp === undefined) {
+        movementOriginTemp = positionId;
         return;
     }
     //TODO: Maybe use a bundler like webpack so que can use axios here
@@ -12,12 +14,12 @@ function selectPositionForMovement(positionId) {
         url: getBackendURL('/move'),
         method: 'POST',
         data: JSON.stringify({
-            movementOrigin: selectPositionForMovement.prototype.movementOrigin,
+            movementOrigin: movementOriginTemp,
             movementDestination: positionId
         }),
         contentType: 'application/json; charset=utf-8',
         success: (newBoardData) => {
-            selectPositionForMovement.prototype.movementOrigin = undefined;
+            movementOriginTemp = undefined;
             paintBoardOnHTML(newBoardData);
         },
         error: (err) => {
