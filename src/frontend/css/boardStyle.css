@@ -22,3 +22,7 @@ h1 {
     height: 35px;
     width: 35px;
 }
+
+.cell:hover {
+    background-color: #e46363;
+}

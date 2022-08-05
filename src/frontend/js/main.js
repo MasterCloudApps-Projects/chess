@@ -7,14 +7,15 @@ function selectPositionForMovement(positionId) {
         selectPositionForMovement.prototype.movementOrigin = positionId;
         return;
     }
-
+    //TODO: Maybe use a bundler like webpack so que can use axios here
     $.ajax({
         url: getBackendURL('/move'),
         method: 'POST',
-        data: {
-            origin: selectPositionForMovement.prototype.movementOrigin,
-            destination: positionId
-        },
+        data: JSON.stringify({
+            movementOrigin: selectPositionForMovement.prototype.movementOrigin,
+            movementDestination: positionId
+        }),
+        contentType: 'application/json; charset=utf-8',
         success: (newBoardData) => {
             selectPositionForMovement.prototype.movementOrigin = undefined;
             paintBoardOnHTML(newBoardData);
@@ -28,11 +29,10 @@ function selectPositionForMovement(positionId) {
 }
 
 function paintBoardOnHTML(boardData) {
-    let letterCells = "abcdefgh";
     for (let i = 1; i <= 8; i++) 
-        for (let letter = 0; letter < letterCells.length; letter++) {
-            let currentID = letterCells[letter] + i.toString();
-            getElementById(currentID).innerHTML = boardData[currentID];
+        for (let letter = 0; letter < "abcdefgh".length; letter++) {
+            let currentID = "abcdefgh"[letter] + i.toString();
+            document.getElementById(currentID).innerHTML = boardData[currentID];
          }
 }
 

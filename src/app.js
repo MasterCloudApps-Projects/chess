@@ -6,9 +6,9 @@ import { __dirname } from './dirname.js';
 const app = express();
 
 app.use(cors());
-app.use(patternsRouter);
 app.use(express.json());
-app.use('/frontend', express.static(__dirname + '/frontend'));
+app.use(patternsRouter);
+app.use('/', express.static(__dirname + '/frontend'));
 
 app.listen(3000, () => {
     console.log('Example app listening on port 3000!');
