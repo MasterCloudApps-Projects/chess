@@ -19,6 +19,8 @@ router.get('/command', (req, res) => {
     res.json(items["command"]);
 });
 
-export default router;
+export {
+    router
+}
 
 

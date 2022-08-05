@@ -1,0 +1,24 @@
+h1 {
+    margin: 1% auto 1% auto;
+}
+
+#chessboard {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(8, 1fr);
+    grid-gap: 1px;
+    align-items: center;
+}
+
+.boardRow {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    justify-items: center;
+}
+
+.cell {
+    border: 1px solid black;
+    text-align: center;
+    height: 35px;
+    width: 35px;
+}
