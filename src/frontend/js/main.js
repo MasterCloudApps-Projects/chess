@@ -10,7 +10,6 @@ function createMovementManagement() {
             movementOriginTemp = positionId;
             return;
         }
-        //TODO: Maybe use a bundler like webpack so que can use axios here
         $.ajax({
             url: getBackendURL('/move'),
             method: 'POST',
@@ -34,11 +33,11 @@ function createMovementManagement() {
     return {
         selectPositionForMovement
     };
-    
+
 }
 
 function paintBoardOnHTML(boardData) {
-    for (let i = 1; i <= 8; i++) 
+    for (let i = 1; i <= 8; i++)
         for (let letter = 0; letter < "abcdefgh".length; letter++) {
             let currentID = "abcdefgh"[letter] + i.toString();
             document.getElementById(currentID).innerHTML = boardData[currentID];
