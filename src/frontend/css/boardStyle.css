@@ -1,0 +1,33 @@
+h1 {
+    margin: 1% auto 1% auto;
+    text-align: center;
+}
+
+#chessboard {
+    margin: 1% auto 1% auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(8, 1fr);
+    align-items: center;
+    justify-items: center;
+    row-gap: 1px;
+}
+
+.boardRow {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: 1fr;
+    column-gap: 1px;
+}
+
+.cell {
+    text-align: center;
+    border: 1px solid black;
+    line-height: 40px;
+    height: 40px;
+    width: 40px;
+}
+
+.cell:hover {
+    background-color: #e46363;
+}

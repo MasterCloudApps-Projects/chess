@@ -1,24 +1,21 @@
 import express from 'express';
+import { __dirname } from './dirname.js';
 
 const router = express.Router();
 
-const items = {
-    strategy : "Strategy pattern",
-    command: "Command pattern"
+router.post('/move', (req, res) => {
+    console.log(req.body);
+    let boardResponse = {};
+    for (let i = 1; i <= 8; i++) 
+        for (let letter = 0; letter < "abcdefgh".length; letter++) {
+            let currentID = "abcdefgh"[letter] + i.toString();
+            boardResponse[currentID] = "WR";
+         }
+    res.send(boardResponse);
+});
+
+export {
+    router
 }
-
-router.get('/', (req, res) => {
-    res.json("Hello world!");
-})
-
-router.get('/strategy', (req, res) => {
-    res.json(items["strategy"]);
-});
-
-router.get('/command', (req, res) => {
-    res.json(items["command"]);
-});
-
-export default router;
 
 
