@@ -68,7 +68,7 @@ function createCounter () {
   };
 }
 ```
-### Dependency injection
+### Dependency injection:
 Dependency injection can also be approached with ES modules since functions can also receive parameters. Classes must be used only when it is not possible to implement a specific design pattern otherwise.
 
 
