@@ -26,8 +26,15 @@ h1 {
     line-height: 40px;
     height: 40px;
     width: 40px;
+    background-color: #FFF4AB;
+    text-shadow: 1px 1px 2px #ffffff;
 }
 
 .cell:hover {
-    background-color: #e46363;
+    background-color: #498df3 !important;
+}
+
+div.boardRow:nth-child(2n+1) div.cell:nth-child(2n+0),
+div.boardRow:nth-child(2n+0) div.cell:nth-child(2n+1) {
+    background-color: #ca6c13;
 }

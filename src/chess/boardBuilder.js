@@ -27,14 +27,14 @@ function boardBuilder() {
 
     function usingInitialPieceDisposition() {
         fromPieceLayoutString(`
-            BR-BH-BB-BQ-BK-BB-BH-BR
+            BR-BH-BB-BK-BQ-BB-BH-BR
             BP-BP-BP-BP-BP-BP-BP-BP
             _-_-_-_-_-_-_-_
             _-_-_-_-_-_-_-_
             _-_-_-_-_-_-_-_
             _-_-_-_-_-_-_-_
             WP-WP-WP-WP-WP-WP-WP-WP
-            WR-WH-WB-WQ-WK-WB-WH-WR
+            WR-WH-WB-WK-WQ-WB-WH-WR
         `);
         return this;
     }
