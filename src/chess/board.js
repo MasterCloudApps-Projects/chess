@@ -4,11 +4,10 @@ function addBoardFunctionality(board) {
 }
 
 function performMovement(movementOrigin, movementDestination) {
-    for (let i = 1; i <= 8; i++)
-        for (let letter = 0; letter < "abcdefgh".length; letter++) {
-            let currentID = "abcdefgh"[letter] + i.toString();
-            this.pieces[currentID] = "WR";
-         }
+    let oldPiece = this.pieces[movementDestination];
+    this.pieces[movementDestination] = this.pieces[movementOrigin];
+    this.pieces[movementOrigin] = oldPiece;
+
     return this.pieces;
 }
 
