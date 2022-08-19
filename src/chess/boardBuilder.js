@@ -1,17 +1,25 @@
 import { addBoardFunctionality } from './board.js';
-// import piece factories from ./
+import { pieceNames } from './pieces/pieceFactory.js';
+import { factory as blackPieceFactory } from './pieces/blackPieceFactory.js';
+import { factory as whitePieceFactory } from './pieces/whitePieceFactory.js';
 
 function boardBuilder() {
     let board = {};
     board.pieces = {};
 
-    function fromPieceLayoutString(pieceLayout) {
-        pieceLayout = pieceLayout.trim().split('\n').join('-').split('-');
-        let pieceLayoutCounter = 0;
+    function fromPieceLayoutString(pieceStringLayout) {
+        pieceStringLayout = pieceStringLayout.trim().split('\n').join('-').split('-');
+        let stringCounter = 0, pieceName;
         for (let i=8; i>0; i--)
             for (let letter = 0; letter < "abcdefgh".length; letter++) {
-                board.pieces["abcdefgh"[letter]+i.toString()] = pieceLayout[pieceLayoutCounter].trim();
-                pieceLayoutCounter++;
+                pieceName = pieceNames[pieceStringLayout[stringCounter].trim()];
+
+                let piece = blackPieceFactory[pieceName.call]();
+                if (pieceName.isWhite)
+                    piece = whitePieceFactory[pieceName.call]();
+
+                board.pieces["abcdefgh"[letter]+i.toString()] = piece;
+                stringCounter++;
             }
 
         return this;

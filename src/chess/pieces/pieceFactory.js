@@ -53,6 +53,23 @@ function createFactory() {
     return factory;
 }
 
+const pieceNames = {
+        BR: { isWhite : false, call : 'getRook' },
+        BH: { isWhite : false, call : 'getHorse' },
+        BB: { isWhite : false, call : 'getBishop' },
+        BQ: { isWhite : false, call : 'getQueen' },
+        BK: { isWhite : false, call : 'getKing' },
+        BP: { isWhite : false, call : 'getPawn' },
+        WR: { isWhite : true, call : 'getRook' },
+        WH: { isWhite : true, call : 'getHorse' },
+        WB: { isWhite : true, call : 'getBishop' },
+        WQ: { isWhite : true, call : 'getQueen' },
+        WK: { isWhite : true, call : 'getKing' },
+        WP: { isWhite : true, call : 'getPawn' },
+        _: { isWhite : false, call : 'getEmptyPiece' }
+}
+
 export {
-    createFactory
+    createFactory,
+    pieceNames
 }

@@ -1,4 +1,4 @@
-import { createFactory } from "./pieceFactory";
+import { createFactory } from "./pieceFactory.js";
 
 const factory = createFactory();
 
@@ -24,4 +24,8 @@ factory._getKing = function () {
 
 factory._getPawn = function () {
     return 'WP';
+}
+
+export {
+    factory
 }
