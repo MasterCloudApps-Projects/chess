@@ -6,8 +6,9 @@ let games = [];
 
 router.post('/game', (req, res) => {
     console.log('Creating game with UUID ' + req.body.gameUUID);
-    games.push(initializeGame().createGame(req.body.gameUUID));
-    res.status(200).send();
+    let game = initializeGame().createGame(req.body.gameUUID);
+    games.push(game);
+    res.status(200).send(game.board.pieces);
 });
 
 router.post('/move', (req, res) => {

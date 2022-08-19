@@ -17,6 +17,7 @@ function initializeGameManagement() {
             contentType: 'application/json; charset=utf-8',
             success: (data) => {
                 console.log('Game successfully initialized');
+                paintBoardOnHTML(data);
             },
             error: (err) => {
                 console.log('Error initializing game, trying again...');
