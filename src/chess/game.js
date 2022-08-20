@@ -1,5 +1,5 @@
 import { boardBuilder } from './boardBuilder.js';
-// import cpu player from ./
+import { cpuPlayer } from './player/cpuPlayer.js';
 
 function initializeGame() {
 
@@ -9,12 +9,14 @@ function initializeGame() {
     function createGame(uuid) {
         game.uuid = uuid;
         game.board = boardBuilder().usingInitialPieceDisposition().build();
+        game.cpuPlayer = cpuPlayer();
         return game;
     }
 
     function play(movementOrigin, movementDestination){
         if(this.board.isWhitePiece(movementOrigin)){
-            return this.board.performMovement(movementOrigin, movementDestination);
+            this.board.performMovement(movementOrigin, movementDestination);
+            this.cpuPlayer.performRandomMovement(this.board);
         } else{
             //TODO: add excepction
             console.log('Invalid movement for player');
