@@ -2,10 +2,13 @@ import { pieceNames, pieceTypes } from './pieces/pieceFactory.js';
 
 function addBoardFunctionality(board) {
     board.performMovement = performMovement;
+    board.isEmptySquare = isEmptySquare;
     board.isWhitePiece = isWhitePiece;
+    board.isBlackPiece = isBlackPiece;
     board.getBoard = getBoard;
     board.getAllSquaresOfBlackPieces = getAllSquaresOfBlackPieces;
     board.getAllEmptySquares = getAllEmptySquares;
+    board.getPiece = getPiece;
     return board;
 }
 
@@ -27,8 +30,24 @@ function getAllEmptySquares(){
     return getAllByColor(this.pieces, null);
 }
 
-function isWhitePiece(checkbox){
-    return pieceTypes.white == pieceNames[this.pieces[checkbox]].type;
+function isBlackPiece(square){
+    return isColor(this.pieces, square, pieceTypes.black);
+}
+
+function isWhitePiece(square){
+    return isColor(this.pieces, square, pieceTypes.white);
+}
+
+function isEmptySquare(square){
+    return isColor(this.pieces, square, null);
+}
+
+function isColor(pieces, square, color){
+    return color == pieceNames[pieces[square]].type;
+}
+
+function getPiece(origin){
+    return this.pieces[origin];
 }
 
 export {
