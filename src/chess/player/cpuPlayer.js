@@ -5,7 +5,14 @@ function cpuPlayer() {
 }
 
 function performRandomMovement(board) {
-    board.performMovement('a8', 'a6');
+    let origin = generateRandomMovement(board.getAllSquaresOfBlackPieces());
+    let destination = generateRandomMovement(board.getAllEmptySquares());
+    board.performMovement(origin, destination);
+}
+
+
+function generateRandomMovement(squares){
+    return squares[Math.floor(Math.random()*(squares.length - 1))]
 }
 
 export {

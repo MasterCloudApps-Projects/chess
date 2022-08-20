@@ -53,23 +53,29 @@ function createFactory() {
     return factory;
 }
 
+const pieceTypes = {
+	white: 'white',
+	black: 'black'
+}
+
 const pieceNames = {
-        BR: { isWhite : false, call : 'getRook' },
-        BH: { isWhite : false, call : 'getHorse' },
-        BB: { isWhite : false, call : 'getBishop' },
-        BQ: { isWhite : false, call : 'getQueen' },
-        BK: { isWhite : false, call : 'getKing' },
-        BP: { isWhite : false, call : 'getPawn' },
-        WR: { isWhite : true, call : 'getRook' },
-        WH: { isWhite : true, call : 'getHorse' },
-        WB: { isWhite : true, call : 'getBishop' },
-        WQ: { isWhite : true, call : 'getQueen' },
-        WK: { isWhite : true, call : 'getKing' },
-        WP: { isWhite : true, call : 'getPawn' },
-        _: { isWhite : false, call : 'getEmptyPiece' }
+        BR: { type : pieceTypes.black, call : 'getRook' },
+        BH: { type : pieceTypes.black, call : 'getHorse' },
+        BB: { type : pieceTypes.black, call : 'getBishop' },
+        BQ: { type : pieceTypes.black, call : 'getQueen' },
+        BK: { type : pieceTypes.black, call : 'getKing' },
+        BP: { type : pieceTypes.black, call : 'getPawn' },
+        WR: { type : pieceTypes.white, call : 'getRook' },
+        WH: { type : pieceTypes.white, call : 'getHorse' },
+        WB: { type : pieceTypes.white, call : 'getBishop' },
+        WQ: { type : pieceTypes.white, call : 'getQueen' },
+        WK: { type : pieceTypes.white, call : 'getKing' },
+        WP: { type : pieceTypes.white, call : 'getPawn' },
+        _: { type : null, call : 'getEmptyPiece' }
 }
 
 export {
     createFactory,
-    pieceNames
+    pieceNames,
+    pieceTypes
 }
