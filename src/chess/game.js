@@ -4,7 +4,7 @@ import { boardBuilder } from './boardBuilder.js';
 function initializeGame() {
 
     let game = {};
-    game.performMovement = performMovement;
+    game.play = play;
 
     function createGame(uuid) {
         game.uuid = uuid;
@@ -12,8 +12,14 @@ function initializeGame() {
         return game;
     }
 
-    function performMovement(movementOrigin, movementDestination) {
-        return this.board.performMovement(movementOrigin, movementDestination);
+    function play(movementOrigin, movementDestination){
+        if(this.board.isWhitePiece(movementOrigin)){
+            return this.board.performMovement(movementOrigin, movementDestination);
+        } else{
+            //TODO: add excepction
+            console.log('Invalid movement for player');
+        }
+        return this.board.getBoard();
     }
 
     return {
