@@ -1,5 +1,5 @@
 import { boardBuilder } from './boardBuilder.js';
-import { cpuPlayer } from './player/cpuPlayer.js';
+import { cpuPlayer } from './players/cpuPlayer.js';
 
 function initializeGame() {
 
