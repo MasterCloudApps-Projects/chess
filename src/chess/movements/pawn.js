@@ -1,4 +1,4 @@
-import { getRow, rowMovement, rightDiagonal, leftDiagonal } from "./utils/utils.js";
+import { getRow, rowMovement, diagonal, filter } from "./utils/utils.js";
 
 /** Pawn movement validation.
 *   Moves forward 1 by 1 execpt:
@@ -6,33 +6,71 @@ import { getRow, rowMovement, rightDiagonal, leftDiagonal } from "./utils/utils.
 *    - Can eat diagonally
 */
 
-function evaluate(origin, destination, board) {
-    if(!(validFirstMovement(origin, destination, board) || validForward(origin, destination, board) || validEating(origin, board))){
+function evaluatePawnMovement(origin, destination, board) {
+    let possibleMovements = move(origin, board);
+    if(!possibleMovements.includes(destination)){
         //TODO: exception
         console.log("Invalid pawn movement");
     }
 }
 
-function validForward(current, destination, board){
-    let movements = rowMovement(current, 1, 1);
-    return movements.includes(destination) && board.isEmptySquare(destination);
+function move(origin, board) {
+    let possibleMovements = [];
+    possibleMovements.push(...getFirstMovement(origin, board));
+    possibleMovements.push(...getForwardMovement(origin, board));
+    let filterMovements = filter(possibleMovements, origin, board);
+    filterMovements.push(...getEatingMovement(origin, board));
+    return filterMovements;
 }
 
-function validEating(current, destination, board){
-    if(board.isBlackPiece(destination)){
-        return rightDiagonal(current, 1).includes(destination) || leftDiagonal(current, 1).includes(destination);
+function getFirstMovement(current, board){
+    let movements = [];
+    if(board.isWhitePiece(current)){
+        if(getRow(current) == 2) {
+            movements.push(...rowMovement(current, 2, 1));
+        }
+    } else if(board.isBlackPiece(current)) {
+        if(getRow(current) == 7) {
+            movements.push(...rowMovement(current, 2, -1));
+        }
     }
-    return false;
+    return movements;
 }
 
-function validFirstMovement(current, destination, board){
-    if(getRow(current) == 2) {
-        let movements = rowMovement(current, 2, 1);
-        return movements.includes(destination) && board.isEmptySquare(destination);
+function getForwardMovement(current, board){
+    let movements = [];
+    if(board.isWhitePiece(current)){
+        movements.push(...rowMovement(current, 1, 1));
+    } else if(board.isBlackPiece(current)) {
+        movements.push(...rowMovement(current, 1, -1));
     }
-    return false;
+    return movements;
+}
+
+function getEatingMovement(current, board){
+    const piece = board.getPiece(current);
+    let movements = [];
+    let rightDiagonal = [];
+    let leftDiagonal = [];
+
+    if(board.isWhitePiece(current)){
+        rightDiagonal = diagonal(current, 1, 1, 1);
+        leftDiagonal = diagonal(current, 1, 1, -1);
+    } else if(board.isBlackPiece(current)) {
+        rightDiagonal = diagonal(current, 1, -1, 1);
+        leftDiagonal = diagonal(current, 1, -1, -1);
+    }
+
+    if(!(board.isEmptySquare(rightDiagonal[0]) && board.getPiece(rightDiagonal[0]).type == piece.type)) {
+        movements.push(rightDiagonal[0]);
+    }
+
+    if(!(board.isEmptySquare(rightDiagonal[0]) && board.getPiece(rightDiagonal[0]).type == piece.type)) {
+        movements.push(leftDiagonal[0]);
+    }
+    return movements;
 }
 
 export {
-    evaluate
+    move, evaluatePawnMovement
 }

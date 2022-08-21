@@ -9,6 +9,7 @@ function addBoardFunctionality(board) {
     board.getAllSquaresOfBlackPieces = getAllSquaresOfBlackPieces;
     board.getAllEmptySquares = getAllEmptySquares;
     board.getPiece = getPiece;
+    board.getPieceColor = getPieceColor;
     return board;
 }
 
@@ -48,6 +49,10 @@ function isColor(pieces, square, color){
 
 function getPiece(origin){
     return this.pieces[origin];
+}
+
+function getPieceColor(origin){
+    return pieceNames[this.pieces[origin]].type;
 }
 
 export {

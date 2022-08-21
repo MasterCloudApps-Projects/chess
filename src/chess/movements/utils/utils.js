@@ -25,36 +25,34 @@ function rowMovement(square, total, flowValue){
     return movements;
 }
 
-//flow c:+1 r:+1
-function rightDiagonal(square, total){
+//flow rightDiagonal c:+1 r:+1
+//flow rightDownDiagonal c:+1 r:-1
+//flow leftDiagonal c:-1 r:+1
+//flow leftDiagonal c:-1 r:-1
+function diagonal(square, total, flowRow, flowColumn){
     let movements = [];
     let column = getIndexColumn(square);
     let row = parseInt(getRow(square));
    for (let i=1; i <= total; i++){
-    if (columns.length > column + 1) {
-        column = column + 1; //+1
-        row = row + 1;
+    if (columns.length > column + 1 && column - 1 >= 0) {
+        column = column + flowColumn;
+        row = row + flowRow;
         movements.push(columns[column] + row);
     }
   }
     return movements;
 }
 
-//flow  c:-1 r:+1
-function leftDiagonal(square, total){
+function filter(possibleMovements, current, board){
     let movements = [];
-    let column = getIndexColumn(square);
-    let row = parseInt(getRow(square));
-   for (let i=1; i <= total; i++){
-    if (column - 1 >= 0) {
-        column = column - 1; //-1
-        row = row + 1;
-        movements.push(columns[column] + row);
+    for (let i=1; i <= possibleMovements.length; i++){
+        if(possibleMovements[i] && board.getPieceColor(possibleMovements[i]) != board.getPieceColor(current)) {
+            movements.push(possibleMovements[i]);
+        }
     }
-  }
     return movements;
 }
 
 export {
-    getRow, rowMovement, rightDiagonal, leftDiagonal
+    getRow, rowMovement, diagonal, filter
 }
