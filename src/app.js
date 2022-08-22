@@ -11,5 +11,5 @@ app.use(patternsRouter);
 app.use('/', express.static(__dirname + '/frontend'));
 
 app.listen(3000, () => {
-    console.log('Example app listening on port 3000!');
+    console.log('Chess front end running on port 3000!');
 });

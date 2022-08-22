@@ -3,36 +3,36 @@ import { pieceTypes } from '../pieces/piece.js';
 function createMovement() {
     let movement = {};
 
-    function getNextSquareNorth() {
-        return incrementRow(this.currentPosition);
+    function getNextSquareNorth(origin) {
+        return incrementRow(origin);
     }
 
-    function getNextSquareSouth() {
-        return decreaseRow(this.currentPosition);
+    function getNextSquareSouth(origin) {
+        return decreaseRow(origin);
     }
 
-    function getNextSquareEast() {
-        return incrementColumn(this.currentPosition);
+    function getNextSquareEast(origin) {
+        return incrementColumn(origin);
     }
 
-    function getNextSquareWest() {
-        return decreaseColumn(this.currentPosition);
+    function getNextSquareWest(origin) {
+        return decreaseColumn(origin);
     }
 
-    function getNextNorthEastDiagonal() {
-        return checkDiagonal(this.currentPosition, 'getNextSquareNorth', 'getNextSquareEast');
+    function getNextNorthEastDiagonal(origin) {
+        return checkDiagonal(origin, 'getNextSquareNorth', 'getNextSquareEast');
     }
 
-    function getNextNorthWestDiagonal() {
-        return checkDiagonal(this.currentPosition, 'getNextSquareNorth', 'getNextSquareWest');
+    function getNextNorthWestDiagonal(origin) {
+        return checkDiagonal(origin, 'getNextSquareNorth', 'getNextSquareWest');
     }
 
-    function getNextSouthEastDiagonal() {
-        return checkDiagonal(this.currentPosition, 'getNextSquareSouth', 'getNextSquareEast');
+    function getNextSouthEastDiagonal(origin) {
+        return checkDiagonal(origin, 'getNextSquareSouth', 'getNextSquareEast');
     }
 
-    function getNextSouthWestDiagonal() {
-        return checkDiagonal(this.currentPosition, 'getNextSquareSouth', 'getNextSquareWest');
+    function getNextSouthWestDiagonal(origin) {
+        return checkDiagonal(origin, 'getNextSquareSouth', 'getNextSquareWest');
     }
 
     function checkDiagonal(origin, verticalDirection, horizontalDirection) {
@@ -86,8 +86,8 @@ function incrementRow(coordinate) {
 }
 
 function incrementColumn(coordinate) {
-    if (getColumn(coordinate) >= columns.length) return coordinate;
-    return columns[columns.indexOf(getColumn(coordinate)) + 1] + getRow(coordinate);
+    if (columns.indexOf(getColumn(coordinate)) >= columns.length-1) return coordinate;
+    return columns[columns.indexOf(getColumn(coordinate)) + 1] + getRow(coordinate).toString();
 }
 
 function decreaseRow(coordinate) {
@@ -96,8 +96,8 @@ function decreaseRow(coordinate) {
 }
 
 function decreaseColumn(coordinate) {
-    if (getColumn(coordinate) <= 0) return coordinate;
-    return columns[columns.indexOf(getColumn(coordinate)) - 1] + getRow(coordinate);
+    if (columns.indexOf(getColumn(coordinate)) <= 0) return coordinate;
+    return columns[columns.indexOf(getColumn(coordinate)) - 1] + getRow(coordinate).toString();
 }
 
 export {

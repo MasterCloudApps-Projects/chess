@@ -20,6 +20,7 @@ function createBoard() {
 function performMovement(movementOrigin, movementDestination) {
     if (this.pieces[movementOrigin].performMovement(movementDestination, this.pieces)) {
         this.pieces[movementDestination] = this.pieces[movementOrigin];
+        this.pieces[movementDestination].position = movementDestination;
         this.createEmptyTile(movementOrigin);
     }
 }

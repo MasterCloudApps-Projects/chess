@@ -1,5 +1,5 @@
 import { createPiece, pieceTypes } from "./piece.js";
-import { pawnMovement } from "../movements/pawnMovement.js";
+import { getPawnMovement } from "../movements/pawnMovement.js";
 
 function createFactory() {
     let factory = {};
@@ -28,7 +28,7 @@ function createFactory() {
     }
     function getPawn(position) {
         let pawn = this._getPawn(position);
-        pawn.movement = pawnMovement;
+        pawn.movement = getPawnMovement();
         return pawn;
     }
 
