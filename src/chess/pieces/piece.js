@@ -28,11 +28,14 @@ function createPiece(name, color, position) {
 
     piece.performMovement = performMovement;
     piece.isWhite = isWhite;
+    piece.isOpposingColor = isOpposingColor;
+    piece.isOfColor = isOfColor;
     piece.isEmpty = isEmpty;
     return piece;
 }
 
 function performMovement(destination, pieces) {
+    if (this.movement === undefined) return true; // TODO: Delete once all movement strategies are implemented
     this.movement.currentPosition = this.position;
     this.movement.boardPieces = pieces;
     return this.movement.move(destination);
@@ -40,6 +43,14 @@ function performMovement(destination, pieces) {
 
 function isWhite() {
     return this.color == pieceTypes.white;
+}
+
+function isOfColor(color) {
+    return this.color == color;
+}
+
+function isOpposingColor(piece) {
+    return this.color != piece.color && !piece.isEmpty();
 }
 
 function isEmpty() {

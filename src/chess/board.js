@@ -12,7 +12,6 @@ function createBoard() {
     board.getAllSquaresOfBlackPieces = getAllSquaresOfBlackPieces;
     board.getAllEmptySquares = getAllEmptySquares;
     board.getPiece = getPiece;
-    board.getPieceColor = getPieceColor;
     board.getAllByColor = getAllByColor;
     return board;
 }
@@ -22,11 +21,9 @@ function performMovement(movementOrigin, movementDestination) {
         this.pieces[movementDestination] = this.pieces[movementOrigin];
         this.pieces[movementDestination].position = movementDestination;
         this.createEmptyTile(movementOrigin);
+        return true;
     }
-}
-
-function getBoard() {
-    return this.pieces;
+    return false;
 }
 
 function getBoardPieceNames() {
@@ -42,7 +39,7 @@ function getAllSquaresOfBlackPieces(){
 }
 
 function getAllEmptySquares(){
-    return this.getAllByColor(this.pieces, pieceTypes.empty);
+    return this.getAllByColor(pieceTypes.empty);
 }
 
 function isBlackPiece(coordinate) {
@@ -61,17 +58,11 @@ function getPiece(coordinate){
     return this.pieces[coordinate];
 }
 
-function getPieceColor(coordinate) {
-    return this.pieces[coordinate].color;
-}
-
 function getAllByColor(color){
     const coloredSquares = [];
-    const coordinates = Object.keys(this.pieces);
-    for(let i = 0; i < coordinates.length-1; i++)
-        if(this.pieces[coordinates[i].toString()].color == color)
-            coloredSquares.push(coordinates[i])
-
+    for (let piece in this.pieces)
+        if (this.pieces[piece].isOfColor(color))
+            coloredSquares.push(piece);
     return coloredSquares;
 }
 

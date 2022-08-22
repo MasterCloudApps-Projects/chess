@@ -4,41 +4,30 @@ import { getPawnMovement } from "../movements/pawnMovement.js";
 function createFactory() {
     let factory = {};
 
-    function getEmptyPiece(position) {
+    factory.getEmptyPiece = function (position) {
         return createPiece('_', pieceTypes.empty, position);
     }
 
-    function getRook(position) {
-        // TODO: Factory method so parent class can inject strategy movements
-        let rook = this._getRook(position);
-        //rook.movement = strategies.getRookMovement;
-        return rook;
+    factory.getRook = function (position) {
+        return this._getRook(position);
     }
-    function getHorse(position) {
+    factory.getHorse = function (position) {
         return this._getHorse(position);
     }
-    function getBishop(position) {
+    factory.getBishop = function (position) {
         return this._getBishop(position);
     }
-    function getQueen(position) {
+    factory.getQueen = function (position) {
         return this._getQueen(position);
     }
-    function getKing(position) {
+    factory.getKing = function (position) {
         return this._getKing(position);
     }
-    function getPawn(position) {
+    factory.getPawn = function (position) {
         let pawn = this._getPawn(position);
         pawn.movement = getPawnMovement();
         return pawn;
     }
-
-    factory.getEmptyPiece = getEmptyPiece;
-    factory.getRook = getRook;
-    factory.getHorse = getHorse;
-    factory.getBishop = getBishop;
-    factory.getQueen = getQueen;
-    factory.getKing = getKing;
-    factory.getPawn = getPawn;
 
     function factoryMethodGetRook(position) {};
     function factoryMethodGetHorse(position) {};

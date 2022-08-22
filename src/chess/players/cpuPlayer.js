@@ -7,7 +7,8 @@ function cpuPlayer() {
 function performRandomMovement(board) {
     let origin = generateRandomMovement(board.getAllSquaresOfBlackPieces());
     let destination = generateRandomMovement(board.getAllEmptySquares());
-    //board.performMovement(origin, destination);
+    if (!board.performMovement(origin, destination))
+        return performRandomMovement(board);
 }
 
 

@@ -15,8 +15,8 @@ function initializeGame() {
 
     function play(movementOrigin, movementDestination){
         if(this.board.isWhitePiece(movementOrigin)){
-            this.board.performMovement(movementOrigin, movementDestination);
-            this.cpuPlayer.performRandomMovement(this.board);
+            if(this.board.performMovement(movementOrigin, movementDestination))
+                this.cpuPlayer.performRandomMovement(this.board);
         } else{
             //TODO: add excepction
             console.log('Invalid movement for player');

@@ -3,68 +3,53 @@ import { pieceTypes } from '../pieces/piece.js';
 function createMovement() {
     let movement = {};
 
-    function getNextSquareNorth(origin) {
+    movement.getNextSquareNorth = function (origin) {
         return incrementRow(origin);
     }
 
-    function getNextSquareSouth(origin) {
+    movement.getNextSquareSouth = function (origin) {
         return decreaseRow(origin);
     }
 
-    function getNextSquareEast(origin) {
+    movement.getNextSquareEast = function (origin) {
         return incrementColumn(origin);
     }
 
-    function getNextSquareWest(origin) {
+    movement.getNextSquareWest = function (origin) {
         return decreaseColumn(origin);
     }
 
-    function getNextNorthEastDiagonal(origin) {
+    movement.getNextNorthEastDiagonal = function (origin) {
         return checkDiagonal(origin, 'getNextSquareNorth', 'getNextSquareEast');
     }
 
-    function getNextNorthWestDiagonal(origin) {
+    movement.getNextNorthWestDiagonal = function (origin) {
         return checkDiagonal(origin, 'getNextSquareNorth', 'getNextSquareWest');
     }
 
-    function getNextSouthEastDiagonal(origin) {
+    movement.getNextSouthEastDiagonal = function (origin) {
         return checkDiagonal(origin, 'getNextSquareSouth', 'getNextSquareEast');
     }
 
-    function getNextSouthWestDiagonal(origin) {
+    movement.getNextSouthWestDiagonal = function (origin) {
         return checkDiagonal(origin, 'getNextSquareSouth', 'getNextSquareWest');
     }
 
-    function checkDiagonal(origin, verticalDirection, horizontalDirection) {
+    function checkDiagonal (origin, verticalDirection, horizontalDirection) {
         if ((movement[verticalDirection](origin) == origin) || (movement[horizontalDirection](origin) == origin)) return origin;
         return movement[verticalDirection](movement[horizontalDirection](origin));
     }
 
-    function isEmptyCoordinate(destination) {
-        return this.boardPieces[destination].color == pieceTypes.empty;
+    movement.isEmptyCoordinate = function (destination) {
+        return this.boardPieces[destination].isEmpty();
     }
 
-    function isOpposingColor(destination) {
-        return this.boardPieces[destination].color != this.boardPieces[this.currentPosition].color && !this.isEmptyCoordinate(destination);
+    movement.isOpposingColor = function (destination) {
+        return this.boardPieces[this.currentPosition].isOpposingColor(this.boardPieces[destination]);
     }
 
-    movement.getNextSquareNorth = getNextSquareNorth;
-    movement.getNextSquareSouth = getNextSquareSouth;
-    movement.getNextSquareEast = getNextSquareEast;
-    movement.getNextSquareWest = getNextSquareWest;
-    movement.getNextNorthEastDiagonal = getNextNorthEastDiagonal;
-    movement.getNextNorthWestDiagonal = getNextNorthWestDiagonal;
-    movement.getNextSouthEastDiagonal = getNextSouthEastDiagonal;
-    movement.getNextSouthWestDiagonal = getNextSouthWestDiagonal;
-    movement.isEmptyCoordinate = isEmptyCoordinate;
-    movement.isOpposingColor = isOpposingColor;
-    movement.move = move;
-
-    function move(destination) {}
-    function getPossibleMovements() {}
-
-    movement.move = move;
-    movement.getPossibleMovements = getPossibleMovements;
+    movement.move = function (destination) {}
+    movement.getPossibleMovements = function () {}
 
     return movement;
 }
