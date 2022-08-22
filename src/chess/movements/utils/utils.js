@@ -1,4 +1,3 @@
-
 const columns = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 
 function getRow(square){

@@ -1,4 +1,4 @@
-import { pieceNames, pieceTypes } from './pieces/piece.js';
+import { pieceTypes } from './pieces/piece.js';
 
 function createBoard() {
     let board = {};
@@ -37,31 +37,27 @@ function getAllSquaresOfBlackPieces(){
 }
 
 function getAllEmptySquares(){
-    return getAllByColor(this.pieces, null);
+    return getAllByColor(this.pieces, pieceTypes.empty);
 }
 
-function isBlackPiece(coordinate){
-    return isColor(this.pieces, scoordinate, pieceTypes.black);
+function isBlackPiece(coordinate) {
+    return !this.pieces[coordinate].isWhite();
 }
 
 function isWhitePiece(coordinate){
-    return isColor(this.pieces, coordinate, pieceTypes.white);
+    return this.pieces[coordinate].isWhite();
 }
 
 function isEmptySquare(coordinate){
-    return isColor(this.pieces, coordinate, pieceTypes.empty);
-}
-
-function isColor(pieces, coordinate, color){
-    return pieces[coordinate].color == color;
+    return this.pieces[coordinate].isEmpty();
 }
 
 function getPiece(coordinate){
     return this.pieces[coordinate];
 }
 
-function getPieceColor(coordinate){
-    return pieceNames[this.pieces[coordinate]].type;
+function getPieceColor(coordinate) {
+    return this.pieces[coordinate].color;
 }
 
 function getAllByColor(pieces, color){

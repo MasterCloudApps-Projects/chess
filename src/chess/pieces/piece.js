@@ -28,6 +28,7 @@ function createPiece(name, color, position) {
     };
     piece.performMovement = performMovement;
     piece.isWhite = isWhite;
+    piece.isEmpty = isEmpty;
     return piece;
 }
 
@@ -37,6 +38,10 @@ function performMovement(destination, pieces) {
 
 function isWhite() {
     return this.color == pieceTypes.white;
+}
+
+function isEmpty() {
+    return this.color == pieceTypes.empty;
 }
 
 export {
