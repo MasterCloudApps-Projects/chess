@@ -1,6 +1,8 @@
 import { pieceNames, pieceTypes } from './pieces/pieceFactory.js';
 
-function addBoardFunctionality(board) {
+function createBoard() {
+    let board = {};
+    board.pieces = {};
     board.performMovement = performMovement;
     board.isEmptySquare = isEmptySquare;
     board.isWhitePiece = isWhitePiece;
@@ -56,7 +58,7 @@ function getPieceColor(origin){
 }
 
 export {
-    addBoardFunctionality
+    createBoard
 }
 
 

@@ -1,11 +1,10 @@
-import { addBoardFunctionality } from './board.js';
+import { createBoard } from './board.js';
 import { pieceNames, pieceTypes } from './pieces/pieceFactory.js';
 import { factory as blackPieceFactory } from './pieces/blackPieceFactory.js';
 import { factory as whitePieceFactory } from './pieces/whitePieceFactory.js';
 
 function boardBuilder() {
-    let board = {};
-    board.pieces = {};
+    let board = createBoard();
 
     function fromPieceLayoutString(pieceStringLayout) {
         pieceStringLayout = pieceStringLayout.trim().split('\n').join('-').split('-');
@@ -40,10 +39,11 @@ function boardBuilder() {
     }
 
     function build() {
-        return addBoardFunctionality(board);
+        return board;
     }
 
     return {
+        fromPieceLayoutString,
         usingInitialPieceDisposition,
         build
     }
