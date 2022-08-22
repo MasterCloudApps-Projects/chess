@@ -1,4 +1,4 @@
-import { pieceNames, pieceTypes } from './pieces/pieceFactory.js';
+import { pieceNames, pieceTypes } from './pieces/piece.js';
 
 function createBoard() {
     let board = {};
@@ -8,6 +8,7 @@ function createBoard() {
     board.isWhitePiece = isWhitePiece;
     board.isBlackPiece = isBlackPiece;
     board.getBoard = getBoard;
+    board.getBoardPieceNames = getBoardPieceNames;
     board.getAllSquaresOfBlackPieces = getAllSquaresOfBlackPieces;
     board.getAllEmptySquares = getAllEmptySquares;
     board.getPiece = getPiece;
@@ -16,13 +17,19 @@ function createBoard() {
 }
 
 function performMovement(movementOrigin, movementDestination) {
-    let oldPiece = this.pieces[movementDestination];
-    this.pieces[movementDestination] = this.pieces[movementOrigin];
-    this.pieces[movementOrigin] = oldPiece;
+    this.pieces[movementOrigin].performMovement(movementDestination, this.pieces);
 }
 
-function getBoard(){
+function getBoard() {
     return this.pieces;
+}
+
+function getBoardPieceNames() {
+    let result = {};
+    for (let key in this.pieces)
+        result[key] = this.pieces[key].name;
+
+    return result;
 }
 
 function getAllSquaresOfBlackPieces(){
@@ -33,42 +40,41 @@ function getAllEmptySquares(){
     return getAllByColor(this.pieces, null);
 }
 
-function isBlackPiece(square){
-    return isColor(this.pieces, square, pieceTypes.black);
+function isBlackPiece(coordinate){
+    return isColor(this.pieces, scoordinate, pieceTypes.black);
 }
 
-function isWhitePiece(square){
-    return isColor(this.pieces, square, pieceTypes.white);
+function isWhitePiece(coordinate){
+    return isColor(this.pieces, coordinate, pieceTypes.white);
 }
 
-function isEmptySquare(square){
-    return isColor(this.pieces, square, null);
+function isEmptySquare(coordinate){
+    return isColor(this.pieces, coordinate, pieceTypes.empty);
 }
 
-function isColor(pieces, square, color){
-    return color == pieceNames[pieces[square]].type;
+function isColor(pieces, coordinate, color){
+    return pieces[coordinate].color == color;
 }
 
-function getPiece(origin){
-    return this.pieces[origin];
+function getPiece(coordinate){
+    return this.pieces[coordinate];
 }
 
-function getPieceColor(origin){
-    return pieceNames[this.pieces[origin]].type;
+function getPieceColor(coordinate){
+    return pieceNames[this.pieces[coordinate]].type;
+}
+
+function getAllByColor(pieces, color){
+    const coloredSquares = [];
+    const coordinates = Object.keys(pieces);
+
+    for(let i = 0; i < coordinates.length; i++)
+        if(pieces[coordinates[i]].color == color)
+            coloredSquares.push(coordinates[i])
+
+    return coloredSquares;
 }
 
 export {
     createBoard
-}
-
-
-function getAllByColor(pieces, color){
-    const squares = [];
-    const keys = Object.keys(pieces);
-    for(let i = 0; i < keys.length; i++){
-        if(color  == pieceNames[pieces[keys[i]]].type){
-            squares.push(keys[i])
-        }
-    }
-    return squares;
 }

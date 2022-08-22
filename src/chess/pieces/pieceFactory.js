@@ -1,8 +1,10 @@
+import { createPiece, pieceTypes } from "./piece.js";
+
 function createFactory() {
     let factory = {};
 
     function getEmptyPiece() {
-        return '_';
+        return createPiece('_', pieceTypes.empty);
     }
 
     function getRook() {
@@ -53,29 +55,6 @@ function createFactory() {
     return factory;
 }
 
-const pieceTypes = {
-	white: 'white',
-	black: 'black'
-}
-
-const pieceNames = {
-        BR: { type : pieceTypes.black, call : 'getRook' },
-        BH: { type : pieceTypes.black, call : 'getHorse' },
-        BB: { type : pieceTypes.black, call : 'getBishop' },
-        BQ: { type : pieceTypes.black, call : 'getQueen' },
-        BK: { type : pieceTypes.black, call : 'getKing' },
-        BP: { type : pieceTypes.black, call : 'getPawn' },
-        WR: { type : pieceTypes.white, call : 'getRook' },
-        WH: { type : pieceTypes.white, call : 'getHorse' },
-        WB: { type : pieceTypes.white, call : 'getBishop' },
-        WQ: { type : pieceTypes.white, call : 'getQueen' },
-        WK: { type : pieceTypes.white, call : 'getKing' },
-        WP: { type : pieceTypes.white, call : 'getPawn' },
-        _: { type : null, call : 'getEmptyPiece' }
-}
-
 export {
-    createFactory,
-    pieceNames,
-    pieceTypes
+    createFactory
 }

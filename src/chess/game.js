@@ -21,7 +21,7 @@ function initializeGame() {
             //TODO: add excepction
             console.log('Invalid movement for player');
         }
-        return this.board.getBoard();
+        return this.board.getBoardPieceNames();
     }
 
     return {

@@ -1,29 +1,30 @@
 import { createFactory } from "./pieceFactory.js";
+import { createPiece, pieceTypes } from "./piece.js";
 
 const factory = createFactory();
 
 factory._getRook = function () {
-    return 'BR';
+    return createPiece('BR', pieceTypes.black);
 }
 
 factory._getHorse = function () {
-    return 'BH';
+    return createPiece('BH', pieceTypes.black);
 }
 
 factory._getBishop = function () {
-    return 'BB';
+    return createPiece('BB', pieceTypes.black);
 }
 
 factory._getQueen = function () {
-    return 'BQ';
+    return createPiece('BQ', pieceTypes.black);
 }
 
 factory._getKing = function () {
-    return 'BK';
+    return createPiece('BK', pieceTypes.black);
 }
 
 factory._getPawn = function () {
-    return 'BP';
+    return createPiece('BP', pieceTypes.black);
 }
 
 export {
