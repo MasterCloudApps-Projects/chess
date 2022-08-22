@@ -9,18 +9,19 @@ import { createMovement, getRow } from "./movement.js";
 function getPawnMovement() {
     let pawnMovement = createMovement();
     pawnMovement.isFirstMovement = true;
-    pawnMovement.isFromNorthSide = function () {
+    pawnMovement.checkIfFromNorthSide = function () {
         return getRow(this.currentPosition) == 7;
     };
 
     pawnMovement.move = function (destination) {
         if (this.isFirstMovement)
-            this.isFromNorthSide = this.isFromNorthSide();
+            this.isFromNorthSide = this.checkIfFromNorthSide();
 
         let possibleMovements = this.getPossibleMovements();
-        if(!possibleMovements.includes(destination))
+        if(!possibleMovements.includes(destination)) {
             console.log("Invalid pawn movement"); //TODO: exception
-        else {
+            return false;
+        } else {
             this.isFirstMovement = false;
             return true;
         }
