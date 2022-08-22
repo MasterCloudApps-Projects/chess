@@ -21,11 +21,11 @@ const pieceNames = {
 }
 
 function createPiece(name, color, position) {
-    let piece = {
-        color: color,
-        name: name,
-        position: position
-    };
+    let piece = {};
+    piece.color = color;
+    piece.name = name;
+    piece.position = position;
+
     piece.performMovement = performMovement;
     piece.isWhite = isWhite;
     piece.isEmpty = isEmpty;
@@ -33,7 +33,9 @@ function createPiece(name, color, position) {
 }
 
 function performMovement(destination, pieces) {
-    this.movement.move(destination, pieces);
+    this.movement.currentPosition = this.position;
+    this.movement.boardPieces = pieces;
+    return this.movement.move(destination);
 }
 
 function isWhite() {

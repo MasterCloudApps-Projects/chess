@@ -1,76 +1,83 @@
-import { getRow, rowMovement, diagonal, filter } from "./utils/utils.js";
+import { createMovement, getRow } from "./movement.js";
 
-/** Pawn movement validation.
-*   Moves forward 1 by 1 execpt:
-*    - In the first movement it can move forward 1 or 2
-*    - Can eat diagonally
+/** Pawn movement strategy.
+*   Moves forward 1 by 1 except:
+*    - Only during the first movement it can move forward 1 or 2 positions.
+*    - Can eat diagonally.
 */
 
-function evaluatePawnMovement(origin, destination, board) {
-    let possibleMovements = move(origin, board);
-    if(!possibleMovements.includes(destination)){
-        //TODO: exception
-        console.log("Invalid pawn movement");
+let pawnMovement = createMovement();
+pawnMovement.isFirstMovement = true;
+pawnMovement.isFromNorthSide = function () {
+    return getRow(this.currentPosition) == 7;
+};
+
+pawnMovement.move = function (destination) {
+    if (this.isFirstMovement)
+        this.isFromNorthSide = this.isFromNorthSide();
+
+    let possibleMovements = this.getPossibleMovements();
+    if(!possibleMovements.includes(destination))
+        console.log("Invalid pawn movement"); //TODO: exception
+    else {
+        this.isFirstMovement = false;
+        return true;
     }
 }
 
-function move(origin, board) {
+pawnMovement.getPossibleMovements = function () {
     let possibleMovements = [];
-    possibleMovements.push(...getFirstMovement(origin, board));
-    possibleMovements.push(...getForwardMovement(origin, board));
-    let filterMovements = filter(possibleMovements, origin, board);
-    filterMovements.push(...getEatingMovement(origin, board));
-    return filterMovements;
+    possibleMovements.push(...this.getForwardMovements());
+    possibleMovements.push(...this.getEatingMovements());
+    return possibleMovements;
 }
 
-function getFirstMovement(current, board){
+pawnMovement.getForwardMovements = function () {
     let movements = [];
-    if(board.isWhitePiece(current)){
-        if(getRow(current) == 2) {
-            movements.push(...rowMovement(current, 2, 1));
-        }
-    } else if(board.isBlackPiece(current)) {
-        if(getRow(current) == 7) {
-            movements.push(...rowMovement(current, 2, -1));
-        }
+    let nextSquare = this.getForwardSquare();
+
+    if (this.isEmptyCoordinate(nextSquare)) {
+        movements.push(nextSquare);
+        if (this.isFirstMovement && this.isEmptyCoordinate(this.getForwardSquare(nextSquare)))
+            movements.push(this.getForwardSquare(nextSquare));
     }
     return movements;
 }
 
-function getForwardMovement(current, board){
+pawnMovement.getEatingMovements = function () {
     let movements = [];
-    if(board.isWhitePiece(current)){
-        movements.push(...rowMovement(current, 1, 1));
-    } else if(board.isBlackPiece(current)) {
-        movements.push(...rowMovement(current, 1, -1));
-    }
+    let rightDiagonal = this.getDiagonalRightSquare();
+    let leftDiagonal = this.getDiagonalLeftSquare();
+
+    if (this.isOpposingColor(rightDiagonal))
+        movements.push(rightDiagonal);
+    if (this.isOpposingColor(leftDiagonal))
+        movements.push(leftDiagonal);
+
     return movements;
 }
 
-function getEatingMovement(current, board){
-    const piece = board.getPiece(current);
-    let movements = [];
-    let rightDiagonal = [];
-    let leftDiagonal = [];
+pawnMovement.getForwardSquare = function () {
+    if (this.isFromNorthSide)
+        return this.getNextSquareSouth();
+    else
+        return this.getNextSquareNorth();
+}
 
-    if(board.isWhitePiece(current)){
-        rightDiagonal = diagonal(current, 1, 1, 1);
-        leftDiagonal = diagonal(current, 1, 1, -1);
-    } else if(board.isBlackPiece(current)) {
-        rightDiagonal = diagonal(current, 1, -1, 1);
-        leftDiagonal = diagonal(current, 1, -1, -1);
-    }
+pawnMovement.getDiagonalRightSquare = function () {
+    if (this.isFromNorthSide)
+        return this.getNextSouthEastDiagonal();
+    else
+        return this.getNextNorthEastDiagonal();
+}
 
-    if(!(board.isEmptySquare(rightDiagonal[0]) && board.getPiece(rightDiagonal[0]).type == piece.type)) {
-        movements.push(rightDiagonal[0]);
-    }
-
-    if(!(board.isEmptySquare(rightDiagonal[0]) && board.getPiece(rightDiagonal[0]).type == piece.type)) {
-        movements.push(leftDiagonal[0]);
-    }
-    return movements;
+pawnMovement.getDiagonalLeftSquare = function () {
+    if (this.isFromNorthSide)
+        return this.getNextSouthWestDiagonal();
+    else
+        return this.getNextNorthWestDiagonal();
 }
 
 export {
-    move, evaluatePawnMovement
+    pawnMovement
 }

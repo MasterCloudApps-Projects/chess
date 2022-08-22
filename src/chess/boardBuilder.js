@@ -12,13 +12,13 @@ function boardBuilder() {
         for (let i=8; i>0; i--)
             for (let letter = 0; letter < "abcdefgh".length; letter++) {
                 pieceName = pieceNames[pieceStringLayout[stringCounter].trim()];
+                let position = "abcdefgh"[letter]+i.toString();
 
-                let piece = blackPieceFactory[pieceName.call]();
+                let piece = blackPieceFactory[pieceName.call](position);
                 if (pieceName.type == pieceTypes.white)
-                    piece = whitePieceFactory[pieceName.call]();
+                    piece = whitePieceFactory[pieceName.call](position);
 
-                piece.position = "abcdefgh"[letter]+i.toString();
-                board.pieces[piece.position] = piece;
+                board.pieces[position] = piece;
                 stringCounter++;
             }
 
@@ -40,6 +40,7 @@ function boardBuilder() {
     }
 
     function build() {
+        board.createEmptyTile = function (coordinate) { this.pieces[coordinate] = blackPieceFactory.getEmptyPiece(coordinate); };
         return board;
     }
 

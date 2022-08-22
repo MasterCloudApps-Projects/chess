@@ -1,32 +1,35 @@
 import { createPiece, pieceTypes } from "./piece.js";
+import { pawnMovement } from "../movements/pawnMovement.js";
 
 function createFactory() {
     let factory = {};
 
-    function getEmptyPiece() {
-        return createPiece('_', pieceTypes.empty);
+    function getEmptyPiece(position) {
+        return createPiece('_', pieceTypes.empty, position);
     }
 
-    function getRook() {
+    function getRook(position) {
         // TODO: Factory method so parent class can inject strategy movements
-        let rook = this._getRook();
+        let rook = this._getRook(position);
         //rook.movement = strategies.getRookMovement;
         return rook;
     }
-    function getHorse() {
-        return this._getHorse();
+    function getHorse(position) {
+        return this._getHorse(position);
     }
-    function getBishop() {
-        return this._getBishop();
+    function getBishop(position) {
+        return this._getBishop(position);
     }
-    function getQueen() {
-        return this._getQueen();
+    function getQueen(position) {
+        return this._getQueen(position);
     }
-    function getKing() {
-        return this._getKing();
+    function getKing(position) {
+        return this._getKing(position);
     }
-    function getPawn() {
-        return this._getPawn();
+    function getPawn(position) {
+        let pawn = this._getPawn(position);
+        pawn.movement = pawnMovement;
+        return pawn;
     }
 
     factory.getEmptyPiece = getEmptyPiece;
@@ -37,12 +40,12 @@ function createFactory() {
     factory.getKing = getKing;
     factory.getPawn = getPawn;
 
-    function factoryMethodGetRook() {};
-    function factoryMethodGetHorse() {};
-    function factoryMethodGetBishop() {};
-    function factoryMethodGetQueen() {};
-    function factoryMethodGetKing() {};
-    function factoryMethodGetPawn() {};
+    function factoryMethodGetRook(position) {};
+    function factoryMethodGetHorse(position) {};
+    function factoryMethodGetBishop(position) {};
+    function factoryMethodGetQueen(position) {};
+    function factoryMethodGetKing(position) {};
+    function factoryMethodGetPawn(position) {};
 
     // Functions to Override on child modules
     factory._getRook = factoryMethodGetRook;
