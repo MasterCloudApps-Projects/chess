@@ -1,4 +1,5 @@
 import { pieceTypes } from './pieces/piece.js';
+import { getEmptyPiece } from './pieces/pieceFactory.js';
 
 function createBoard() {
     let board = {};
@@ -7,12 +8,12 @@ function createBoard() {
     board.isEmptySquare = isEmptySquare;
     board.isWhitePiece = isWhitePiece;
     board.isBlackPiece = isBlackPiece;
-    board.getBoard = getBoard;
     board.getBoardPieceNames = getBoardPieceNames;
     board.getAllSquaresOfBlackPieces = getAllSquaresOfBlackPieces;
     board.getAllEmptySquares = getAllEmptySquares;
     board.getPiece = getPiece;
     board.getAllByColor = getAllByColor;
+    board.createEmptyTile = createEmptyTile;
     return board;
 }
 
@@ -33,6 +34,10 @@ function getBoardPieceNames() {
 
     return result;
 }
+
+function createEmptyTile (coordinate) {
+    this.pieces[coordinate] = getEmptyPiece(coordinate);
+};
 
 function getAllSquaresOfBlackPieces(){
     return this.getAllByColor(pieceTypes.black);

@@ -4,9 +4,7 @@ import { getPawnMovement } from "../movements/pawnMovement.js";
 function createFactory() {
     let factory = {};
 
-    factory.getEmptyPiece = function (position) {
-        return createPiece('_', pieceTypes.empty, position);
-    }
+    factory.getEmptyPiece = getEmptyPiece;
 
     factory.getRook = function (position) {
         return this._getRook(position);
@@ -47,6 +45,10 @@ function createFactory() {
     return factory;
 }
 
+function getEmptyPiece (position) {
+    return createPiece('_', pieceTypes.empty, position);
+}
+
 export {
-    createFactory
+    createFactory, getEmptyPiece
 }

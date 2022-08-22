@@ -40,7 +40,6 @@ function boardBuilder() {
     }
 
     function build() {
-        board.createEmptyTile = function (coordinate) { this.pieces[coordinate] = blackPieceFactory.getEmptyPiece(coordinate); };
         return board;
     }
 
