@@ -36,8 +36,7 @@ function createPiece(name, color, position) {
 
 function performMovement(destination, pieces) {
     if (this.movement === undefined) return true; // TODO: Delete once all movement strategies are implemented
-    this.movement.currentPosition = this.position;
-    this.movement.boardPieces = pieces;
+    this.movement.updateCurrentPosition(this.position, pieces);
     return this.movement.move(destination);
 }
 

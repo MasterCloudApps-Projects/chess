@@ -3,6 +3,11 @@ import { pieceTypes } from '../pieces/piece.js';
 function createMovement() {
     let movement = {};
 
+    movement.updateCurrentPosition = function(currentPosition, boardPieces) {
+        this.currentPosition = currentPosition;
+        this.boardPieces = boardPieces;
+    }
+
     movement.getNextSquareNorth = function (origin) {
         return incrementRow(origin);
     }
