@@ -71,7 +71,9 @@ function paintBoardOnHTML(boardData) {
     for (let i = 1; i <= 8; i++)
         for (let letter = 0; letter < "abcdefgh".length; letter++) {
             let currentID = "abcdefgh"[letter] + i.toString();
-            document.getElementById(currentID).innerHTML = boardData[currentID];
+            document.getElementById(currentID).innerHTML = "";
+            if (boardData[currentID] != '_')
+                document.getElementById(currentID).innerHTML = "<img class='piece' src='./icons/" + boardData[currentID] + ".png' />";
          }
 }
 

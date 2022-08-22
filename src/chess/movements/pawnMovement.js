@@ -10,7 +10,7 @@ function getPawnMovement() {
     let pawnMovement = createMovement();
     pawnMovement.isFirstMovement = true;
     pawnMovement.checkIfFromNorthSide = function () {
-        return getRow(this.currentPosition) == 7;
+        return getRow(this.currentPosition) >= 5;
     };
 
     pawnMovement.move = function (destination) {

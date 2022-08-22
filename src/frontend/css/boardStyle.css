@@ -30,6 +30,13 @@ h1 {
     text-shadow: 1px 1px 2px #ffffff;
 }
 
+img.piece {
+    max-height:40px;
+    max-width:40px;
+    height:auto;
+    width:auto;
+}
+
 .cell:hover {
     background-color: #498df3 !important;
 }
