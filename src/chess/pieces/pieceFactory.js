@@ -4,6 +4,7 @@ import { getHorseMovement } from "../movements/horseMovement.js"
 import { getRookMovement } from "../movements/rookMovement.js"
 import { getBishopMovement } from "../movements/bishopMovement.js"
 import { getKingMovement } from "../movements/kingMovement.js"
+import { getQueenMovement } from "../movements/queenMovement.js"
 
 function createFactory() {
     let factory = {};
@@ -29,8 +30,11 @@ function createFactory() {
     }
 
     factory.getQueen = function (position) {
-        return this._getQueen(position);
+        let queen = this._getQueen(position);
+        queen.movement = getQueenMovement();
+        return queen;
     }
+    
     factory.getKing = function (position) {
         let king = this._getKing(position);
         king.movement = getKingMovement();
