@@ -5,6 +5,7 @@ function getBackendURL(endpoint = '') {
 function initializeGameManagement() {
     let movementOriginTemp;
     let gameUUID;
+    let temporalSelectionColor = '#CDFAFA';
 
     function initializeGame() {
         gameUUID = crypto.randomUUID()
@@ -36,8 +37,11 @@ function initializeGameManagement() {
             return;
         if (movementOriginTemp === undefined) {
             movementOriginTemp = positionId;
+            paintSelectedBoardTile(temporalSelectionColor, positionId);
             return;
         }
+        removeBoardTilePaint(movementOriginTemp);
+
         $.ajax({
             url: getBackendURL('/move'),
             method: 'POST',
@@ -75,6 +79,14 @@ function paintBoardOnHTML(boardData) {
             if (boardData[currentID] != '_')
                 document.getElementById(currentID).innerHTML = "<img class='piece' src='./icons/" + boardData[currentID] + ".png' />";
          }
+}
+
+function paintSelectedBoardTile(color, tileID) {
+    document.getElementById(tileID).style = 'background-color: ' + color + ' !important;';
+}
+
+function removeBoardTilePaint(tileID) {
+    document.getElementById(tileID).style = '';
 }
 
 function prepareGameAndClickEvents() {
