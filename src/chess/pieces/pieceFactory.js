@@ -1,6 +1,8 @@
 import { createPiece, pieceTypes } from "./piece.js";
 import { getPawnMovement } from "../movements/pawnMovement.js";
 import { getHorseMovement } from "../movements/horseMovement.js"
+import { getRookMovement } from "../movements/rookMovement.js"
+
 
 function createFactory() {
     let factory = {};
@@ -8,8 +10,11 @@ function createFactory() {
     factory.getEmptyPiece = getEmptyPiece;
 
     factory.getRook = function (position) {
-        return this._getRook(position);
+        let rook = this._getRook(position);
+        rook.movement = getRookMovement();
+        return rook;
     }
+    
     factory.getHorse = function (position) {
         let horse = this._getHorse(position);
         horse.movement = getHorseMovement();
