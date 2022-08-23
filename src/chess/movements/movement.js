@@ -45,6 +45,10 @@ function createMovement() {
         return movement[verticalDirection](movement[horizontalDirection](origin));
     }
 
+    movement.goesOutOfBounds = function (directionFunctionName, origin) {
+        return this[directionFunctionName](origin) == origin;
+    }
+
     movement.isEmptyCoordinate = function (destination) {
         return this.boardPieces[destination].isEmpty();
     }
@@ -81,7 +85,7 @@ function incrementColumn(coordinate) {
 }
 
 function decreaseRow(coordinate) {
-    if (getRow(coordinate) <= 0) return coordinate;
+    if (getRow(coordinate) <= 1) return coordinate;
     return getColumn(coordinate) + (parseInt(getRow(coordinate)) - 1);
 }
 
