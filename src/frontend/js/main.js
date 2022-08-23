@@ -54,11 +54,14 @@ function initializeGameManagement() {
             success: (newBoardData) => {
                 movementOriginTemp = undefined;
                 paintBoardOnHTML(newBoardData);
+                paintErrorsOnHTML([]);
             },
             error: (err) => {
                 // Movement wasn't valid (moving empty cell, a not owned piece, other cases)
                 // TODO: Show error on HTML
-                console.log(err);
+                console.log(err.responseJSON);
+                movementOriginTemp = undefined;
+                paintErrorsOnHTML(err.responseJSON);
             }
         });
     };
@@ -87,6 +90,14 @@ function paintSelectedBoardTile(color, tileID) {
 
 function removeBoardTilePaint(tileID) {
     document.getElementById(tileID).style = '';
+}
+
+function paintErrorsOnHTML(errorArray) {
+    let errorHTML = '';
+    for (let i in errorArray) {
+        errorHTML += "<span class='errorMessage'>" + errorArray[i] + "</span><br>";
+    }
+    document.getElementById('errorMessages').innerHTML = errorHTML;
 }
 
 function prepareGameAndClickEvents() {

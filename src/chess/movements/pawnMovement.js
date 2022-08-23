@@ -13,15 +13,18 @@ function getPawnMovement() {
         return getRow(this.currentPosition) >= 5;
     };
 
+    pawnMovement.getErrorMessages = function () {
+        return "Invalid pawn movement";
+    }
+
     pawnMovement.move = function (destination) {
         if (this.isFirstMovement)
             this.isFromNorthSide = this.checkIfFromNorthSide();
 
         let possibleMovements = this.getPossibleMovements();
-        if(!possibleMovements.includes(destination)) {
-            console.log("Invalid pawn movement"); //TODO: exception
+        if(!possibleMovements.includes(destination))
             return false;
-        } else {
+        else {
             this.isFirstMovement = false;
             return true;
         }

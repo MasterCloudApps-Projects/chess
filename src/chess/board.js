@@ -4,6 +4,8 @@ import { getEmptyPiece } from './pieces/pieceFactory.js';
 function createBoard() {
     let board = {};
     board.pieces = {};
+    board.errorMessages = [];
+    board.getErrorMessages = getErrorMessages;
     board.performMovement = performMovement;
     board.isEmptySquare = isEmptySquare;
     board.isWhitePiece = isWhitePiece;
@@ -18,13 +20,21 @@ function createBoard() {
 }
 
 function performMovement(movementOrigin, movementDestination) {
+    this.errorMessages = [];
     if (this.pieces[movementOrigin].performMovement(movementDestination, this.pieces)) {
         this.pieces[movementDestination] = this.pieces[movementOrigin];
         this.pieces[movementDestination].position = movementDestination;
         this.createEmptyTile(movementOrigin);
         return true;
     }
+    this.errorMessages.push(this.pieces[movementOrigin].getMovementError());
     return false;
+}
+
+function getErrorMessages() {
+    let result = this.errorMessages;
+    this.errorMessages = [];
+    return result;
 }
 
 function getBoardPieceNames() {

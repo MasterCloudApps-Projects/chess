@@ -3,12 +3,14 @@ import { createMovement } from "./movement.js";
 function getHorseMovement() {
     let horseMovement = createMovement();
 
+    horseMovement.getErrorMessages = function () {
+        return "Invalid horse movement";
+    }
+
     horseMovement.move = function (destination) {
         let movements = this.getPossibleMovements();
-        if(!movements.includes(destination)) {
-            console.log("Invalid horse movement"); //TODO: exception
+        if(!movements.includes(destination))
             return false;
-        }
         return true;
     };
 

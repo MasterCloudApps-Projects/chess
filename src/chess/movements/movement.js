@@ -59,6 +59,7 @@ function createMovement() {
 
     movement.move = function (destination) {}
     movement.getPossibleMovements = function () {}
+    movement.getErrorMessages = function () {}
 
     return movement;
 }

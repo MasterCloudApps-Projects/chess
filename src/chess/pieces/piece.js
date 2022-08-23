@@ -27,6 +27,7 @@ function createPiece(name, color, position) {
     piece.position = position;
 
     piece.performMovement = performMovement;
+    piece.getMovementError = getMovementError;
     piece.isWhite = isWhite;
     piece.isOpposingColor = isOpposingColor;
     piece.isOfColor = isOfColor;
@@ -38,6 +39,10 @@ function performMovement(destination, pieces) {
     if (this.movement === undefined) return true; // TODO: Delete once all movement strategies are implemented
     this.movement.updateCurrentPosition(this.position, pieces);
     return this.movement.move(destination);
+}
+
+function getMovementError() {
+    return this.movement.getErrorMessages();
 }
 
 function isWhite() {

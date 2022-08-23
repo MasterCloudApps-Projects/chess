@@ -14,8 +14,11 @@ router.post('/game', (req, res) => {
 router.post('/move', (req, res) => {
     console.log(req.body);
     let game = games.find(g => g.uuid == req.body.gameUUID);
-    let boardResponse = game.play(req.body.movementOrigin, req.body.movementDestination);
-    res.send(boardResponse);
+    let movementSuccess = game.play(req.body.movementOrigin, req.body.movementDestination);
+    if (movementSuccess == true)
+        res.status(200).send(game.getBoardResponse());
+    else
+        res.status(400).send(movementSuccess);
 });
 
 export {

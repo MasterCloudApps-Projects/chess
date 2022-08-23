@@ -5,6 +5,7 @@ function initializeGame() {
 
     let game = {};
     game.play = play;
+    game.getBoardResponse = getBoardResponse;
 
     function createGame(uuid) {
         game.uuid = uuid;
@@ -14,13 +15,18 @@ function initializeGame() {
     }
 
     function play(movementOrigin, movementDestination){
-        if(this.board.isWhitePiece(movementOrigin)){
-            if(this.board.performMovement(movementOrigin, movementDestination))
-                this.cpuPlayer.performRandomMovement(this.board);
-        } else{
-            //TODO: add excepction
-            console.log('Invalid movement for player');
+        if(!this.board.isWhitePiece(movementOrigin))
+            return ['Invalid move: Attempting to move a wrong color piece.'];
+
+        if(this.board.performMovement(movementOrigin, movementDestination)) {
+            this.cpuPlayer.performRandomMovement(this.board);
+            return true;
         }
+
+        return this.board.getErrorMessages();
+    }
+
+    function getBoardResponse() {
         return this.board.getBoardPieceNames();
     }
 
