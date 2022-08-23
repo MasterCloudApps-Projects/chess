@@ -2,7 +2,8 @@ import { createPiece, pieceTypes } from "./piece.js";
 import { getPawnMovement } from "../movements/pawnMovement.js";
 import { getHorseMovement } from "../movements/horseMovement.js"
 import { getRookMovement } from "../movements/rookMovement.js"
-
+import { getBishopMovement } from "../movements/bishopMovement.js"
+import { getKingMovement } from "../movements/kingMovement.js"
 
 function createFactory() {
     let factory = {};
@@ -14,21 +15,28 @@ function createFactory() {
         rook.movement = getRookMovement();
         return rook;
     }
-    
+
     factory.getHorse = function (position) {
         let horse = this._getHorse(position);
         horse.movement = getHorseMovement();
         return horse;
     }
+
     factory.getBishop = function (position) {
-        return this._getBishop(position);
+        let bishop = this._getBishop(position);
+        bishop.movement = getBishopMovement();
+        return bishop;
     }
+
     factory.getQueen = function (position) {
         return this._getQueen(position);
     }
     factory.getKing = function (position) {
-        return this._getKing(position);
+        let king = this._getKing(position);
+        king.movement = getKingMovement();
+        return king;
     }
+
     factory.getPawn = function (position) {
         let pawn = this._getPawn(position);
         pawn.movement = getPawnMovement();
