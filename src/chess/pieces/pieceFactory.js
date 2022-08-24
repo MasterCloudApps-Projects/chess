@@ -1,10 +1,5 @@
-import { createPiece, pieceTypes, decoratePawn } from "./piece.js";
-import { getPawnMovement } from "../movements/pawnMovement.js";
-import { getHorseMovement } from "../movements/horseMovement.js"
-import { getRookMovement } from "../movements/rookMovement.js"
-import { getBishopMovement } from "../movements/bishopMovement.js"
-import { getKingMovement } from "../movements/kingMovement.js"
-import { getQueenMovement } from "../movements/queenMovement.js"
+import { createPiece, pieceTypes, decorators } from "./piece.js";
+
 
 function createFactory() {
     let factory = {};
@@ -13,38 +8,32 @@ function createFactory() {
 
     factory.getRook = function (position) {
         let rook = this._getRook(position);
-        rook.movement = getRookMovement();
-        return rook;
+        return decorators.decorateRook(rook);
     }
 
     factory.getHorse = function (position) {
         let horse = this._getHorse(position);
-        horse.movement = getHorseMovement();
-        return horse;
+        return decorators.decorateHorse(horse);
     }
 
     factory.getBishop = function (position) {
         let bishop = this._getBishop(position);
-        bishop.movement = getBishopMovement();
-        return bishop;
+        return decorators.decorateBishop(bishop);
     }
 
     factory.getQueen = function (position) {
         let queen = this._getQueen(position);
-        queen.movement = getQueenMovement();
-        return queen;
+        return decorators.decorateQueen(queen);
     }
 
     factory.getKing = function (position) {
         let king = this._getKing(position);
-        king.movement = getKingMovement();
-        return king;
+        return decorators.decorateKing(king);
     }
 
     factory.getPawn = function (position) {
         let pawn = this._getPawn(position);
-        pawn.movement = getPawnMovement();
-        return decoratePawn(pawn);
+        return decorators.decoratePawn(pawn);
     }
 
     function factoryMethodGetRook(position) {};
