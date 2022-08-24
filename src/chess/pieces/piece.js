@@ -82,7 +82,6 @@ const decorators = {
     decoratePawn: function decoratePawn(pawn) {
         pawn.movement = getPawnMovement();
         pawn.isQueen = false;
-        pawn.getThreatenedPositions = function (pieces) { return this.movement.getThreatenedPositions(this.position, pieces); };
         pawn.doAfterMovement = function () {
             this.movement.doAfterMovement(this.position);
             if (!this.isQueen && this.movement.shouldTurnToQueen()) {
