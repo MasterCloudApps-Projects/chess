@@ -7,13 +7,6 @@ function getHorseMovement() {
         return "Invalid horse movement";
     }
 
-    horseMovement.move = function (destination) {
-        let movements = this.getPossibleMovements();
-        if(!movements.includes(destination))
-            return false;
-        return true;
-    };
-
     horseMovement.getPossibleMovements = function () {
         return this.getLShapes();
     };

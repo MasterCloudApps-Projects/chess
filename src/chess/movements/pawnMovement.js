@@ -17,14 +17,9 @@ function getPawnMovement() {
         return "Invalid pawn movement";
     }
 
-    pawnMovement.move = function (destination) {
+    pawnMovement.getPossibleMovements = function () {
         if (this.isFirstMovement)
             this.isFromNorthSide = this.checkIfFromNorthSide();
-        console.log(this.getPossibleMovements());
-        return (this.getPossibleMovements().includes(destination));
-    }
-
-    pawnMovement.getPossibleMovements = function () {
         let possibleMovements = [];
         possibleMovements.push(...this.getForwardMovements());
         possibleMovements.push(...this.getEatingMovements());

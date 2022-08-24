@@ -11,14 +11,6 @@ function getKingMovement() {
         return "Invalid king movement";
     }
 
-    kingMovement.move = function (destination) {
-        let movements = this.getPossibleMovements();
-        if(!movements.includes(destination)) {
-            return false;
-        }
-        return true;
-    }
-
     kingMovement.getPossibleMovements = function () {
         let possibleMovements = [];
         possibleMovements.push(...this.getMovements('getNextSquareNorth'));
@@ -36,7 +28,7 @@ function getKingMovement() {
             movements.push(nextSquare)
         return movements;
     }
-    
+
     return kingMovement;
 }
 

@@ -57,7 +57,10 @@ function createMovement() {
         return this.boardPieces[this.currentPosition].isOpposingColor(this.boardPieces[destination]);
     }
 
-    movement.move = function (destination) {};
+    movement.move = function (destination) {
+        return (this.getPossibleMovements().includes(destination));
+    };
+
     movement.getPossibleMovements = function () {};
     movement.doAfterMovement = function () {};
     movement.getErrorMessages = function () {};
