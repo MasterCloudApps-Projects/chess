@@ -1,4 +1,4 @@
-import { createLongStrockPiece } from "./base/longStrokePiece.js";
+import { createStraightLineMovement } from "./straightLineMovement.js";
 
 /** Queen movement strategy.
 *   The Queen queenMovementMotionCoordinates until it is blocked by another piece
@@ -9,7 +9,7 @@ function getQueenMovement() {
         'getNextNorthEastDiagonal', 'getNextNorthWestDiagonal', 'getNextSouthEastDiagonal',  'getNextSouthWestDiagonal'];
     let messageError = "Invalid quuen movement";
 
-    let queenMovement = createLongStrockPiece(queenMovementMotionCoordinates, messageError);
+    let queenMovement = createStraightLineMovement(queenMovementMotionCoordinates, messageError);
 
     return queenMovement;
 }

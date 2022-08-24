@@ -1,4 +1,4 @@
-import { createLongStrockPiece } from "./base/longStrokePiece.js";
+import { createStraightLineMovement } from "./straightLineMovement.js";
 
 /** Rook movement strategy.
 *   The rook moves in a straight line horizontally or vertically to any square of the board
@@ -9,8 +9,8 @@ function getRookMovement() {
     let rookMovementMotionCoordinates = ['getNextSquareNorth', 'getNextSquareSouth', 'getNextSquareEast',  'getNextSquareWest'];
     let messageError = "Invalid rook movement";
 
-    let rookMovement = createLongStrockPiece(rookMovementMotionCoordinates, messageError);
-    
+    let rookMovement = createStraightLineMovement(rookMovementMotionCoordinates, messageError);
+
     return rookMovement;
 }
 

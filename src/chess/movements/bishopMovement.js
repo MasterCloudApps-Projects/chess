@@ -1,4 +1,4 @@
-import { createLongStrockPiece } from "./base/longStrokePiece.js";
+import { createStraightLineMovement } from "./straightLineMovement.js";
 
 /** Bishop movement strategy.
 *   The bishop moves in a  straight diagonal line to any square of the board
@@ -8,7 +8,7 @@ import { createLongStrockPiece } from "./base/longStrokePiece.js";
 function getBishopMovement() {
     let bishopMovementMotionCoordinates = ['getNextNorthEastDiagonal', 'getNextNorthWestDiagonal', 'getNextSouthEastDiagonal',  'getNextSouthWestDiagonal'];
     let messageError = "Invalid bishop movement";
-    let bishopMovement = createLongStrockPiece(bishopMovementMotionCoordinates, messageError);
+    let bishopMovement = createStraightLineMovement(bishopMovementMotionCoordinates, messageError);
     return bishopMovement;
 }
 
