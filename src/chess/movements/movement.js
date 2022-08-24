@@ -57,9 +57,15 @@ function createMovement() {
         return this.boardPieces[this.currentPosition].isOpposingColor(this.boardPieces[destination]);
     }
 
-    movement.move = function (destination) {
+    movement.move = function (origin, destination, pieces) {
+        this.updateCurrentPosition(origin, pieces);
         return (this.getPossibleMovements().includes(destination));
     };
+
+    movement.getThreatenedPositions = function(origin, pieces) {
+        this.updateCurrentPosition(origin, pieces);
+        return this.getPossibleMovements();
+    }
 
     movement.getPossibleMovements = function () {};
     movement.doAfterMovement = function () {};

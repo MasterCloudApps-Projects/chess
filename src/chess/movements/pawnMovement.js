@@ -10,7 +10,9 @@ function getPawnMovement() {
     let pawnMovement = createMovement();
     pawnMovement.isFirstMovement = true;
     pawnMovement.checkIfFromNorthSide = function () {
-        return getRow(this.currentPosition) >= 5;
+        if (this.isFirstMovement)
+            this.isFromNorthSide = getRow(this.currentPosition) >= 5;
+        return this.isFromNorthSide;
     };
 
     pawnMovement.getErrorMessages = function () {
@@ -18,8 +20,7 @@ function getPawnMovement() {
     }
 
     pawnMovement.getPossibleMovements = function () {
-        if (this.isFirstMovement)
-            this.isFromNorthSide = this.checkIfFromNorthSide();
+        this.checkIfFromNorthSide();
         let possibleMovements = [];
         possibleMovements.push(...this.getForwardMovements());
         possibleMovements.push(...this.getEatingMovements());
@@ -64,6 +65,8 @@ function getPawnMovement() {
 
     pawnMovement.getThreatenedPositions = function(origin, pieces) {
         this.updateCurrentPosition(origin, pieces);
+        this.checkIfFromNorthSide();
+
         let movements = [];
         let rightDiagonal = this.getDiagonalRightSquare(this.currentPosition);
         let leftDiagonal = this.getDiagonalLeftSquare(this.currentPosition);
@@ -71,7 +74,6 @@ function getPawnMovement() {
             movements.push(rightDiagonal);
         if (this.isOpposingColor(leftDiagonal) || this.isEmptyCoordinate(leftDiagonal))
             movements.push(leftDiagonal);
-
         return movements;
     }
 
