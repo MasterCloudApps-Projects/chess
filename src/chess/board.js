@@ -14,7 +14,9 @@ function createBoard() {
     board.getAllSquaresOfBlackPieces = getAllSquaresOfBlackPieces;
     board.getAllEmptySquares = getAllEmptySquares;
     board.getPiece = getPiece;
-    board.getAllByColor = getAllByColor;
+    board.getAllCoordinatesThreatenedByColor = getAllCoordinatesThreatenedByColor;
+    board.getAllPiecesByColor = getAllPiecesByColor;
+    board.getAllCoordinatesByColor = getAllCoordinatesByColor;
     board.createEmptyTile = createEmptyTile;
     return board;
 }
@@ -50,11 +52,11 @@ function createEmptyTile (coordinate) {
 };
 
 function getAllSquaresOfBlackPieces(){
-    return this.getAllByColor(pieceTypes.black);
+    return this.getAllCoordinatesByColor(pieceTypes.black);
 }
 
 function getAllEmptySquares(){
-    return this.getAllByColor(pieceTypes.empty);
+    return this.getAllCoordinatesByColor(pieceTypes.empty);
 }
 
 function isBlackPiece(coordinate) {
@@ -73,11 +75,29 @@ function getPiece(coordinate){
     return this.pieces[coordinate];
 }
 
-function getAllByColor(color){
+function getAllCoordinatesThreatenedByColor(color) {
+    if (color == pieceTypes.empty)
+        return [];
+    const coordinatesUnderAttack = [];
+    let pieces = this.getAllPiecesByColor(color);
+    for (let i in pieces)
+        coordinatesUnderAttack.push(...pieces[i].getThreatenedPositions(this.pieces));
+    return [...new Set(coordinatesUnderAttack)];
+}
+
+function getAllPiecesByColor(color) {
+    const coloredPieces = [];
+    let allColorCoordinates = this.getAllCoordinatesByColor(color);
+    for (let i in allColorCoordinates)
+        coloredPieces.push(this.pieces[allColorCoordinates[i]]);
+    return coloredPieces;
+}
+
+function getAllCoordinatesByColor(color){
     const coloredSquares = [];
-    for (let piece in this.pieces)
-        if (this.pieces[piece].isOfColor(color))
-            coloredSquares.push(piece);
+    for (let coordinate in this.pieces)
+        if (this.pieces[coordinate].isOfColor(color))
+            coloredSquares.push(coordinate);
     return coloredSquares;
 }
 

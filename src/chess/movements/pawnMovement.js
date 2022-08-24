@@ -60,6 +60,19 @@ function getPawnMovement() {
         return movements;
     }
 
+    pawnMovement.getThreatenedPositions = function(origin, pieces) {
+        this.updateCurrentPosition(origin, pieces);
+        let movements = [];
+        let rightDiagonal = this.getDiagonalRightSquare(this.currentPosition);
+        let leftDiagonal = this.getDiagonalLeftSquare(this.currentPosition);
+        if (this.isOpposingColor(rightDiagonal) || this.isEmptyCoordinate(rightDiagonal))
+            movements.push(rightDiagonal);
+        if (this.isOpposingColor(leftDiagonal) || this.isEmptyCoordinate(leftDiagonal))
+            movements.push(leftDiagonal);
+
+        return movements;
+    }
+
     pawnMovement.getForwardSquare = function (origin) {
         if (this.isFromNorthSide)
             return this.getNextSquareSouth(origin);

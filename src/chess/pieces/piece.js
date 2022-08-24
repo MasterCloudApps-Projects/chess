@@ -17,7 +17,7 @@ const pieceNames = {
         WQ: { type : pieceTypes.white, call : 'getQueen' },
         WK: { type : pieceTypes.white, call : 'getKing' },
         WP: { type : pieceTypes.white, call : 'getPawn' },
-        _: { type : null, call : 'getEmptyPiece' }
+        _: { type : pieceTypes.empty, call : 'getEmptyPiece' }
 }
 
 function createPiece(name, color, position) {
@@ -27,6 +27,7 @@ function createPiece(name, color, position) {
     piece.position = position;
 
     piece.performMovement = performMovement;
+    piece.getThreatenedPositions = getThreatenedPositions;
     piece.getMovementError = getMovementError;
     piece.isWhite = isWhite;
     piece.isOpposingColor = isOpposingColor;
@@ -41,6 +42,11 @@ function performMovement(destination, pieces) {
     return this.movement.move(destination);
 }
 
+function getThreatenedPositions(pieces) {
+    this.movement.updateCurrentPosition(this.position, pieces);
+    return this.movement.getPossibleMovements();
+}
+
 function getMovementError() {
     return this.movement.getErrorMessages();
 }
@@ -50,7 +56,7 @@ function isWhite() {
 }
 
 function isOfColor(color) {
-    return this.color == color;
+    return this.color === color;
 }
 
 function isOpposingColor(piece) {

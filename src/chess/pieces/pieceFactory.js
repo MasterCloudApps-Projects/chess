@@ -34,7 +34,7 @@ function createFactory() {
         queen.movement = getQueenMovement();
         return queen;
     }
-    
+
     factory.getKing = function (position) {
         let king = this._getKing(position);
         king.movement = getKingMovement();
@@ -44,6 +44,7 @@ function createFactory() {
     factory.getPawn = function (position) {
         let pawn = this._getPawn(position);
         pawn.movement = getPawnMovement();
+        pawn.getThreatenedPositions = function (pieces) { return this.movement.getThreatenedPositions(this.position, pieces); };
         return pawn;
     }
 

@@ -7,7 +7,7 @@ import { createStraightLineMovement } from "./straightLineMovement.js";
 function getQueenMovement() {
     let queenMovementMotionCoordinates = ['getNextSquareNorth', 'getNextSquareSouth', 'getNextSquareEast',  'getNextSquareWest',
         'getNextNorthEastDiagonal', 'getNextNorthWestDiagonal', 'getNextSouthEastDiagonal',  'getNextSouthWestDiagonal'];
-    let messageError = "Invalid quuen movement";
+    let messageError = "Invalid queen movement";
 
     let queenMovement = createStraightLineMovement(queenMovementMotionCoordinates, messageError);
 
