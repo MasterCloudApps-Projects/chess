@@ -20,14 +20,8 @@ function getPawnMovement() {
     pawnMovement.move = function (destination) {
         if (this.isFirstMovement)
             this.isFromNorthSide = this.checkIfFromNorthSide();
-
-        let possibleMovements = this.getPossibleMovements();
-        if(!possibleMovements.includes(destination))
-            return false;
-        else {
-            this.isFirstMovement = false;
-            return true;
-        }
+        console.log(this.getPossibleMovements());
+        return (this.getPossibleMovements().includes(destination));
     }
 
     pawnMovement.getPossibleMovements = function () {
@@ -58,6 +52,19 @@ function getPawnMovement() {
             movements.push(leftDiagonal);
 
         return movements;
+    }
+
+    pawnMovement.doAfterMovement = function (currentPosition) {
+        this.currentPosition = currentPosition;
+        this.isFirstMovement = false;
+    }
+
+    pawnMovement.shouldTurnToQueen = function () {
+        if (this.isFromNorthSide && getRow(this.currentPosition) <= 1)
+            return true;
+        if (!this.isFromNorthSide && getRow(this.currentPosition) >= 8)
+            return true;
+        return false;
     }
 
     pawnMovement.getThreatenedPositions = function(origin, pieces) {

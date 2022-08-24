@@ -27,6 +27,7 @@ function performMovement(movementOrigin, movementDestination) {
         this.pieces[movementDestination] = this.pieces[movementOrigin];
         this.pieces[movementDestination].position = movementDestination;
         this.createEmptyTile(movementOrigin);
+        this.pieces[movementDestination].doAfterMovement();
         return true;
     }
     this.errorMessages.push(this.pieces[movementOrigin].getMovementError());

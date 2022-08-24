@@ -1,3 +1,5 @@
+import { getQueenMovement } from "../movements/queenMovement.js"
+
 const pieceTypes = {
 	white: 'white',
 	black: 'black',
@@ -28,6 +30,7 @@ function createPiece(name, color, position) {
 
     piece.performMovement = performMovement;
     piece.getThreatenedPositions = getThreatenedPositions;
+    piece.doAfterMovement = doAfterMovement;
     piece.getMovementError = getMovementError;
     piece.isWhite = isWhite;
     piece.isOpposingColor = isOpposingColor;
@@ -45,6 +48,10 @@ function performMovement(destination, pieces) {
 function getThreatenedPositions(pieces) {
     this.movement.updateCurrentPosition(this.position, pieces);
     return this.movement.getPossibleMovements();
+}
+
+function doAfterMovement() {
+    this.movement.doAfterMovement(this.position);
 }
 
 function getMovementError() {
@@ -67,8 +74,25 @@ function isEmpty() {
     return this.color == pieceTypes.empty;
 }
 
+// Constructor functions for use on pieceFactory.js, not to be added to piece!
+
+function decoratePawn(pawn) {
+    pawn.isQueen = false;
+    pawn.getThreatenedPositions = function (pieces) { return this.movement.getThreatenedPositions(this.position, pieces); };
+    pawn.doAfterMovement = function () {
+        this.movement.doAfterMovement(this.position);
+        if (!this.isQueen && this.movement.shouldTurnToQueen()) {
+            this.movement = getQueenMovement();
+            this.name = this.name.replace('P', 'Q');
+            this.isQueen = true;
+        }
+    };
+    return pawn;
+}
+
 export {
     createPiece,
     pieceTypes,
-    pieceNames
+    pieceNames,
+    decoratePawn
 }

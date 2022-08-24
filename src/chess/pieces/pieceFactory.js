@@ -1,4 +1,4 @@
-import { createPiece, pieceTypes } from "./piece.js";
+import { createPiece, pieceTypes, decoratePawn } from "./piece.js";
 import { getPawnMovement } from "../movements/pawnMovement.js";
 import { getHorseMovement } from "../movements/horseMovement.js"
 import { getRookMovement } from "../movements/rookMovement.js"
@@ -44,8 +44,7 @@ function createFactory() {
     factory.getPawn = function (position) {
         let pawn = this._getPawn(position);
         pawn.movement = getPawnMovement();
-        pawn.getThreatenedPositions = function (pieces) { return this.movement.getThreatenedPositions(this.position, pieces); };
-        return pawn;
+        return decoratePawn(pawn);
     }
 
     function factoryMethodGetRook(position) {};
