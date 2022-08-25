@@ -87,6 +87,7 @@ const decorators = {
             this.movement.doAfterMovement(this.position);
             if (!this.isQueen && this.movement.shouldTurnToQueen()) {
                 this.movement = getQueenMovement();
+                this.fullName = this.fullName.replace('pawn', 'queen')
                 this.name = this.name.replace('P', 'Q');
                 this.isQueen = true;
             }
