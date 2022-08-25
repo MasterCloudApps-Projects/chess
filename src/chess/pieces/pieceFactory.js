@@ -55,7 +55,7 @@ function createFactory() {
 }
 
 function getEmptyPiece (position) {
-    return createPiece('_', pieceTypes.empty, position);
+    return createPiece('_', 'empty', pieceTypes.empty, position);
 }
 
 export {

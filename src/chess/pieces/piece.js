@@ -27,10 +27,11 @@ const pieceNames = {
         _: { type : pieceTypes.empty, call : 'getEmptyPiece' }
 }
 
-function createPiece(name, color, position) {
+function createPiece(name, fullName, color, position) {
     let piece = {};
-    piece.color = color;
     piece.name = name;
+    piece.fullName = fullName;
+    piece.color = color;
     piece.position = position;
 
     piece.performMovement = performMovement;

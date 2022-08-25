@@ -34,7 +34,7 @@ function performMovement(movementOrigin, movementDestination) {
         this.pieces[movementDestination].doAfterMovement();
         return true;
     }
-    this.errorMessages.push(this.pieces[movementOrigin].getMovementError());
+    this.errorMessages.push(getInvalidMovementError(this.pieces[movementOrigin].fullName));
     return false;
 }
 
@@ -42,6 +42,10 @@ function getErrorMessages() {
     let result = this.errorMessages;
     this.errorMessages = [];
     return result;
+}
+
+function getInvalidMovementError(piece) {
+    return 'Invalid ' + piece + ' movement';
 }
 
 function getBoardPieceNames() {

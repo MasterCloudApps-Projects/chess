@@ -3,10 +3,6 @@ import { createMovement } from "./movement.js";
 function getHorseMovement() {
     let horseMovement = createMovement();
 
-    horseMovement.getErrorMessages = function () {
-        return "Invalid horse movement";
-    }
-
     horseMovement.getPossibleMovements = function () {
         return this.getLShapes();
     };

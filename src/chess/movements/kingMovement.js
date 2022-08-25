@@ -1,15 +1,7 @@
 import { createMovement } from "./movement.js";
 
-/** King movement strategy.
-*   The king can move one square north, south, east or west if that square is empty.
-*/
-
 function getKingMovement() {
     let kingMovement = createMovement();
-
-    kingMovement.getErrorMessages = function () {
-        return "Invalid king movement";
-    }
 
     kingMovement.getPossibleMovements = function () {
         let possibleMovements = [];
@@ -36,7 +28,6 @@ function getKingMovement() {
 
     return kingMovement;
 }
-
 
 export {
     getKingMovement

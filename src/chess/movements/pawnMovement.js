@@ -1,11 +1,5 @@
 import { createMovement, getRow } from "./movement.js";
 
-/** Pawn movement strategy.
-*   Moves forward 1 by 1 except:
-*    - Only during the first movement it can move forward 1 or 2 positions.
-*    - Can eat diagonally.
-*/
-
 function getPawnMovement() {
     let pawnMovement = createMovement();
     pawnMovement.isFirstMovement = true;
@@ -14,10 +8,6 @@ function getPawnMovement() {
             this.isFromNorthSide = getRow(this.currentPosition) >= 5;
         return this.isFromNorthSide;
     };
-
-    pawnMovement.getErrorMessages = function () {
-        return "Invalid pawn movement";
-    }
 
     pawnMovement.getPossibleMovements = function () {
         this.checkIfFromNorthSide();
@@ -100,6 +90,7 @@ function getPawnMovement() {
 
     return pawnMovement;
 }
+
 export {
     getPawnMovement
 }

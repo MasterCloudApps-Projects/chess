@@ -1,14 +1,9 @@
 import { createMovement } from "./movement.js";
 
-function createStraightLineMovement(motionCoordinates, messageError) {
+function createStraightLineMovement(motionCoordinates) {
     let straightLineMovement = createMovement();
 
     straightLineMovement.motionCoordinates = motionCoordinates;
-    straightLineMovement.messageError = messageError;
-
-    straightLineMovement.getErrorMessages = function () {
-        return this.messageError;
-    }
 
     straightLineMovement.getPossibleMovements = function ( ) {
         let possibleMovements = [];
@@ -39,7 +34,6 @@ function createStraightLineMovement(motionCoordinates, messageError) {
 
     return straightLineMovement;
 }
-
 
 export {
     createStraightLineMovement
