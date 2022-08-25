@@ -1,7 +1,7 @@
-import { createMovement } from "./movement.js";
+import { createPieceMovement } from "./pieceMovement.js";
 
 function getKingMovement() {
-    let kingMovement = createMovement();
+    let kingMovement = createPieceMovement();
 
     kingMovement.getPossibleMovements = function () {
         let possibleMovements = [];

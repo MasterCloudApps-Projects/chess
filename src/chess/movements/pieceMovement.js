@@ -5,7 +5,6 @@ function createPieceMovement(){
 
     pieceMovement.possibleMovements;
 
-    //TODO ?
     pieceMovement.killingMovements = function(){
         let killingMovements = [];
         for (let i in this.possibleMovements)

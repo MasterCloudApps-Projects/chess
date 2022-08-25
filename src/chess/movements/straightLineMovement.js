@@ -1,7 +1,7 @@
-import { createMovement } from "./movement.js";
+import { createPieceMovement } from "./pieceMovement.js";
 
 function createStraightLineMovement(motionCoordinates) {
-    let straightLineMovement = createMovement();
+    let straightLineMovement = createPieceMovement();
 
     straightLineMovement.motionCoordinates = motionCoordinates;
 

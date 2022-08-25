@@ -1,7 +1,7 @@
-import { createMovement } from "./movement.js";
+import { createPieceMovement } from "./pieceMovement.js";
 
 function getHorseMovement() {
-    let horseMovement = createMovement();
+    let horseMovement = createPieceMovement();
 
     horseMovement.getPossibleMovements = function () {
         return this.getLShapes();

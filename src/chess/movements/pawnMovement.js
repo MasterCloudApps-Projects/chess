@@ -1,8 +1,12 @@
-import { createMovement, getRow } from "./movement.js";
+import { createPieceMovement } from "./pieceMovement.js";
+//TODO:
+import { getRow } from '../coordinate/coordinate.js'
 
 function getPawnMovement() {
-    let pawnMovement = createMovement();
+    let pawnMovement = createPieceMovement();
+
     pawnMovement.isFirstMovement = true;
+
     pawnMovement.checkIfFromNorthSide = function () {
         if (this.isFirstMovement)
             this.isFromNorthSide = getRow(this.currentPosition) >= 5;
@@ -52,6 +56,10 @@ function getPawnMovement() {
             return true;
         return false;
     }
+
+    pawnMovement.getKillingMovements = function() {
+        this.getEatingMovements()
+    };
 
     pawnMovement.getThreatenedPositions = function(origin, pieces) {
         this.updateCurrentPosition(origin, pieces);

@@ -1,4 +1,4 @@
-import { pieceTypes } from '../pieces/piece.js';
+import {columns, rows, getColumn, getRow} from '../coordinate/coordinate.js'
 
 function createMovement() {
     let movement = {};
@@ -74,17 +74,6 @@ function createMovement() {
     return movement;
 }
 
-const columns = "abcdefgh";
-const rows = "12345678";
-
-function getRow(coordinate){
-    return coordinate.slice(1, 2);
-}
-
-function getColumn(coordinate){
-    return coordinate.slice(0, 1);
-}
-
 function incrementRow(coordinate) {
     if (getRow(coordinate) >= rows.length) return coordinate;
     return getColumn(coordinate) + (parseInt(getRow(coordinate)) + 1);
@@ -106,7 +95,5 @@ function decreaseColumn(coordinate) {
 }
 
 export {
-    createMovement,
-    getRow,
-    getColumn
+    createMovement
 }
