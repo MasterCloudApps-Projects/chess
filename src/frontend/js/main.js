@@ -66,10 +66,54 @@ function initializeGameManagement() {
         });
     };
 
+    function undo(){
+        if (gameUUID === undefined)
+            return;
+        $.ajax({
+            url: getBackendURL('/undo'),
+            method: 'POST',
+            data: JSON.stringify({
+                gameUUID: gameUUID
+            }),
+            contentType: 'application/json; charset=utf-8',
+            success: (newBoardData) => {
+                paintBoardOnHTML(newBoardData);
+                paintErrorsOnHTML([]);
+            },
+            error: (err) => {
+                console.log(err.responseJSON);
+                paintErrorsOnHTML(err.responseJSON);
+            }
+        });
+    };
+
+    function redo(){
+        if (gameUUID === undefined)
+            return;
+        $.ajax({
+            url: getBackendURL('/redo'),
+            method: 'POST',
+            data: JSON.stringify({
+                gameUUID: gameUUID
+            }),
+            contentType: 'application/json; charset=utf-8',
+            success: (newBoardData) => {
+                paintBoardOnHTML(newBoardData);
+                paintErrorsOnHTML([]);
+            },
+            error: (err) => {
+                console.log(err.responseJSON);
+                paintErrorsOnHTML(err.responseJSON);
+            }
+        });
+    };
+
     return {
         initializeGame,
         getGameUUID,
-        selectPositionForMovement
+        selectPositionForMovement,
+        undo,
+        redo
     };
 
 }
@@ -105,6 +149,16 @@ function prepareGameAndClickEvents() {
     gameManager.initializeGame();
     $('.cell').each(function(i, cell) {
         cell.onclick = function() { gameManager.selectPositionForMovement(cell.id) };
+    });
+    $('.undo').each(function(i, btn){
+        btn.onclick = function(){
+            gameManager.undo();
+        }
+    });
+    $('.redo').each(function(i, btn){
+        btn.onclick = function(){
+            gameManager.redo();
+        }
     });
 }
 

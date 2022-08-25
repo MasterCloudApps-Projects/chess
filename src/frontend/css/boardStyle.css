@@ -50,3 +50,17 @@ div.boardRow:nth-child(2n+0) div.cell:nth-child(2n+1) {
     font-size: 2.5em;
     color: #ca4713;
 }
+
+#undoredo{
+    display: flex;
+    justify-content: center;
+}
+
+.undo{
+    margin: 0 6%;
+}
+
+.redo{
+    margin: 0 6%;
+    transform: rotateY(180deg);
+}

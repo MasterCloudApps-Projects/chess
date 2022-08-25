@@ -1,4 +1,6 @@
-import { pieceTypes } from './pieces/piece.js';
+import { pieceNames, pieceTypes } from './pieces/piece.js';
+import { factory as blackPieceFactory } from './pieces/blackPieceFactory.js';
+import { factory as whitePieceFactory } from './pieces/whitePieceFactory.js';
 import { getEmptyPiece } from './pieces/pieceFactory.js';
 
 function createBoard() {
@@ -18,6 +20,8 @@ function createBoard() {
     board.getAllPiecesByColor = getAllPiecesByColor;
     board.getAllCoordinatesByColor = getAllCoordinatesByColor;
     board.createEmptyTile = createEmptyTile;
+    board.createMemento = createMemento;
+    board.setMemento = setMemento;
     return board;
 }
 
@@ -100,6 +104,33 @@ function getAllCoordinatesByColor(color){
         if (this.pieces[coordinate].isOfColor(color))
             coloredSquares.push(coordinate);
     return coloredSquares;
+}
+
+function createMemento(){
+    let boardString = "";
+    const boardNames = this.getBoardPieceNames();
+    for (let i = 1; i <= 8; i++)
+        for (let letter = 0; letter < "abcdefgh".length; letter++) {
+            let currentID = "abcdefgh"[letter] + i.toString();
+            boardString += boardNames[currentID] + "-";
+        }
+    return boardString;
+}
+
+function setMemento(memento){
+    memento = memento.split('-');
+    let stringCounter = 0;
+    for (let i = 1; i <= 8; i++)
+        for (let letter = 0; letter < "abcdefgh".length; letter++) {
+            let pieceName = pieceNames[memento[stringCounter].trim()];
+            let position = "abcdefgh"[letter]+i.toString();
+            let piece = blackPieceFactory[pieceName.call](position);
+            if (pieceName.type == pieceTypes.white)
+                piece = whitePieceFactory[pieceName.call](position);
+
+            this.pieces[position] = piece;
+            stringCounter++;
+        }
 }
 
 export {

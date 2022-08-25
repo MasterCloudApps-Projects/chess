@@ -1,5 +1,6 @@
 import { boardBuilder } from './boardBuilder.js';
 import { cpuPlayer } from './players/cpuPlayer.js';
+import { createRegistry } from './registry.js';
 
 function initializeGame() {
 
@@ -11,6 +12,7 @@ function initializeGame() {
         game.uuid = uuid;
         game.board = boardBuilder().usingInitialPieceDisposition().build();
         game.cpuPlayer = cpuPlayer();
+        game.registry = createRegistry(game.board);
         return game;
     }
 
@@ -20,6 +22,7 @@ function initializeGame() {
 
         if(this.board.performMovement(movementOrigin, movementDestination)) {
             this.cpuPlayer.performRandomMovement(this.board);
+            this.registry.register();
             return true;
         }
 

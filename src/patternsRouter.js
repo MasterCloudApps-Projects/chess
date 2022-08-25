@@ -21,6 +21,18 @@ router.post('/move', (req, res) => {
         res.status(400).send(movementSuccess);
 });
 
+router.post('/undo', (req, res) => {
+    let game = games.find(g => g.uuid == req.body.gameUUID);
+    game.registry.undo();
+    res.status(200).send(game.getBoardResponse());
+});
+
+router.post('/redo', (req, res) => {
+    let game = games.find(g => g.uuid == req.body.gameUUID);
+    game.registry.redo();
+    res.status(200).send(game.getBoardResponse());
+});
+
 export {
     router
 }
