@@ -46,12 +46,12 @@ function createPiece(name, fullName, color, position) {
 }
 
 function performMovement(destination, pieces) {
-    if (this.movement === undefined) return true; // TODO: Delete once all movement strategies are implemented
     return this.movement.move(this.position, destination, pieces);
 }
 
 function getThreatenedPositions(pieces) {
-    return this.movement.getThreatenedPositions(this.position, pieces);
+    if (this.movement === undefined) return undefined;
+    return this.movement.getKillingMovements(this.position, pieces);
 }
 
 function doAfterMovement() {

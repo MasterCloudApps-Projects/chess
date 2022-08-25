@@ -5,8 +5,9 @@ function createPieceMovement(){
 
     pieceMovement.possibleMovements;
 
-    pieceMovement.killingMovements = function(){
+    pieceMovement.killingMovements = function() {
         let killingMovements = [];
+
         for (let i in this.possibleMovements)
             if(this.isOpposingColor(this.possibleMovements[i]))
                 killingMovements.push(this.possibleMovements[i]);

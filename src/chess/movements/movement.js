@@ -62,9 +62,9 @@ function createMovement() {
         return (this.getPossibleMovements().includes(destination));
     };
 
-    movement.getThreatenedPositions = function(origin, pieces) {
+    movement.getKillingMovements = function(origin, pieces) {
         this.updateCurrentPosition(origin, pieces);
-        return this.getPossibleMovements();
+        return this.killingMovements();
     }
 
     movement.getPossibleMovements = function () {};

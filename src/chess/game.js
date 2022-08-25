@@ -17,6 +17,8 @@ function initializeGame() {
     }
 
     function play(movementOrigin, movementDestination){
+        //TODO: pending evaluate check
+
         if(!this.board.isWhitePiece(movementOrigin))
             return ['Invalid move: Attempting to move a wrong color piece.'];
 

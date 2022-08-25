@@ -57,8 +57,8 @@ function getPawnMovement() {
         return false;
     }
 
-    pawnMovement.getKillingMovements = function() {
-        this.getEatingMovements()
+    pawnMovement.killingMovements = function() {
+        return this.getEatingMovements()
     };
 
     pawnMovement.getThreatenedPositions = function(origin, pieces) {
