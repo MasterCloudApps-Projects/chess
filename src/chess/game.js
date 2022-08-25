@@ -17,12 +17,17 @@ function initializeGame() {
     }
 
     function play(movementOrigin, movementDestination){
-        //TODO: pending evaluate check
+        //TODO: pending evaluate check, fix movements
+        console.log('endangered whites:' );
+        console.log(this.board.getAllCoordinatesThreatenedByColor('black'));
 
         if(!this.board.isWhitePiece(movementOrigin))
             return ['Invalid move: Attempting to move a wrong color piece.'];
 
-        if(this.board.performMovement(movementOrigin, movementDestination)) {
+            console.log('endangered black:' );
+            console.log(this.board.getAllCoordinatesThreatenedByColor('white'));
+
+            if(this.board.performMovement(movementOrigin, movementDestination)) {
             this.cpuPlayer.performRandomMovement(this.board);
             this.registry.register();
             return true;
