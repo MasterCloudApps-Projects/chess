@@ -80,8 +80,13 @@ TBD
 - [Factory Method]()
 - [Builder]()
 ### Behavioral patterns
-- [Strategy]()
+- [Strategy](#strategy-pattern)
 - [Memento]()
 ### Structural patterns
 - [Composite]()
 - [Decorator]()
+
+#### Strategy pattern
+Used to manage how pieces move across the board. As so, several movement strategies exist to implement each kind of piece, which can also be swapped during execution. This is the case of the pawn piece turning into a queen when reaching the end of the board, which was solved smoothly by using this pattern.
+
+![Strategy pattern ES6 module structure diagram](.readme/movementStrategyPatternDiagram.png)

@@ -1,7 +1,7 @@
-import { createMovement } from "./movement.js";
+import { createAbstractMovement } from "./abstractMovement.js";
 
 function createPieceMovement(){
-    let pieceMovement = createMovement();
+    let pieceMovement = createAbstractMovement();
 
     pieceMovement.move = function (origin, destination, pieces) {
         this.updateCurrentPosition(origin, pieces);
