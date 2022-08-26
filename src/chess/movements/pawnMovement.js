@@ -1,5 +1,4 @@
 import { createPieceMovement } from "./pieceMovement.js";
-//TODO:
 import { getRow } from '../coordinate/coordinate.js'
 
 function getPawnMovement() {

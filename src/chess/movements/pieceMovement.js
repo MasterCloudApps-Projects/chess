@@ -11,10 +11,10 @@ function createPieceMovement(){
         let killingMovements = [];
         let possibleMovements = this.getPossibleMovements();
 
-        for (let i in possibleMovements)
+        for (let i in possibleMovements) // Individual movements already check this, loop is unnecessary
             if(this.isOpposingColor(possibleMovements[i]))
                 killingMovements.push(possibleMovements[i]);
-        return killingMovements;
+        return possibleMovements;
     }
 
     pieceMovement.move = function (origin, destination, pieces) {

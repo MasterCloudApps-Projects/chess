@@ -1,4 +1,4 @@
-import {columns, rows, getColumn, getRow} from '../coordinate/coordinate.js'
+import {incrementColumn, incrementRow, decreaseColumn, decreaseRow} from '../coordinate/coordinate.js'
 
 function createMovement() {
     let movement = {};
@@ -56,28 +56,8 @@ function createMovement() {
     movement.isOpposingColor = function (destination) {
         return this.boardPieces[this.currentPosition].isOpposingColor(this.boardPieces[destination]);
     }
-    
+
     return movement;
-}
-
-function incrementRow(coordinate) {
-    if (getRow(coordinate) >= rows.length) return coordinate;
-    return getColumn(coordinate) + (parseInt(getRow(coordinate)) + 1);
-}
-
-function incrementColumn(coordinate) {
-    if (columns.indexOf(getColumn(coordinate)) >= columns.length-1) return coordinate;
-    return columns[columns.indexOf(getColumn(coordinate)) + 1] + getRow(coordinate).toString();
-}
-
-function decreaseRow(coordinate) {
-    if (getRow(coordinate) <= 1) return coordinate;
-    return getColumn(coordinate) + (parseInt(getRow(coordinate)) - 1);
-}
-
-function decreaseColumn(coordinate) {
-    if (columns.indexOf(getColumn(coordinate)) <= 0) return coordinate;
-    return columns[columns.indexOf(getColumn(coordinate)) - 1] + getRow(coordinate).toString();
 }
 
 export {
