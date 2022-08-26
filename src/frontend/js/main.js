@@ -1,38 +1,29 @@
-function getBackendURL(endpoint = '') {
-    return 'http://localhost:3000' + endpoint;
-}
+import { http } from './restClient.js';
 
 function initializeGameManagement() {
     let movementOriginTemp;
     let gameUUID;
     let temporalSelectionColor = '#CDFAFA';
 
-    function initializeGame() {
-        gameUUID = crypto.randomUUID()
-        $.ajax({
-            url: getBackendURL('/game'),
-            method: 'POST',
-            data: JSON.stringify({
-                gameUUID: gameUUID
-            }),
-            contentType: 'application/json; charset=utf-8',
-            success: (data) => {
-                console.log('Game successfully initialized');
-                paintBoardOnHTML(data);
-            },
-            error: (err) => {
-                console.log('Error initializing game, trying again...');
-                gameUUID = undefined;
-                setTimeout(() => {initializeGame()}, 1500);
-            }
-        });
+    async function initializeGame() {
+        gameUUID = crypto.randomUUID();
+        const resMsg = await http('/game', 'POST', {gameUUID: gameUUID});
+        if(resMsg.error){
+            console.log('Error initializing game, trying again...');
+            gameUUID = undefined;
+            setTimeout(() => {initializeGame()}, 1500);
+        }
+        else{
+            console.log('Game successfully initialized');
+            paintBoardOnHTML(resMsg.data);
+        }
     }
 
     function getGameUUID() {
         return gameUUID;
     }
 
-    function selectPositionForMovement(positionId) {
+    async function selectPositionForMovement(positionId) {
         if (gameUUID === undefined)
             return;
         if (movementOriginTemp === undefined) {
@@ -41,71 +32,52 @@ function initializeGameManagement() {
             return;
         }
         removeBoardTilePaint(movementOriginTemp);
-
-        $.ajax({
-            url: getBackendURL('/move'),
-            method: 'POST',
-            data: JSON.stringify({
-                gameUUID: gameUUID,
-                movementOrigin: movementOriginTemp,
-                movementDestination: positionId
-            }),
-            contentType: 'application/json; charset=utf-8',
-            success: (newBoardData) => {
-                movementOriginTemp = undefined;
-                paintBoardOnHTML(newBoardData);
-                paintErrorsOnHTML([]);
-            },
-            error: (err) => {
-                // Movement wasn't valid (moving empty cell, a not owned piece, other cases)
-                // TODO: Show error on HTML
-                console.log(err.responseJSON);
-                movementOriginTemp = undefined;
-                paintErrorsOnHTML([err.responseJSON.errorMessage]);
-            }
+        const resMsg = await http('/move', 'POST', {
+            gameUUID: gameUUID,
+            movementOrigin: movementOriginTemp,
+            movementDestination: positionId
         });
+        if(resMsg.error){
+                console.log(resMsg.errorMessage);
+                paintErrorsOnHTML([resMsg.errorMessage]);
+        }
+        else{
+            paintBoardOnHTML(resMsg.data);
+            paintErrorsOnHTML([]);
+        }
+        movementOriginTemp = undefined;
     };
 
-    function undo(){
+    async function undo(){
         if (gameUUID === undefined)
             return;
-        $.ajax({
-            url: getBackendURL('/undo'),
-            method: 'POST',
-            data: JSON.stringify({
-                gameUUID: gameUUID
-            }),
-            contentType: 'application/json; charset=utf-8',
-            success: (newBoardData) => {
-                paintBoardOnHTML(newBoardData);
-                paintErrorsOnHTML([]);
-            },
-            error: (err) => {
-                console.log(err.responseJSON);
-                paintErrorsOnHTML(err.responseJSON);
-            }
+        const resMsg = await http('/undo', 'POST', {
+            gameUUID: gameUUID
         });
+        if(resMsg.error){
+                console.log(resMsg.errorMessage);
+                paintErrorsOnHTML([resMsg.errorMessage]);
+        }
+        else{
+            paintBoardOnHTML(resMsg.data);
+            paintErrorsOnHTML([]);
+        }
     };
 
-    function redo(){
+    async function redo(){
         if (gameUUID === undefined)
             return;
-        $.ajax({
-            url: getBackendURL('/redo'),
-            method: 'POST',
-            data: JSON.stringify({
-                gameUUID: gameUUID
-            }),
-            contentType: 'application/json; charset=utf-8',
-            success: (newBoardData) => {
-                paintBoardOnHTML(newBoardData);
-                paintErrorsOnHTML([]);
-            },
-            error: (err) => {
-                console.log(err.responseJSON);
-                paintErrorsOnHTML(err.responseJSON);
-            }
+        const resMsg = await http('/redo', 'POST', {
+            gameUUID: gameUUID
         });
+        if(resMsg.error){
+                console.log(resMsg.errorMessage);
+                paintErrorsOnHTML([resMsg.errorMessage]);
+        }
+        else{
+            paintBoardOnHTML(resMsg.data);
+            paintErrorsOnHTML([]);
+        }
     };
 
     return {

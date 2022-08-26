@@ -1,10 +1,18 @@
-function createMessage(error=false, errorMessage = ""){
+function createMessage(data={}){
     return {
-        error: error,
-        errorMessage: errorMessage
+        error: false,
+        data: data
     };
 }
 
+function createErrorMessage(errorMessage){
+    return {
+        error: true,
+        errorMessage: errorMessage
+    }
+}
+
 export {
-    createMessage
+    createMessage,
+    createErrorMessage
 }

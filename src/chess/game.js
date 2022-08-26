@@ -1,7 +1,7 @@
 import { boardBuilder } from './boardBuilder.js';
 import { cpuPlayer } from './players/cpuPlayer.js';
 import { createRegistry } from './registry.js';
-import { createMessage } from './io/message.js';
+import { createMessage, createErrorMessage } from './io/message.js';
 
 function initializeGame() {
 
@@ -23,7 +23,7 @@ function initializeGame() {
         console.log(this.board.getAllCoordinatesThreatenedByColor('black'));
 
         if(!this.board.isWhitePiece(movementOrigin))
-            return createMessage(true, 'Invalid move: Attempting to move a wrong color piece.');
+            return createErrorMessage('Invalid move: Attempting to move a wrong color piece.');
 
         console.log('endangered black:' );
         console.log(this.board.getAllCoordinatesThreatenedByColor('white'));
@@ -34,11 +34,11 @@ function initializeGame() {
             return createMessage();
         }
 
-        return createMessage(true, this.board.getErrorMessage());
+        return createErrorMessage(this.board.getErrorMessage());
     }
 
     function getBoardResponse() {
-        return this.board.getBoardPieceNames();
+        return createMessage(this.board.getBoardPieceNames());
     }
 
     return {
