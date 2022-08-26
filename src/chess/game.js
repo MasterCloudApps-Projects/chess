@@ -24,10 +24,10 @@ function initializeGame() {
         if(!this.board.isWhitePiece(movementOrigin))
             return ['Invalid move: Attempting to move a wrong color piece.'];
 
-            console.log('endangered black:' );
-            console.log(this.board.getAllCoordinatesThreatenedByColor('white'));
+        console.log('endangered black:' );
+        console.log(this.board.getAllCoordinatesThreatenedByColor('white'));
 
-            if(this.board.performMovement(movementOrigin, movementDestination)) {
+        if(this.board.performMovement(movementOrigin, movementDestination)) {
             this.cpuPlayer.performRandomMovement(this.board);
             this.registry.register();
             return true;
