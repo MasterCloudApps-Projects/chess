@@ -14,11 +14,11 @@ router.post('/game', (req, res) => {
 router.post('/move', (req, res) => {
     console.log(req.body);
     let game = games.find(g => g.uuid == req.body.gameUUID);
-    let movementSuccess = game.play(req.body.movementOrigin, req.body.movementDestination);
-    if (movementSuccess == true)
-        res.status(200).send(game.getBoardResponse());
+    let movementMsg = game.play(req.body.movementOrigin, req.body.movementDestination);
+    if (movementMsg.error)
+        res.status(400).send(movementMsg);
     else
-        res.status(400).send(movementSuccess);
+        res.status(200).send(game.getBoardResponse());
 });
 
 router.post('/undo', (req, res) => {

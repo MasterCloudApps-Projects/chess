@@ -61,7 +61,7 @@ function initializeGameManagement() {
                 // TODO: Show error on HTML
                 console.log(err.responseJSON);
                 movementOriginTemp = undefined;
-                paintErrorsOnHTML(err.responseJSON);
+                paintErrorsOnHTML([err.responseJSON.errorMessage]);
             }
         });
     };

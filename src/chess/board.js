@@ -7,7 +7,7 @@ function createBoard() {
     let board = {};
     board.pieces = {};
     board.errorMessages = [];
-    board.getErrorMessages = getErrorMessages;
+    board.getErrorMessage = getErrorMessage;
     board.performMovement = performMovement;
     board.isEmptySquare = isEmptySquare;
     board.isWhitePiece = isWhitePiece;
@@ -26,7 +26,6 @@ function createBoard() {
 }
 
 function performMovement(movementOrigin, movementDestination) {
-    this.errorMessages = [];
     if (this.pieces[movementOrigin].performMovement(movementDestination, this.pieces)) {
         this.pieces[movementDestination] = this.pieces[movementOrigin];
         this.pieces[movementDestination].position = movementDestination;
@@ -34,13 +33,13 @@ function performMovement(movementOrigin, movementDestination) {
         this.pieces[movementDestination].doAfterMovement();
         return true;
     }
-    this.errorMessages.push(getInvalidMovementError(this.pieces[movementOrigin].fullName));
+    this.errorMessage = getInvalidMovementError(this.pieces[movementOrigin].fullName);
     return false;
 }
 
-function getErrorMessages() {
-    let result = this.errorMessages;
-    this.errorMessages = [];
+function getErrorMessage() {
+    let result = this.errorMessage;
+    this.errorMessage = undefined;
     return result;
 }
 
