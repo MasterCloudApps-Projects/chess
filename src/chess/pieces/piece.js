@@ -1,9 +1,4 @@
-import { getPawnMovement } from "../movements/pawnMovement.js";
-import { getHorseMovement } from "../movements/horseMovement.js"
-import { getRookMovement } from "../movements/rookMovement.js"
-import { getBishopMovement } from "../movements/bishopMovement.js"
-import { getKingMovement } from "../movements/kingMovement.js"
-import { getQueenMovement } from "../movements/queenMovement.js"
+import { movements } from "../movements/movementsEnum.js";
 
 const pieceTypes = {
 	white: 'white',
@@ -50,7 +45,6 @@ function performMovement(destination, pieces) {
 }
 
 function getThreatenedPositions(pieces) {
-    if (this.movement === undefined) return undefined;
     return this.movement.getKillingMovements(this.position, pieces);
 }
 
@@ -81,12 +75,12 @@ function isEmpty() {
 // Constructor/Decorator functions for use on pieceFactory.js, not to be added to piece!
 const decorators = {
     decoratePawn: function decoratePawn(pawn) {
-        pawn.movement = getPawnMovement();
+        pawn.movement = movements.getPawnMovement();
         pawn.isQueen = false;
         pawn.doAfterMovement = function () {
             this.movement.doAfterMovement(this.position);
             if (!this.isQueen && this.movement.shouldTurnToQueen()) {
-                this.movement = getQueenMovement();
+                this.movement = movements.getQueenMovement();
                 this.fullName = this.fullName.replace('pawn', 'queen')
                 this.name = this.name.replace('P', 'Q');
                 this.isQueen = true;
@@ -96,27 +90,27 @@ const decorators = {
     },
 
     decorateRook: function decorateRook(rook) {
-        rook.movement = getRookMovement();
+        rook.movement = movements.getRookMovement();
         return rook;
     },
 
     decorateBishop: function decorateBishop(bishop) {
-        bishop.movement = getBishopMovement();
+        bishop.movement = movements.getBishopMovement();
         return bishop;
     },
 
     decorateHorse: function decorateHorse(horse) {
-        horse.movement = getHorseMovement();
+        horse.movement = movements.getHorseMovement();
         return horse;
     },
 
     decorateQueen: function decorateQueen(queen) {
-        queen.movement = getQueenMovement();
+        queen.movement = movements.getQueenMovement();
         return queen;
     },
 
     decorateKing: function decorateKing(king) {
-        king.movement = getKingMovement();
+        king.movement = movements.getKingMovement();
         return king;
     }
 };

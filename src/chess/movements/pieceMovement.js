@@ -3,9 +3,15 @@ import { createMovement } from "./movement.js";
 function createPieceMovement(){
     let pieceMovement = createMovement();
 
-    pieceMovement.getPossibleMovements = function () {};
+    pieceMovement.move = function (origin, destination, pieces) {
+        this.updateCurrentPosition(origin, pieces);
+        return (this.getPossibleMovements().includes(destination));
+    };
 
-    pieceMovement.doAfterMovement = function () {};
+    pieceMovement.getKillingMovements = function(origin, pieces) {
+        this.updateCurrentPosition(origin, pieces);
+        return this.killingMovements();
+    }
 
     pieceMovement.killingMovements = function() {
         let killingMovements = [];
@@ -17,15 +23,8 @@ function createPieceMovement(){
         return possibleMovements;
     }
 
-    pieceMovement.move = function (origin, destination, pieces) {
-        this.updateCurrentPosition(origin, pieces);
-        return (this.getPossibleMovements().includes(destination));
-    };
-
-    pieceMovement.getKillingMovements = function(origin, pieces) {
-        this.updateCurrentPosition(origin, pieces);
-        return this.killingMovements();
-    }
+    pieceMovement.getPossibleMovements = function () {};
+    pieceMovement.doAfterMovement = function () {};
 
     return pieceMovement;
 }

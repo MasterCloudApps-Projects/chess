@@ -7,11 +7,8 @@ function createStraightLineMovement(motionCoordinates) {
 
     straightLineMovement.getPossibleMovements = function ( ) {
         let possibleMovements = [];
-
-        for (let i=0; i < this.motionCoordinates.length; i++){
+        for (let i=0; i < this.motionCoordinates.length; i++)
             possibleMovements.push(...this.getMovements(this.motionCoordinates[i]));
-        }
-
         return possibleMovements;
     }
 
