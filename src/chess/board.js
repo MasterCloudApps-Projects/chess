@@ -1,4 +1,5 @@
-import { pieceNames, pieceTypes } from './pieces/piece.js';
+import { pieceTypes } from './pieces/pieceType.js';
+import { pieceNames } from './pieces/pieceName.js';
 import { factory as blackPieceFactory } from './pieces/blackPieceFactory.js';
 import { factory as whitePieceFactory } from './pieces/whitePieceFactory.js';
 import { getEmptyPiece } from './pieces/pieceFactory.js';
@@ -16,7 +17,7 @@ function createBoard() {
     board.getAllSquaresOfBlackPieces = getAllSquaresOfBlackPieces;
     board.getAllEmptySquares = getAllEmptySquares;
     board.getPiece = getPiece;
-    board.getAllCoordinatesThreatenedByColor = getAllCoordinatesThreatenedByColor;
+    board.getAllAttackpositionsByColor = getAllAttackpositionsByColor;
     board.getAllPiecesByColor = getAllPiecesByColor;
     board.getAllCoordinatesByColor = getAllCoordinatesByColor;
     board.createEmptyTile = createEmptyTile;
@@ -83,13 +84,13 @@ function getPiece(coordinate){
     return this.pieces[coordinate];
 }
 
-function getAllCoordinatesThreatenedByColor(color) {
+function getAllAttackpositionsByColor(color) {
     if (color == pieceTypes.empty)
         return [];
     const coordinatesUnderAttack = [];
     let pieces = this.getAllPiecesByColor(color);
     for (let i in pieces)
-        coordinatesUnderAttack.push(...pieces[i].getThreatenedPositions(this.pieces));
+        coordinatesUnderAttack.push(...pieces[i].getAttackpositions(this.pieces));
     return [...new Set(coordinatesUnderAttack)];
 }
 

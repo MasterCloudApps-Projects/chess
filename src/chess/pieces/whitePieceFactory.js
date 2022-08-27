@@ -1,5 +1,6 @@
 import { createFactory } from "./pieceFactory.js";
-import { createPiece, pieceTypes } from "./piece.js";
+import { createPiece } from "./piece.js";
+import { pieceTypes } from './pieceType.js';
 
 const factory = createFactory();
 

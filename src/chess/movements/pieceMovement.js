@@ -20,7 +20,7 @@ function createPieceMovement(){
         for (let i in possibleMovements) // Individual movements already check this, loop is unnecessary
             if(this.isOpposingColor(possibleMovements[i]))
                 killingMovements.push(possibleMovements[i]);
-        return possibleMovements;
+        return killingMovements;
     }
 
     pieceMovement.getPossibleMovements = function () {};

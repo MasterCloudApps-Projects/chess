@@ -1,5 +1,5 @@
-import { createPiece, pieceTypes, decorators } from "./piece.js";
-
+import { createPiece, decorators } from "./piece.js";
+import { pieceTypes } from './pieceType.js';
 
 function createFactory() {
     let factory = {};

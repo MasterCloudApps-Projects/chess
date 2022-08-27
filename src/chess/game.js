@@ -2,6 +2,7 @@ import { boardBuilder } from './boardBuilder.js';
 import { cpuPlayer } from './players/cpuPlayer.js';
 import { createRegistry } from './registry.js';
 import { createMessage, createErrorMessage } from './io/message.js';
+import { pieceTypes } from './pieces/pieceType.js';
 
 function initializeGame() {
 
@@ -18,17 +19,18 @@ function initializeGame() {
     }
 
     function play(movementOrigin, movementDestination){
-        //TODO: pending evaluate check, fix movements
-        console.log('endangered whites:' );
-        console.log(this.board.getAllCoordinatesThreatenedByColor('black'));
-
         if(!this.board.isWhitePiece(movementOrigin))
             return createErrorMessage('Invalid move: Attempting to move a wrong color piece.');
 
-        console.log('endangered black:' );
-        console.log(this.board.getAllCoordinatesThreatenedByColor('white'));
+        console.log('Endangered white:' );
+        console.log(this.board.getAllAttackpositionsByColor(pieceTypes.black));
 
-        if(this.board.performMovement(movementOrigin, movementDestination)) {
+        let playerMovement = this.board.performMovement(movementOrigin, movementDestination);
+
+        console.log('Endangered balck:' );
+        console.log(this.board.getAllAttackpositionsByColor(pieceTypes.white));
+
+        if(playerMovement) {
             this.cpuPlayer.performRandomMovement(this.board);
             this.registry.register();
             return createMessage();

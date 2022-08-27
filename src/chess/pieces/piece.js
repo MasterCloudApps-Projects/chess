@@ -1,26 +1,6 @@
 import { movements } from "../movements/movementsEnum.js";
-
-const pieceTypes = {
-	white: 'white',
-	black: 'black',
-    empty: 'empty'
-}
-
-const pieceNames = {
-        BR: { type : pieceTypes.black, call : 'getRook' },
-        BH: { type : pieceTypes.black, call : 'getHorse' },
-        BB: { type : pieceTypes.black, call : 'getBishop' },
-        BQ: { type : pieceTypes.black, call : 'getQueen' },
-        BK: { type : pieceTypes.black, call : 'getKing' },
-        BP: { type : pieceTypes.black, call : 'getPawn' },
-        WR: { type : pieceTypes.white, call : 'getRook' },
-        WH: { type : pieceTypes.white, call : 'getHorse' },
-        WB: { type : pieceTypes.white, call : 'getBishop' },
-        WQ: { type : pieceTypes.white, call : 'getQueen' },
-        WK: { type : pieceTypes.white, call : 'getKing' },
-        WP: { type : pieceTypes.white, call : 'getPawn' },
-        _: { type : pieceTypes.empty, call : 'getEmptyPiece' }
-}
+import { pieceTypes } from './pieceType.js';
+import { pieceNames } from './pieceName.js';
 
 function createPiece(name, fullName, color, position) {
     let piece = {};
@@ -30,7 +10,7 @@ function createPiece(name, fullName, color, position) {
     piece.position = position;
 
     piece.performMovement = performMovement;
-    piece.getThreatenedPositions = getThreatenedPositions;
+    piece.getAttackpositions = getAttackpositions;
     piece.doAfterMovement = doAfterMovement;
     piece.getMovementError = getMovementError;
     piece.isWhite = isWhite;
@@ -44,7 +24,7 @@ function performMovement(destination, pieces) {
     return this.movement.move(this.position, destination, pieces);
 }
 
-function getThreatenedPositions(pieces) {
+function getAttackpositions(pieces) {
     return this.movement.getKillingMovements(this.position, pieces);
 }
 
