@@ -95,7 +95,7 @@ function paintBoardOnHTML(boardData) {
         for (let letter = 0; letter < "abcdefgh".length; letter++) {
             let currentID = "abcdefgh"[letter] + i.toString();
             document.getElementById(currentID).innerHTML = "";
-            if (boardData[currentID] != '_')
+            if (boardData[currentID] !== '_')
                 document.getElementById(currentID).innerHTML = "<img class='piece' src='./icons/" + boardData[currentID] + ".png' />";
          }
 }

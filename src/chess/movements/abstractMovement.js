@@ -41,12 +41,12 @@ function createAbstractMovement() {
     }
 
     function checkDiagonal (origin, verticalDirection, horizontalDirection) {
-        if ((movement[verticalDirection](origin) == origin) || (movement[horizontalDirection](origin) == origin)) return origin;
+        if ((movement[verticalDirection](origin) === origin) || (movement[horizontalDirection](origin) === origin)) return origin;
         return movement[verticalDirection](movement[horizontalDirection](origin));
     }
 
     movement.goesOutOfBounds = function (directionFunctionName, origin) {
-        return this[directionFunctionName](origin) == origin;
+        return this[directionFunctionName](origin) === origin;
     }
 
     movement.isEmptyCoordinate = function (destination) {

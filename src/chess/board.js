@@ -70,7 +70,7 @@ function createBoard() {
     }
 
     board.getAllAttackpositionsByColor = function(color) {
-        if (color == pieceTypes.empty)
+        if (color === pieceTypes.empty)
             return [];
         const coordinatesUnderAttack = [];
         let pieces = this.getAllPiecesByColor(color);
@@ -114,7 +114,7 @@ function createBoard() {
         let king = getKingColor(getOppositeColor(color));
         let piecesOppositeColor = this.getAllCoordinatesByColor(getOppositeColor(color));
         for(let i = 0; i < piecesOppositeColor.length; i++) {
-            if(this.pieces[piecesOppositeColor[i]].name == king)
+            if(this.pieces[piecesOppositeColor[i]].name === king)
                 return piecesOppositeColor[i];
         }
     }
@@ -142,7 +142,7 @@ function createBoard() {
                 let pieceName = pieceNames[memento[stringCounter].trim()];
                 let position = "abcdefgh"[letter]+i.toString();
                 let piece = blackPieceFactory[pieceName.call](position);
-                if (pieceName.type == pieceTypes.white)
+                if (pieceName.type === pieceTypes.white)
                     piece = whitePieceFactory[pieceName.call](position);
 
                 this.pieces[position] = piece;

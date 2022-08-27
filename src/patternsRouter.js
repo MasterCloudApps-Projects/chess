@@ -13,7 +13,7 @@ router.post('/game', (req, res) => {
 
 router.post('/move', (req, res) => {
     console.log(req.body);
-    let game = games.find(g => g.uuid == req.body.gameUUID);
+    let game = games.find(g => g.uuid === req.body.gameUUID);
     let movementMsg = game.play(req.body.movementOrigin, req.body.movementDestination);
     if (movementMsg.error)
         res.status(400).send(movementMsg);
@@ -22,13 +22,13 @@ router.post('/move', (req, res) => {
 });
 
 router.post('/undo', (req, res) => {
-    let game = games.find(g => g.uuid == req.body.gameUUID);
+    let game = games.find(g => g.uuid === req.body.gameUUID);
     game.registry.undo();
     res.status(200).send(game.getBoardResponse());
 });
 
 router.post('/redo', (req, res) => {
-    let game = games.find(g => g.uuid == req.body.gameUUID);
+    let game = games.find(g => g.uuid === req.body.gameUUID);
     game.registry.redo();
     res.status(200).send(game.getBoardResponse());
 });

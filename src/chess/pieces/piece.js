@@ -25,11 +25,11 @@ function createPiece(name, fullName, color, position) {
     }
 
     piece.isWhite = function() {
-        return this.color == pieceTypes.white;
+        return this.color === pieceTypes.white;
     }
 
     piece.isOpposingColor = function(piece) {
-        return this.color != piece.color && !piece.isEmpty();
+        return this.color !== piece.color && !piece.isEmpty();
     }
 
     piece.isOfColor = function(color) {
@@ -37,7 +37,7 @@ function createPiece(name, fullName, color, position) {
     }
 
     piece.isEmpty = function() {
-        return this.color == pieceTypes.empty;
+        return this.color === pieceTypes.empty;
     }
 
     piece.getMovementError = function() {
