@@ -21,33 +21,22 @@ function initializeGame() {
         console.log('Is check black:' ); //PENDING evaluate checkMate
         console.log(this.board.evaluateCheckByColor(pieceTypes.black));
 
-        if(!this.isValidPlayMovement(movementOrigin))
-            return createErrorMessage('Invalid move: Attempting to move a wrong color piece.');
+        this.board.whiteMove(movementOrigin, movementDestination);
 
-            let playerMovement = this.doPlayMovement(movementOrigin, movementDestination);
+        console.log('Is check white:' );
+        console.log(this.board.evaluateCheckByColor(pieceTypes.white));
 
-            console.log('Is check white:' );
-            console.log(this.board.evaluateCheckByColor(pieceTypes.white));
+        if(this.board.hasError()) {
+            return createErrorMessage(this.board.getErrorMessage());
+        }
 
-            if(playerMovement) {
-                this.cpuPlayer.performRandomMovement(this.board);
-                this.registry.register();
-                return createMessage();
-            }
-
-        return createErrorMessage(this.board.getErrorMessage());
+        this.cpuPlayer.performRandomMovement(this.board);
+        this.registry.register();
+        return createMessage();
     }
 
     game.getBoardResponse = function () {
         return createMessage(this.board.getBoardPieceNames());
-    }
-
-    game.isValidPlayMovement = function (movementOrigin) {
-        return this.board.isWhitePiece(movementOrigin);
-    }
-
-    game.doPlayMovement = function (movementOrigin, movementDestination) {
-        return this.board.performMovement(movementOrigin, movementDestination);
     }
 
     return game;

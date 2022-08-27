@@ -4,7 +4,8 @@ function cpuPlayer() {
     player.performRandomMovement = function(board) {
         const origin = generateRandomMovement(board.getAllSquaresOfBlackPieces());
         const destination = generateRandomMovement(board.getAllEmptySquares());
-        if (!board.performMovement(origin, destination))
+        board.blackMove(origin, destination);
+        if (board.hasError())
             return this.performRandomMovement(board);
     };
 

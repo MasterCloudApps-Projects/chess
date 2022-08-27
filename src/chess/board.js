@@ -8,19 +8,34 @@ import { getEmptyPiece } from './pieces/pieceFactory.js';
 function createBoard() {
     let board = {};
     board.pieces = {};
-    board.errorMessages = [];
 
-    board.performMovement = function(movementOrigin, movementDestination) {
+    board.whiteMove = function(movementOrigin, movementDestination) {
+        if(this.isBlackPiece(movementOrigin)){
+            this.errorMessage = 'Invalid move: Attempting to move a wrong color piece.';
+            return;
+        }
+        this.move(movementOrigin, movementDestination);
+    };
+
+    board.blackMove = function(movementOrigin, movementDestination) {
+        if(this.isWhitePiece(movementOrigin)){
+            this.errorMessage = 'Invalid move: Attempting to move a wrong color piece.';
+            return;
+        }
+        this.move(movementOrigin, movementDestination);
+    }
+
+    board.move = function(movementOrigin, movementDestination) {
         if (this.pieces[movementOrigin].performMovement(movementDestination, this.pieces)) {
             this.pieces[movementDestination] = this.pieces[movementOrigin];
             this.pieces[movementDestination].position = movementDestination;
             this.createEmptyTile(movementOrigin);
             this.pieces[movementDestination].doAfterMovement();
-            return true;
+            this.errorMessage = undefined;
+            return;
         }
         this.errorMessage = getInvalidMovementError(this.pieces[movementOrigin].fullName);
-        return false;
-    };
+    }
 
     board.getPiece = function(coordinate ){
         return this.pieces[coordinate];
@@ -139,6 +154,10 @@ function createBoard() {
         let result = this.errorMessage;
         this.errorMessage = undefined;
         return result;
+    }
+
+    board.hasError = function(){
+        return this.errorMessage !== undefined;
     }
 
     return board;
