@@ -9,52 +9,43 @@ function createPiece(name, fullName, color, position) {
     piece.color = color;
     piece.position = position;
 
-    piece.performMovement = performMovement;
-    piece.getPossibleMovements = getPossibleMovements;
-    piece.getAttackpositions = getAttackpositions;
-    piece.doAfterMovement = doAfterMovement;
-    piece.getMovementError = getMovementError;
-    piece.isWhite = isWhite;
-    piece.isOpposingColor = isOpposingColor;
-    piece.isOfColor = isOfColor;
-    piece.isEmpty = isEmpty;
+    piece.performMovement = function(destination, pieces) {
+        return this.movement.move(this.position, destination, pieces);
+    }
+
+    piece.getPossibleMovements = function(pieces) {
+        return this.movement.getPossibleMovements(this.position, pieces);
+    }
+
+    piece.doAfterMovement = function doAfterMovement() {
+        this.movement.doAfterMovement(this.position);
+    }
+
+    piece.getAttackpositions = function(pieces) {
+        return this.movement.getKillingMovements(this.position, pieces);
+    }
+
+    piece.isWhite = function() {
+        return this.color == pieceTypes.white;
+    }
+
+    piece.isOpposingColor = function(piece) {
+        return this.color != piece.color && !piece.isEmpty();
+    }
+
+    piece.isOfColor = function(color) {
+        return this.color === color;
+    }
+
+    piece.isEmpty = function isEmpty() {
+        return this.color == pieceTypes.empty;
+    }
+
+    piece.getMovementError = function() {
+        return this.movement.getErrorMessages();
+    }
+
     return piece;
-}
-
-function performMovement(destination, pieces) {
-    return this.movement.move(this.position, destination, pieces);
-}
-
-function getAttackpositions(pieces) {
-    return this.movement.getKillingMovements(this.position, pieces);
-}
-
-function getPossibleMovements(pieces) {
-    return this.movement.getPossibleMovements(this.position, pieces);
-}
-
-function doAfterMovement() {
-    this.movement.doAfterMovement(this.position);
-}
-
-function getMovementError() {
-    return this.movement.getErrorMessages();
-}
-
-function isWhite() {
-    return this.color == pieceTypes.white;
-}
-
-function isOfColor(color) {
-    return this.color === color;
-}
-
-function isOpposingColor(piece) {
-    return this.color != piece.color && !piece.isEmpty();
-}
-
-function isEmpty() {
-    return this.color == pieceTypes.empty;
 }
 
 // Constructor/Decorator functions for use on pieceFactory.js, not to be added to piece!
@@ -102,7 +93,5 @@ const decorators = {
 
 export {
     createPiece,
-    pieceTypes,
-    pieceNames,
     decorators
 }
