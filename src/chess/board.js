@@ -1,5 +1,5 @@
-import { pieceTypes } from './pieces/pieceType.js';
-import { pieceNames } from './pieces/pieceName.js';
+import { pieceTypes, getOppositeColor } from './pieces/pieceType.js';
+import { pieceNames, getKingColor } from './pieces/pieceName.js';
 import { factory as blackPieceFactory } from './pieces/blackPieceFactory.js';
 import { factory as whitePieceFactory } from './pieces/whitePieceFactory.js';
 import { getEmptyPiece } from './pieces/pieceFactory.js';
@@ -20,6 +20,8 @@ function createBoard() {
     board.getAllAttackpositionsByColor = getAllAttackpositionsByColor;
     board.getAllPiecesByColor = getAllPiecesByColor;
     board.getAllCoordinatesByColor = getAllCoordinatesByColor;
+    board.getKingByColor = getKingByColor;
+    board.isCheckByColor = isCheckByColor;
     board.createEmptyTile = createEmptyTile;
     board.createMemento = createMemento;
     board.setMemento = setMemento;
@@ -92,6 +94,21 @@ function getAllAttackpositionsByColor(color) {
     for (let i in pieces)
         coordinatesUnderAttack.push(...pieces[i].getAttackpositions(this.pieces));
     return [...new Set(coordinatesUnderAttack)];
+}
+
+function isCheckByColor(color){
+    let dangerPositions = this.getAllAttackpositionsByColor(color);
+    let kingOppositePosition = this.getKingByColor(color);
+    return dangerPositions.includes(kingOppositePosition);
+}
+
+function getKingByColor(color){
+    let king = getKingColor(getOppositeColor(color));
+    let piecesOppositeColor = this.getAllCoordinatesByColor(getOppositeColor(color));
+    for(let i = 0; i < piecesOppositeColor.length; i++) {
+        if(this.pieces[piecesOppositeColor[i]].name == king)
+            return piecesOppositeColor[i];
+    }
 }
 
 function getAllPiecesByColor(color) {

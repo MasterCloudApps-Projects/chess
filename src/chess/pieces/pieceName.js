@@ -16,6 +16,11 @@ const pieceNames = {
     _: { type : pieceTypes.empty, call : 'getEmptyPiece' }
 }
 
+function getKingColor(color){
+    return pieceTypes.black == color ? 'BK'
+    : pieceTypes.white == color ? 'WK' : null;
+}
+
 export {
-    pieceNames
+    pieceNames, getKingColor
 }

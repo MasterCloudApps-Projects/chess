@@ -9,6 +9,8 @@ function initializeGame() {
     let game = {};
     game.play = play;
     game.getBoardResponse = getBoardResponse;
+    game.isValidPlayMovement = isValidPlayMovement;
+    game.doPlayMovement = doPlayMovement;
 
     function createGame(uuid) {
         game.uuid = uuid;
@@ -19,24 +21,33 @@ function initializeGame() {
     }
 
     function play(movementOrigin, movementDestination){
-        if(!this.board.isWhitePiece(movementOrigin))
+
+        console.log('Is check black:' );
+        console.log(this.board.isCheckByColor(pieceTypes.black));
+
+        if(!this.isValidPlayMovement(movementOrigin))
             return createErrorMessage('Invalid move: Attempting to move a wrong color piece.');
 
-        console.log('Endangered white:' );
-        console.log(this.board.getAllAttackpositionsByColor(pieceTypes.black));
+            let playerMovement = this.doPlayMovement(movementOrigin, movementDestination);
 
-        let playerMovement = this.board.performMovement(movementOrigin, movementDestination);
+            console.log('Is check white:' );
+            console.log(this.board.isCheckByColor(pieceTypes.white));
 
-        console.log('Endangered balck:' );
-        console.log(this.board.getAllAttackpositionsByColor(pieceTypes.white));
-
-        if(playerMovement) {
-            this.cpuPlayer.performRandomMovement(this.board);
-            this.registry.register();
-            return createMessage();
-        }
+            if(playerMovement) {
+                this.cpuPlayer.performRandomMovement(this.board);
+                this.registry.register();
+                return createMessage();
+            }
 
         return createErrorMessage(this.board.getErrorMessage());
+    }
+
+    function doPlayMovement(movementOrigin, movementDestination){
+        return this.board.performMovement(movementOrigin, movementDestination);
+    }
+
+    function isValidPlayMovement(movementOrigin) {
+        return this.board.isWhitePiece(movementOrigin);
     }
 
     function getBoardResponse() {
