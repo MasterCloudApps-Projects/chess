@@ -1,12 +1,12 @@
 import express from 'express';
-import { initializeGame } from './chess/game.js';
+import { createGame } from './chess/game.js';
 
 const router = express.Router();
 let games = [];
 
 router.post('/game', (req, res) => {
     console.log('Creating game with UUID ' + req.body.gameUUID);
-    let game = initializeGame().createGame(req.body.gameUUID);
+    let game = createGame(req.body.gameUUID);
     games.push(game);
     res.status(200).send(game.getBoardResponse());
 });

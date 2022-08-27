@@ -4,24 +4,20 @@ import { createRegistry } from './registry.js';
 import { createMessage, createErrorMessage } from './io/message.js';
 import { pieceTypes } from './pieces/pieceType.js';
 
+
+function createGame(uuid) {
+    let game = initializeGame();
+    game.uuid = uuid;
+    game.board = boardBuilder().usingInitialPieceDisposition().build();
+    game.cpuPlayer = cpuPlayer();
+    game.registry = createRegistry(game.board);
+    return game;
+}
+
 function initializeGame() {
-
     let game = {};
-    game.play = play;
-    game.getBoardResponse = getBoardResponse;
-    game.isValidPlayMovement = isValidPlayMovement;
-    game.doPlayMovement = doPlayMovement;
 
-    function createGame(uuid) {
-        game.uuid = uuid;
-        game.board = boardBuilder().usingInitialPieceDisposition().build();
-        game.cpuPlayer = cpuPlayer();
-        game.registry = createRegistry(game.board);
-        return game;
-    }
-
-    function play(movementOrigin, movementDestination){
-
+    game.play = function(movementOrigin, movementDestination){
         console.log('Is check black:' ); //PENDING evaluate checkMate
         console.log(this.board.evaluateCheckByColor(pieceTypes.black));
 
@@ -42,23 +38,21 @@ function initializeGame() {
         return createErrorMessage(this.board.getErrorMessage());
     }
 
-    function doPlayMovement(movementOrigin, movementDestination){
-        return this.board.performMovement(movementOrigin, movementDestination);
-    }
-
-    function isValidPlayMovement(movementOrigin) {
-        return this.board.isWhitePiece(movementOrigin);
-    }
-
-    function getBoardResponse() {
+    game.getBoardResponse = function () {
         return createMessage(this.board.getBoardPieceNames());
     }
 
-    return {
-        createGame
+    game.isValidPlayMovement = function (movementOrigin) {
+        return this.board.isWhitePiece(movementOrigin);
     }
+
+    game.doPlayMovement = function (movementOrigin, movementDestination) {
+        return this.board.performMovement(movementOrigin, movementDestination);
+    }
+
+    return game;
 }
 
 export {
-    initializeGame
+    createGame
 }
