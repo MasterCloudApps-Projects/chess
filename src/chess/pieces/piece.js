@@ -1,6 +1,5 @@
 import { movements } from "../movements/movementsEnum.js";
 import { pieceTypes } from './pieceType.js';
-import { pieceNames } from './pieceName.js';
 
 function createPiece(name, fullName, color, position) {
     let piece = {};
@@ -17,7 +16,7 @@ function createPiece(name, fullName, color, position) {
         return this.movement.getPossibleMovements(this.position, pieces);
     }
 
-    piece.doAfterMovement = function doAfterMovement() {
+    piece.doAfterMovement = function() {
         this.movement.doAfterMovement(this.position);
     }
 
@@ -37,7 +36,7 @@ function createPiece(name, fullName, color, position) {
         return this.color === color;
     }
 
-    piece.isEmpty = function isEmpty() {
+    piece.isEmpty = function() {
         return this.color == pieceTypes.empty;
     }
 

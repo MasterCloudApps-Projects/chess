@@ -9,160 +9,143 @@ function createBoard() {
     let board = {};
     board.pieces = {};
     board.errorMessages = [];
-    board.getErrorMessage = getErrorMessage;
-    board.performMovement = performMovement;
-    board.isEmptySquare = isEmptySquare;
-    board.isWhitePiece = isWhitePiece;
-    board.isBlackPiece = isBlackPiece;
-    board.getBoardPieceNames = getBoardPieceNames;
-    board.getAllSquaresOfBlackPieces = getAllSquaresOfBlackPieces;
-    board.getAllEmptySquares = getAllEmptySquares;
-    board.getPiece = getPiece;
-    board.getAllAttackpositionsByColor = getAllAttackpositionsByColor;
-    board.getAllPiecesByColor = getAllPiecesByColor;
-    board.getAllCoordinatesByColor = getAllCoordinatesByColor;
-    board.getKingByColor = getKingByColor;
-    board.evaluateCheckByColor = evaluateCheckByColor;
-    board.isCheckMate = isCheckMate;
-    board.createEmptyTile = createEmptyTile;
-    board.createMemento = createMemento;
-    board.setMemento = setMemento;
-    return board;
-}
 
-function performMovement(movementOrigin, movementDestination) {
-    if (this.pieces[movementOrigin].performMovement(movementDestination, this.pieces)) {
-        this.pieces[movementDestination] = this.pieces[movementOrigin];
-        this.pieces[movementDestination].position = movementDestination;
-        this.createEmptyTile(movementOrigin);
-        this.pieces[movementDestination].doAfterMovement();
-        return true;
+    board.performMovement = function(movementOrigin, movementDestination) {
+        if (this.pieces[movementOrigin].performMovement(movementDestination, this.pieces)) {
+            this.pieces[movementDestination] = this.pieces[movementOrigin];
+            this.pieces[movementDestination].position = movementDestination;
+            this.createEmptyTile(movementOrigin);
+            this.pieces[movementDestination].doAfterMovement();
+            return true;
+        }
+        this.errorMessage = getInvalidMovementError(this.pieces[movementOrigin].fullName);
+        return false;
+    };
+
+    board.getPiece = function(coordinate ){
+        return this.pieces[coordinate];
     }
-    this.errorMessage = getInvalidMovementError(this.pieces[movementOrigin].fullName);
-    return false;
-}
 
-function getErrorMessage() {
-    let result = this.errorMessage;
-    this.errorMessage = undefined;
-    return result;
+    board.isEmptySquare = function(coordinate) {
+        return this.pieces[coordinate].isEmpty();
+    }
+
+    board.isWhitePiece = function(coordinate) {
+        return this.pieces[coordinate].isWhite();
+    }
+
+    board.isBlackPiece = function(coordinate) {
+        return !this.pieces[coordinate].isWhite();
+    }
+
+    board.getBoardPieceNames = function() {
+        let result = {};
+        for (let key in this.pieces)
+            result[key] = this.pieces[key].name;
+
+        return result;
+    }
+
+    board.getAllSquaresOfBlackPieces = function() {
+        return this.getAllCoordinatesByColor(pieceTypes.black);
+    }
+
+    board.getAllEmptySquares = function() {
+        return this.getAllCoordinatesByColor(pieceTypes.empty);
+    }
+
+    board.getAllAttackpositionsByColor = function(color) {
+        if (color == pieceTypes.empty)
+            return [];
+        const coordinatesUnderAttack = [];
+        let pieces = this.getAllPiecesByColor(color);
+        for (let i in pieces)
+            coordinatesUnderAttack.push(...pieces[i].getAttackpositions(this.pieces));
+        return [...new Set(coordinatesUnderAttack)];
+    }
+
+    board.getAllPiecesByColor = function(color) {
+        const coloredPieces = [];
+        let allColorCoordinates = this.getAllCoordinatesByColor(color);
+        for (let i in allColorCoordinates)
+            coloredPieces.push(this.pieces[allColorCoordinates[i]]);
+        return coloredPieces;
+    }
+
+    board.getAllCoordinatesByColor = function(color) {
+        const coloredSquares = [];
+        for (let coordinate in this.pieces)
+            if (this.pieces[coordinate].isOfColor(color))
+                coloredSquares.push(coordinate);
+        return coloredSquares;
+    }
+
+    board.evaluateCheckByColor = function(color) {
+        let dangerPositions = this.getAllAttackpositionsByColor(color);
+        let kingOppositePosition = this.getKingByColor(color);
+
+        if(dangerPositions.includes(kingOppositePosition))
+            return this.isCheckMate(dangerPositions, kingOppositePosition) ? checkType.checkMate : checkType.check;
+
+        return checkType.checkless;
+    }
+
+    board.isCheckMate = function(dangerPositions, kingOppositePosition) {
+        let possibleMovements = this.pieces[kingOppositePosition].getPossibleMovements(this.pieces);
+        return possibleMovements.includes[dangerPositions];
+    }
+
+    board.getKingByColor = function(color) {
+        let king = getKingColor(getOppositeColor(color));
+        let piecesOppositeColor = this.getAllCoordinatesByColor(getOppositeColor(color));
+        for(let i = 0; i < piecesOppositeColor.length; i++) {
+            if(this.pieces[piecesOppositeColor[i]].name == king)
+                return piecesOppositeColor[i];
+        }
+    }
+
+    board.createEmptyTile = function(coordinate) {
+        this.pieces[coordinate] = getEmptyPiece(coordinate);
+    }
+
+    board.createMemento = function() {
+        let boardString = "";
+        const boardNames = this.getBoardPieceNames();
+        for (let i = 1; i <= 8; i++)
+            for (let letter = 0; letter < "abcdefgh".length; letter++) {
+                let currentID = "abcdefgh"[letter] + i.toString();
+                boardString += boardNames[currentID] + "-";
+            }
+        return boardString;
+    }
+
+    board.setMemento = function(memento) {
+        memento = memento.split('-');
+        let stringCounter = 0;
+        for (let i = 1; i <= 8; i++)
+            for (let letter = 0; letter < "abcdefgh".length; letter++) {
+                let pieceName = pieceNames[memento[stringCounter].trim()];
+                let position = "abcdefgh"[letter]+i.toString();
+                let piece = blackPieceFactory[pieceName.call](position);
+                if (pieceName.type == pieceTypes.white)
+                    piece = whitePieceFactory[pieceName.call](position);
+
+                this.pieces[position] = piece;
+                stringCounter++;
+            }
+    }
+
+    board.getErrorMessage = function() {
+        let result = this.errorMessage;
+        this.errorMessage = undefined;
+        return result;
+    }
+
+    return board;
 }
 
 function getInvalidMovementError(piece) {
     return 'Invalid ' + piece + ' movement';
-}
-
-function getBoardPieceNames() {
-    let result = {};
-    for (let key in this.pieces)
-        result[key] = this.pieces[key].name;
-
-    return result;
-}
-
-function createEmptyTile (coordinate) {
-    this.pieces[coordinate] = getEmptyPiece(coordinate);
-};
-
-function getAllSquaresOfBlackPieces(){
-    return this.getAllCoordinatesByColor(pieceTypes.black);
-}
-
-function getAllEmptySquares(){
-    return this.getAllCoordinatesByColor(pieceTypes.empty);
-}
-
-function isBlackPiece(coordinate) {
-    return !this.pieces[coordinate].isWhite();
-}
-
-function isWhitePiece(coordinate){
-    return this.pieces[coordinate].isWhite();
-}
-
-function isEmptySquare(coordinate){
-    return this.pieces[coordinate].isEmpty();
-}
-
-function getPiece(coordinate){
-    return this.pieces[coordinate];
-}
-
-function getAllAttackpositionsByColor(color) {
-    if (color == pieceTypes.empty)
-        return [];
-    const coordinatesUnderAttack = [];
-    let pieces = this.getAllPiecesByColor(color);
-    for (let i in pieces)
-        coordinatesUnderAttack.push(...pieces[i].getAttackpositions(this.pieces));
-    return [...new Set(coordinatesUnderAttack)];
-}
-
-function evaluateCheckByColor(color){
-    let dangerPositions = this.getAllAttackpositionsByColor(color);
-    let kingOppositePosition = this.getKingByColor(color);
-
-    if(dangerPositions.includes(kingOppositePosition))
-        return this.isCheckMate(dangerPositions, kingOppositePosition) ? checkType.checkMate : checkType.check;
-
-    return checkType.checkless;
-}
-
-function isCheckMate(dangerPositions, kingOppositePosition){
-    let possibleMovements = this.pieces[kingOppositePosition].getPossibleMovements(this.pieces);
-    return possibleMovements.includes[dangerPositions];
-}
-
-function getKingByColor(color){
-    let king = getKingColor(getOppositeColor(color));
-    let piecesOppositeColor = this.getAllCoordinatesByColor(getOppositeColor(color));
-    for(let i = 0; i < piecesOppositeColor.length; i++) {
-        if(this.pieces[piecesOppositeColor[i]].name == king)
-            return piecesOppositeColor[i];
-    }
-}
-
-function getAllPiecesByColor(color) {
-    const coloredPieces = [];
-    let allColorCoordinates = this.getAllCoordinatesByColor(color);
-    for (let i in allColorCoordinates)
-        coloredPieces.push(this.pieces[allColorCoordinates[i]]);
-    return coloredPieces;
-}
-
-function getAllCoordinatesByColor(color){
-    const coloredSquares = [];
-    for (let coordinate in this.pieces)
-        if (this.pieces[coordinate].isOfColor(color))
-            coloredSquares.push(coordinate);
-    return coloredSquares;
-}
-
-function createMemento(){
-    let boardString = "";
-    const boardNames = this.getBoardPieceNames();
-    for (let i = 1; i <= 8; i++)
-        for (let letter = 0; letter < "abcdefgh".length; letter++) {
-            let currentID = "abcdefgh"[letter] + i.toString();
-            boardString += boardNames[currentID] + "-";
-        }
-    return boardString;
-}
-
-function setMemento(memento){
-    memento = memento.split('-');
-    let stringCounter = 0;
-    for (let i = 1; i <= 8; i++)
-        for (let letter = 0; letter < "abcdefgh".length; letter++) {
-            let pieceName = pieceNames[memento[stringCounter].trim()];
-            let position = "abcdefgh"[letter]+i.toString();
-            let piece = blackPieceFactory[pieceName.call](position);
-            if (pieceName.type == pieceTypes.white)
-                piece = whitePieceFactory[pieceName.call](position);
-
-            this.pieces[position] = piece;
-            stringCounter++;
-        }
 }
 
 export {
