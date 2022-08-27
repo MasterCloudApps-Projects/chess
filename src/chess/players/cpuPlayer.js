@@ -1,21 +1,27 @@
 import { createErrorMessage } from '../io/message.js';
+import { pieceTypes } from '../pieces/pieceType.js';
 
 function cpuPlayer() {
     let player = {};
 
-    player.performRandomMovement = function(board, check) {
-        const movement = getMovement(board, check);
+    player.performRandomMovement = function(board) {
+        const movement = getMovement(board);
         if(!movement.error){
-            if (!board.performMovement(movement.origin, movement.destination))
+            board.blackMove(movement.origin, movement.destination);
+            
+        if (board.hasError())
                 return this.performRandomMovement(board);
         }
         return movement;
     };
 
+
     return player;
 }
 
-function getMovement(board, check){
+function getMovement(board){
+    let check = board.getCheckByColor(pieceTypes.white);
+
     const origins = check.getOutOfCheck ? check.getOutOfCheck : board.getAllSquaresOfBlackPieces();
     let origin = generateRandomMovement(origins);
     let destinations = board.movementsFromTheCoordinate(origin);

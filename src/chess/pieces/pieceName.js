@@ -17,8 +17,8 @@ const pieceNames = {
 }
 
 function getKingColor(color){
-    return pieceTypes.black == color ? 'BK'
-    : pieceTypes.white == color ? 'WK' : null;
+    return pieceTypes.black === color ? 'BK'
+    : pieceTypes.white === color ? 'WK' : null;
 }
 
 export {

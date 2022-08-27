@@ -16,7 +16,7 @@ function boardBuilder() {
                 let position = "abcdefgh"[letter]+i.toString();
 
                 let piece = blackPieceFactory[pieceName.call](position);
-                if (pieceName.type == pieceTypes.white)
+                if (pieceName.type === pieceTypes.white)
                     piece = whitePieceFactory[pieceName.call](position);
 
                 board.pieces[position] = piece;
