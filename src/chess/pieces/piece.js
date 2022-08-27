@@ -10,6 +10,7 @@ function createPiece(name, fullName, color, position) {
     piece.position = position;
 
     piece.performMovement = performMovement;
+    piece.getPossibleMovements = getPossibleMovements;
     piece.getAttackpositions = getAttackpositions;
     piece.doAfterMovement = doAfterMovement;
     piece.getMovementError = getMovementError;
@@ -26,6 +27,10 @@ function performMovement(destination, pieces) {
 
 function getAttackpositions(pieces) {
     return this.movement.getKillingMovements(this.position, pieces);
+}
+
+function getPossibleMovements(pieces) {
+    return this.movement.getPossibleMovements(this.position, pieces);
 }
 
 function doAfterMovement() {

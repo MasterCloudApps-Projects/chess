@@ -22,8 +22,8 @@ function initializeGame() {
 
     function play(movementOrigin, movementDestination){
 
-        console.log('Is check black:' );
-        console.log(this.board.isCheckByColor(pieceTypes.black));
+        console.log('Is check black:' ); //PENDING evaluate checkMate
+        console.log(this.board.evaluateCheckByColor(pieceTypes.black));
 
         if(!this.isValidPlayMovement(movementOrigin))
             return createErrorMessage('Invalid move: Attempting to move a wrong color piece.');
@@ -31,7 +31,7 @@ function initializeGame() {
             let playerMovement = this.doPlayMovement(movementOrigin, movementDestination);
 
             console.log('Is check white:' );
-            console.log(this.board.isCheckByColor(pieceTypes.white));
+            console.log(this.board.evaluateCheckByColor(pieceTypes.white));
 
             if(playerMovement) {
                 this.cpuPlayer.performRandomMovement(this.board);

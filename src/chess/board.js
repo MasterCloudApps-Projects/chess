@@ -1,5 +1,6 @@
 import { pieceTypes, getOppositeColor } from './pieces/pieceType.js';
 import { pieceNames, getKingColor } from './pieces/pieceName.js';
+import { checkType } from './checkType.js';
 import { factory as blackPieceFactory } from './pieces/blackPieceFactory.js';
 import { factory as whitePieceFactory } from './pieces/whitePieceFactory.js';
 import { getEmptyPiece } from './pieces/pieceFactory.js';
@@ -21,7 +22,8 @@ function createBoard() {
     board.getAllPiecesByColor = getAllPiecesByColor;
     board.getAllCoordinatesByColor = getAllCoordinatesByColor;
     board.getKingByColor = getKingByColor;
-    board.isCheckByColor = isCheckByColor;
+    board.evaluateCheckByColor = evaluateCheckByColor;
+    board.isCheckMate = isCheckMate;
     board.createEmptyTile = createEmptyTile;
     board.createMemento = createMemento;
     board.setMemento = setMemento;
@@ -96,10 +98,19 @@ function getAllAttackpositionsByColor(color) {
     return [...new Set(coordinatesUnderAttack)];
 }
 
-function isCheckByColor(color){
+function evaluateCheckByColor(color){
     let dangerPositions = this.getAllAttackpositionsByColor(color);
     let kingOppositePosition = this.getKingByColor(color);
-    return dangerPositions.includes(kingOppositePosition);
+
+    if(dangerPositions.includes(kingOppositePosition))
+        return this.isCheckMate(dangerPositions, kingOppositePosition) ? checkType.checkMate : checkType.check;
+
+    return checkType.checkless;
+}
+
+function isCheckMate(dangerPositions, kingOppositePosition){
+    let possibleMovements = this.pieces[kingOppositePosition].getPossibleMovements(this.pieces);
+    return possibleMovements.includes[dangerPositions];
 }
 
 function getKingByColor(color){
