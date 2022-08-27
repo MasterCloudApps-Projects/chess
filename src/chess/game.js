@@ -3,6 +3,7 @@ import { cpuPlayer } from './players/cpuPlayer.js';
 import { createRegistry } from './registry.js';
 import { createMessage, createErrorMessage } from './io/message.js';
 import { pieceTypes } from './pieces/pieceType.js';
+import { checkType } from './checkType.js';
 
 
 function createGame(uuid) {
@@ -18,39 +19,60 @@ function initializeGame() {
     let game = {};
 
     game.play = function(movementOrigin, movementDestination){
-        console.log('Is check black:' ); //PENDING evaluate checkMate
-        console.log(this.board.evaluateCheckByColor(pieceTypes.black));
+        let checkStatus = this.board.getCheckByColor(pieceTypes.black);
+        console.log('Is check black: ' + checkStatus.status); //PENDING evaluate checkMate
 
-        if(!this.isValidPlayMovement(movementOrigin))
-            return createErrorMessage('Invalid move: Attempting to move a wrong color piece.');
+        //TODO: end game
+        if(checkType.checkMate == checkStatus){
+            game.result = 'CPU player is the winner';
+        } else {
+            const playerTurn = doPlayerTurn(this.board, movementOrigin, movementDestination, checkStatus);
+            if(playerTurn.error) return playerTurn;
+            checkStatus = this.board.getCheckByColor(pieceTypes.white);
+            console.log('Is check white: ' + checkStatus.status);
 
-            let playerMovement = this.doPlayMovement(movementOrigin, movementDestination);
-
-            console.log('Is check white:' );
-            console.log(this.board.evaluateCheckByColor(pieceTypes.white));
-
-            if(playerMovement) {
-                this.cpuPlayer.performRandomMovement(this.board);
-                this.registry.register();
-                return createMessage();
+            if(checkType.checkMate == checkStatus){
+                game.result = 'You are the winner';
+            } else {
+                this.cpuPlayer.performRandomMovement(this.board, checkStatus);
             }
+        }
 
-        return createErrorMessage(this.board.getErrorMessage());
+        this.registry.register();
+        return createMessage();
     }
 
     game.getBoardResponse = function () {
         return createMessage(this.board.getBoardPieceNames());
     }
 
-    game.isValidPlayMovement = function (movementOrigin) {
-        return this.board.isWhitePiece(movementOrigin);
-    }
-
-    game.doPlayMovement = function (movementOrigin, movementDestination) {
-        return this.board.performMovement(movementOrigin, movementDestination);
-    }
-
     return game;
+}
+
+function doPlayerTurn(board, origin, destionation, check){
+    const invalidMovement = isInvalidMovement(board, origin, destionation, check);
+    if (invalidMovement) return createErrorMessage(invalidMovement);
+    return playMovement(board, origin, destionation);
+}
+
+function isInvalidMovement(board, origin, destionation, check) {
+    if(!isValidColorMovement(board, origin))
+        return createErrorMessage('Invalid move: Attempting to move a wrong color piece.');
+
+    //TODO: PENDING TO DO movementToGetOutOfCheck
+    if(checkType.check == check /*&& check.getOutOfCheck*/
+        /*&& check.getOutOfCheck.icludes(movementDestination)*/)
+        return createErrorMessage('Invalid move: Must get out of check');
+}
+
+function isValidColorMovement(board, origin) {
+    return board.isWhitePiece(origin);
+}
+
+function playMovement(board, origin, destionation) {
+    const performMovement = board.performMovement(origin, destionation);
+    if(!performMovement) return createErrorMessage(board.getErrorMessage());
+    return performMovement;
 }
 
 export {
