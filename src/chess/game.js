@@ -28,9 +28,10 @@ function initializeGame() {
         let checkStatus = this.board.getCheckByColor(pieceTypes.black);
         console.log('Is check black: ' + checkStatus.status);
 
-        if(checkType.checkMate == checkStatus.status){
+        if(checkType.checkMate == checkStatus.status
+            || this.board.getAllCoordinatesByColor(pieceTypes.white).length == 0){
             endGame(this);
-            return createMessage('White player wins');
+            return createMessage('Black player wins');
         }
 
         this.board.whiteMove(movementOrigin, movementDestination);
@@ -42,9 +43,10 @@ function initializeGame() {
         checkStatus = this.board.getCheckByColor(pieceTypes.white);
         console.log('Is check black: ' + checkStatus.status);
 
-        if(checkType.checkMate == checkStatus.status){
+        if(checkType.checkMate == checkStatus.status
+            || this.board.getAllCoordinatesByColor(pieceTypes.black).length == 0){
             endGame(this);
-            return createMessage('Black player wins');
+            return createMessage('White player wins');
         }
 
         this.cpuPlayer.performRandomMovement(this.board);

@@ -8,23 +8,30 @@ function cpuPlayer() {
         const movement = getMovement(board);
         if(!movement.error){
             board.blackMove(movement.origin, movement.destination);
-            
+
         if (board.hasError())
                 return this.performRandomMovement(board);
         }
         return movement;
     };
 
-
     return player;
 }
 
 function getMovement(board){
     let check = board.getCheckByColor(pieceTypes.white);
+    let origins;
+    let destinations;
 
-    const origins = check.getOutOfCheck ? check.getOutOfCheck : board.getAllSquaresOfBlackPieces();
+    if(check.getOutOfCheck || check.getOutOfCheck >= 0){
+        origins = board.getKingByColor(color);
+        destinations = board.destinations();
+        return {origin: origin, destination: destination };
+    }
+
+    origins = board.getAllSquaresOfBlackPieces();
     let origin = generateRandomMovement(origins);
-    let destinations = board.movementsFromTheCoordinate(origin);
+    destinations = board.movementsFromTheCoordinate(origin)
 
     while (destinations.length == 0 && origins.length > 0) {
         origin = generateRandomMovement(origins);
@@ -32,11 +39,10 @@ function getMovement(board){
         origins.filter(i => i == origin)
     }
 
-    if(destinations.length == 0)
+    if(origins.length == 0)
         return createErrorMessage('cpu player cannot make any more moves');
 
-    let destination = generateRandomMovement(destinations);
-    return {origin: origin, destination: destination };
+    return { origin: origin, destination: generateRandomMovement(destinations) };
 }
 
 function generateRandomMovement(squares){
