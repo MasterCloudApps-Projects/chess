@@ -8,35 +8,30 @@ import { getEmptyPiece } from './pieces/pieceFactory.js';
 function createBoard() {
     let board = {};
     board.pieces = {};
+    board.check = {};
 
     board.whiteMove = function(movementOrigin, movementDestination) {
-        let checkStatus = this.getCheckByColor(pieceTypes.black);
-        console.log('Is check black: ' + checkStatus.status); //PENDING evaluate checkMate
-
         if(this.isBlackPiece(movementOrigin)){
             this.errorMessage = 'Invalid move: Attempting to move a wrong color piece.';
             return;
         }
 
-        if(checkType.check == checkStatus.status && checkStatus.getOutOfCheck &&
+        if(checkType.check == this.check.status && this.check.getOutOfCheck &&
             !checkStatus.getOutOfCheck.includes(movementOrigin)  ){
             this.errorMessage = 'Must get out of check';
             return;
         }
 
         this.move(movementOrigin, movementDestination);
-    };
+    }
 
     board.blackMove = function(movementOrigin, movementDestination) {
-        let checkStatus = this.getCheckByColor(pieceTypes.white);
-        console.log('Is check black: ' + checkStatus.status); //PENDING evaluate checkMate
-
         if(this.isWhitePiece(movementOrigin)){
             this.errorMessage = 'Invalid move: Attempting to move a wrong color piece.';
             return;
         }
 
-        if(checkType.check == checkStatus.status && checkStatus.getOutOfCheck &&
+        if(checkType.check == this.check.status && this.check.getOutOfCheck &&
             !checkStatus.getOutOfCheck.includes(movementOrigin)  ){
             this.errorMessage = 'Must get out of check';
             return;
@@ -119,19 +114,33 @@ function createBoard() {
         return coloredSquares;
     }
 
-    //TODO:
+    board.setCheck = function(check) {
+        this.check = this.check;
+    }
+
+    //TODO: PENDING to complete method getMovementToGetOutOfCheck
     board.getCheckByColor = function(color) {
         let check = {};
         let kingOppositePosition = this.getKingByColor(color);
         check.status = this.getCheckStatus(kingOppositePosition, color);
-        //if(checkType.check == check.status) check.getOutOfCheck = this.getMovementToGetOutOfCheck(kingOppositePosition, color)
+
+        /*if(checkType.check == check.status){
+            let getOutOfCheck = this.getMovementToGetOutOfCheck(kingOppositePosition, color);
+            if(!getOutOfCheck || getOutOfCheck.length <= 0){
+                check.status = checkType.checkMate;
+            } else {
+                check.getOutOfCheck =getOutOfCheck
+            }
+        }*/
+
+        this.setCheck(check);
         return check;
     }
 
 
     board.getCheckStatus = function(kingOppositePosition, color) {
         if(this.isCheck(kingOppositePosition, color))
-            return this.isCheckMate(kingOppositePosition, color) ? checkType.checkMate : checkType.check;
+            return checkType.check;
         return checkType.checkless;
     }
 
@@ -145,13 +154,6 @@ function createBoard() {
         return undefined;
         //TODO: for each possible movement: simulate movement and recalculate check
     }
-
-    board.isCheckMate = function(kingOppositePosition, color) {
-        //TODO: uncomment and delete second return
-        //return this.getMovmentToGetOutOfCheck > 0 ? false : true;
-        return false;
-    }
-    //
 
     board.getKingByColor = function(color) {
         let king = getKingColor(getOppositeColor(color));
