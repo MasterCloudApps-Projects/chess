@@ -8,23 +8,23 @@ function createStraightLineMovement(motionCoordinates) {
     straightLineMovement.getPossibleMovements = function ( ) {
         let possibleMovements = [];
         for (let i=0; i < this.motionCoordinates.length; i++)
-            possibleMovements.push(...this.getMovements(this.motionCoordinates[i]));
+            possibleMovements.push(...getMovements(this.motionCoordinates[i]));
         return possibleMovements;
     }
 
-    straightLineMovement.getMovements = function (nextCoordinate) {
+    function getMovements(nextCoordinate) {
         let movements = [];
-        let origin = this.currentPosition;
-        let nextSquare = this[nextCoordinate](origin);
-        let possible = this.isEmptyCoordinate(nextSquare) || this.isOpposingColor(nextSquare);
+        let origin = straightLineMovement.currentPosition;
+        let nextSquare = straightLineMovement[nextCoordinate](origin);
+        let possible = straightLineMovement.isEmptyCoordinate(nextSquare) || straightLineMovement.isOpposingColor(nextSquare);
 
         while(possible && !movements.includes(nextSquare)) {
             movements.push(nextSquare);
-            if (this.isOpposingColor(nextSquare))
+            if (straightLineMovement.isOpposingColor(nextSquare))
                 return movements;
 
-            nextSquare = this[nextCoordinate](nextSquare);
-            possible = this.isEmptyCoordinate(nextSquare) || this.isOpposingColor(nextSquare);
+            nextSquare = straightLineMovement[nextCoordinate](nextSquare);
+            possible = straightLineMovement.isEmptyCoordinate(nextSquare) || straightLineMovement.isOpposingColor(nextSquare);
         }
         return movements;
     }

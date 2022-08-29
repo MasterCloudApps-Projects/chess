@@ -5,23 +5,23 @@ function getKingMovement() {
 
     kingMovement.getPossibleMovements = function () {
         let possibleMovements = [];
-        possibleMovements.push(...this.getMovements('getNextSquareNorth'));
-        possibleMovements.push(...this.getMovements('getNextSquareSouth'));
-        possibleMovements.push(...this.getMovements('getNextSquareEast'));
-        possibleMovements.push(...this.getMovements('getNextSquareWest'));
+        possibleMovements.push(...getMovements('getNextSquareNorth'));
+        possibleMovements.push(...getMovements('getNextSquareSouth'));
+        possibleMovements.push(...getMovements('getNextSquareEast'));
+        possibleMovements.push(...getMovements('getNextSquareWest'));
 
-        possibleMovements.push(...this.getMovements('getNextNorthEastDiagonal'));
-        possibleMovements.push(...this.getMovements('getNextSouthEastDiagonal'));
-        possibleMovements.push(...this.getMovements('getNextNorthWestDiagonal'));
-        possibleMovements.push(...this.getMovements('getNextSouthWestDiagonal'));
+        possibleMovements.push(...getMovements('getNextNorthEastDiagonal'));
+        possibleMovements.push(...getMovements('getNextSouthEastDiagonal'));
+        possibleMovements.push(...getMovements('getNextNorthWestDiagonal'));
+        possibleMovements.push(...getMovements('getNextSouthWestDiagonal'));
         return possibleMovements;
     }
 
-    kingMovement.getMovements = function (nextCoordinate) {
+    function getMovements(nextCoordinate) {
         let movements = [];
-        let origin = this.currentPosition;
-        let nextSquare = this[nextCoordinate](origin);
-        if(this.isEmptyCoordinate(nextSquare) || this.isOpposingColor(nextSquare))
+        let origin = kingMovement.currentPosition;
+        let nextSquare = kingMovement[nextCoordinate](origin);
+        if(kingMovement.isEmptyCoordinate(nextSquare) || kingMovement.isOpposingColor(nextSquare))
             movements.push(nextSquare)
         return movements;
     }

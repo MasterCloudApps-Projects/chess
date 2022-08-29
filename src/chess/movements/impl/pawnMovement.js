@@ -3,44 +3,14 @@ import { getRow } from '../../coordinate/coordinate.js'
 
 function getPawnMovement() {
     let pawnMovement = createPieceMovement();
-
     pawnMovement.isFirstMovement = true;
-
-    pawnMovement.checkIfFromNorthSide = function () {
-        if (this.isFirstMovement)
-            this.isFromNorthSide = getRow(this.currentPosition) >= 5;
-        return this.isFromNorthSide;
-    };
-
+    
     pawnMovement.getPossibleMovements = function () {
-        this.checkIfFromNorthSide();
+        checkIfFromNorthSide();
         let possibleMovements = [];
-        possibleMovements.push(...this.getForwardMovements());
-        possibleMovements.push(...this.getEatingMovements());
+        possibleMovements.push(...getForwardMovements());
+        possibleMovements.push(...getEatingMovements());
         return possibleMovements;
-    }
-
-    pawnMovement.getForwardMovements = function () {
-        let movements = [];
-        let nextSquare = this.getForwardSquare(this.currentPosition);
-        if (this.isEmptyCoordinate(nextSquare)) {
-            movements.push(nextSquare);
-            if (this.isFirstMovement && this.isEmptyCoordinate(this.getForwardSquare(nextSquare)))
-                movements.push(this.getForwardSquare(nextSquare));
-        }
-        return movements;
-    }
-
-    pawnMovement.getEatingMovements = function () {
-        let movements = [];
-        let rightDiagonal = this.getDiagonalRightSquare(this.currentPosition);
-        let leftDiagonal = this.getDiagonalLeftSquare(this.currentPosition);
-        if (this.isOpposingColor(rightDiagonal))
-            movements.push(rightDiagonal);
-        if (this.isOpposingColor(leftDiagonal))
-            movements.push(leftDiagonal);
-
-        return movements;
     }
 
     pawnMovement.doAfterMovement = function (currentPosition) {
@@ -57,28 +27,57 @@ function getPawnMovement() {
     }
 
     pawnMovement.attackMovements = function() {
-        return this.getEatingMovements()
+        return getEatingMovements()
     };
 
-    pawnMovement.getForwardSquare = function (origin) {
-        if (this.isFromNorthSide)
-            return this.getNextSquareSouth(origin);
-        else
-            return this.getNextSquareNorth(origin);
+    function checkIfFromNorthSide() {
+        if (pawnMovement.isFirstMovement)
+            pawnMovement.isFromNorthSide = getRow(pawnMovement.currentPosition) >= 5;
+        return pawnMovement.isFromNorthSide;
     }
 
-    pawnMovement.getDiagonalRightSquare = function (origin) {
-        if (this.isFromNorthSide)
-            return this.getNextSouthEastDiagonal(origin);
-        else
-            return this.getNextNorthEastDiagonal(origin);
+    function getForwardMovements() {
+        let movements = [];
+        let nextSquare = getForwardSquare(pawnMovement.currentPosition);
+        if (pawnMovement.isEmptyCoordinate(nextSquare)) {
+            movements.push(nextSquare);
+            if (pawnMovement.isFirstMovement && pawnMovement.isEmptyCoordinate(getForwardSquare(nextSquare)))
+                movements.push(getForwardSquare(nextSquare));
+        }
+        return movements;
     }
 
-    pawnMovement.getDiagonalLeftSquare = function (origin) {
-        if (this.isFromNorthSide)
-            return this.getNextSouthWestDiagonal(origin);
+    function getEatingMovements() {
+        let movements = [];
+        let rightDiagonal = getDiagonalRightSquare(pawnMovement.currentPosition);
+        let leftDiagonal = getDiagonalLeftSquare(pawnMovement.currentPosition);
+        if (pawnMovement.isOpposingColor(rightDiagonal))
+            movements.push(rightDiagonal);
+        if (pawnMovement.isOpposingColor(leftDiagonal))
+            movements.push(leftDiagonal);
+
+        return movements;
+    }
+
+    function getForwardSquare(origin) {
+        if (pawnMovement.isFromNorthSide)
+            return pawnMovement.getNextSquareSouth(origin);
         else
-            return this.getNextNorthWestDiagonal(origin);
+            return pawnMovement.getNextSquareNorth(origin);
+    }
+
+    function getDiagonalRightSquare(origin) {
+        if (pawnMovement.isFromNorthSide)
+            return pawnMovement.getNextSouthEastDiagonal(origin);
+        else
+            return pawnMovement.getNextNorthEastDiagonal(origin);
+    }
+
+    function getDiagonalLeftSquare(origin) {
+        if (pawnMovement.isFromNorthSide)
+            return pawnMovement.getNextSouthWestDiagonal(origin);
+        else
+            return pawnMovement.getNextNorthWestDiagonal(origin);
     }
 
     return pawnMovement;

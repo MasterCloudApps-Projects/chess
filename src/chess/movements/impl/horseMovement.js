@@ -9,37 +9,37 @@ function getHorseMovement() {
 
     horseMovement.getLShapes = function () {
         let movements = [];
-        movements.push(...this.getLShapeMovement('getNextSquareNorth', 'getNextSquareEast'));
-        movements.push(...this.getLShapeMovement('getNextSquareNorth', 'getNextSquareWest'));
+        movements.push(...getLShapeMovement('getNextSquareNorth', 'getNextSquareEast'));
+        movements.push(...getLShapeMovement('getNextSquareNorth', 'getNextSquareWest'));
 
-        movements.push(...this.getLShapeMovement('getNextSquareSouth', 'getNextSquareEast'));
-        movements.push(...this.getLShapeMovement('getNextSquareSouth', 'getNextSquareWest'));
+        movements.push(...getLShapeMovement('getNextSquareSouth', 'getNextSquareEast'));
+        movements.push(...getLShapeMovement('getNextSquareSouth', 'getNextSquareWest'));
 
-        movements.push(...this.getLShapeMovement('getNextSquareEast', 'getNextSquareNorth'));
-        movements.push(...this.getLShapeMovement('getNextSquareEast', 'getNextSquareSouth'));
+        movements.push(...getLShapeMovement('getNextSquareEast', 'getNextSquareNorth'));
+        movements.push(...getLShapeMovement('getNextSquareEast', 'getNextSquareSouth'));
 
-        movements.push(...this.getLShapeMovement('getNextSquareWest', 'getNextSquareNorth'));
-        movements.push(...this.getLShapeMovement('getNextSquareWest', 'getNextSquareSouth'));
+        movements.push(...getLShapeMovement('getNextSquareWest', 'getNextSquareNorth'));
+        movements.push(...getLShapeMovement('getNextSquareWest', 'getNextSquareSouth'));
         return movements;
     }
 
-    horseMovement.getLShapeMovement = function (singleSquareDirection, doubleSquareDirection) {
+    function getLShapeMovement(singleSquareDirection, doubleSquareDirection) {
         let movements = [];
-        let origin = this.currentPosition;
+        let origin = horseMovement.currentPosition;
 
-        if (this.goesOutOfBounds(singleSquareDirection, origin))
+        if (horseMovement.goesOutOfBounds(singleSquareDirection, origin))
             return movements;
-        origin = this[singleSquareDirection](origin);
+        origin = horseMovement[singleSquareDirection](origin);
 
-        if (this.goesOutOfBounds(doubleSquareDirection, origin))
+        if (horseMovement.goesOutOfBounds(doubleSquareDirection, origin))
             return movements;
-        origin = this[doubleSquareDirection](origin);
+        origin = horseMovement[doubleSquareDirection](origin);
 
-        if (this.goesOutOfBounds(doubleSquareDirection, origin))
+        if (horseMovement.goesOutOfBounds(doubleSquareDirection, origin))
             return movements;
-        origin = this[doubleSquareDirection](origin);
+        origin = horseMovement[doubleSquareDirection](origin);
 
-        if (this.isEmptyCoordinate(origin) || this.isOpposingColor(origin))
+        if (horseMovement.isEmptyCoordinate(origin) || horseMovement.isOpposingColor(origin))
                 movements.push(origin);
         return movements;
     }
