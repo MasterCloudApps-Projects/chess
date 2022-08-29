@@ -3,7 +3,6 @@ import { createRegistry } from './registry.js';
 import { createMessage, createErrorMessage } from './io/message.js';
 import { pieceTypes, getOppositeColor } from './pieces/pieceType.js';
 
-
 const gameStatus = {
     ongoing: 'ongoing',
     finished: 'finished'
@@ -37,6 +36,7 @@ function createGame(uuid) {
 
         game.registry.register();
         advanceTurn();
+        if (game.board.checkmate) endGame();
         return createMessage();
     }
 
@@ -46,6 +46,10 @@ function createGame(uuid) {
 
     function endGame() {
         game.status = gameStatus.finished;
+    }
+
+    game.isGameFinished = function () {
+        return game.status === gameStatus.finished;
     }
 
     game.getBoardResponse = function () {

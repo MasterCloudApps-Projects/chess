@@ -18,10 +18,11 @@ router.post('/move', (req, res) => {
     let movementMsg = game.play(req.body.movementOrigin, req.body.movementDestination, 'white');
     if (movementMsg.error)
         return res.status(400).send(movementMsg);
-    else {
-        cpuPlayer().performRandomMovement(game);
-        res.status(200).send(game.getBoardResponse());
-    }
+    if (game.isGameFinished())
+        return res.status(200).send(game.getBoardResponse());
+    cpuPlayer().performRandomMovement(game);
+    res.status(200).send(game.getBoardResponse());
+
 });
 
 router.post('/undo', (req, res) => {

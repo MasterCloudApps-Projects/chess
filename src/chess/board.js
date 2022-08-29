@@ -7,6 +7,7 @@ import { getEmptyPiece } from './pieces/pieceFactory.js';
 function createBoard() {
     let board = {};
     board.pieces = {};
+    board.checkmate = false;
 
     board.tryMove = function(movementOrigin, movementDestination, playerColor) {
         this.errorMessage = undefined;
@@ -21,6 +22,55 @@ function createBoard() {
         let stateBeforeMoving = this.createMemento();
         move(movementOrigin, movementDestination);
         updateCheckStatus(playerColor, stateBeforeMoving);
+    }
+
+    function move(movementOrigin, movementDestination) {
+        board.pieces[movementDestination] = board.pieces[movementOrigin];
+        board.pieces[movementDestination].position = movementDestination;
+        createEmptyTile(movementOrigin);
+        board.pieces[movementDestination].doAfterMovement();
+    }
+
+    function updateCheckStatus(playerColor, previousState) {
+        if (board.isColorOnCheck(playerColor)) {
+            board.errorMessage = 'Invalid move: cannot end turn on check';
+            board.setMemento(previousState);
+            return;
+        }
+        if (board.isColorOnCheck(getOppositeColor(playerColor))) {
+            console.log('possible checkmate');
+            console.log('is checkmate: ' + isColorOnCheckMate(getOppositeColor(playerColor)));
+            if (isColorOnCheckMate(getOppositeColor(playerColor)))
+                board.checkmate = true;
+        }
+    }
+
+    board.isColorOnCheck = function (color) {
+        let attackpos = getAllAttackPositionsByColor(getOppositeColor(color));
+        let kingpos = getKingPositionByColor(color);
+        return attackpos.includes(kingpos);
+    }
+
+    function isColorOnCheckMate(color) {
+        if (!board.isColorOnCheck(color))
+            return false;
+
+        return board.getValidMovementWhileColorIsOnCheck(color) == undefined;
+    }
+
+    board.getValidMovementWhileColorIsOnCheck = function (color) {
+        const previousState = this.createMemento();
+        for (let coord of this.getAllCoordinatesByColor(color)) {
+            for (let mov of this.movementsFromTheCoordinate(this.pieces[coord].position)) {
+                move(this.pieces[coord].position, mov);
+                if (!this.isColorOnCheck(color)) {
+                    this.setMemento(previousState);
+                    return { origin: coord, destination: mov };
+                }
+                this.setMemento(previousState);
+            }
+        }
+        return undefined;
     }
 
     board.movementsFromTheCoordinate = function(origin) {
@@ -51,7 +101,7 @@ function createBoard() {
                 coloredSquares.push(coordinate);
         return coloredSquares;
     }
-    
+
     board.createMemento = function() {
         let boardString = "";
         const boardNames = this.getBoardPieceNames();
@@ -62,7 +112,7 @@ function createBoard() {
         }
         return boardString;
     }
-    
+
     board.setMemento = function(memento) {
         memento = memento.split('-');
         let stringCounter = 0;
@@ -73,46 +123,20 @@ function createBoard() {
             let piece = blackPieceFactory[pieceName.call](position);
             if (pieceName.type === pieceTypes.white)
             piece = whitePieceFactory[pieceName.call](position);
-            
+
             this.pieces[position] = piece;
             stringCounter++;
         }
     }
-    
+
     board.getErrorMessage = function() {
         let result = this.errorMessage;
         this.errorMessage = undefined;
         return result;
     }
-    
+
     board.hasError = function(){
         return this.errorMessage !== undefined;
-    }
-
-    function move(movementOrigin, movementDestination) {
-        board.pieces[movementDestination] = board.pieces[movementOrigin];
-        board.pieces[movementDestination].position = movementDestination;
-        createEmptyTile(movementOrigin);
-        board.pieces[movementDestination].doAfterMovement();
-    }
-
-    function updateCheckStatus(playerColor, previousState) {
-        if (isColorOnCheck(playerColor)) {
-            board.errorMessage = 'Invalid move: cannot end turn on check';
-            board.setMemento(previousState);
-            return;
-        }
-        if (isColorOnCheck(getOppositeColor(playerColor))) {
-            // check is it's checkmate
-            console.log('possible checkmate');
-            console.log('is checkmate :' + isColorOnCheckMate(getOppositeColor(playerColor)));
-        }
-    }
-    
-    function isColorOnCheck(color) {
-        let attackpos = getAllAttackPositionsByColor(getOppositeColor(color));
-        let kingpos = getKingPositionByColor(color);
-        return attackpos.includes(kingpos);
     }
 
     function getAllAttackPositionsByColor(color) {
@@ -138,28 +162,10 @@ function createBoard() {
         return coloredPieces;
     }
 
-    function isColorOnCheckMate(color) {
-        if (!isColorOnCheck(color))
-            return false;
-
-        const previousState = board.createMemento();
-        for (let coord of board.getAllCoordinatesByColor(color)) {
-            for (let mov of board.movementsFromTheCoordinate(board.pieces[coord].position)) {
-                move(board.pieces[coord].position, mov);
-                if (!isColorOnCheck(color)) {
-                    board.setMemento(previousState);
-                    return false;
-                }
-                board.setMemento(previousState);
-            }
-        }
-        return true;
-    }
-
     function createEmptyTile(coordinate) {
         board.pieces[coordinate] = getEmptyPiece(coordinate);
     }
-    
+
     function getInvalidMovementError(piece) {
         return 'Invalid ' + piece + ' movement';
     }

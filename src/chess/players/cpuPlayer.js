@@ -10,21 +10,24 @@ function cpuPlayer() {
             result = game.play(movement.origin, movement.destination, pieceTypes.black);
         } while (result.error);
     };
-    
+
     function getMovement(board) {
         let origins;
         let destinations;
-    
+
+        if (board.isColorOnCheck(pieceTypes.black))
+            return board.getValidMovementWhileColorIsOnCheck(pieceTypes.black);
+
         origins = board.getAllSquaresOfBlackPieces();
         let origin = generateRandomMovement(origins);
         destinations = board.movementsFromTheCoordinate(origin)
-    
+
         return {
             origin: origin,
             destination: generateRandomMovement(destinations)
         };
     }
-    
+
     function generateRandomMovement(squares){
         return squares[Math.floor(Math.random()*(squares.length - 1))];
     }
