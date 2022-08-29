@@ -20,7 +20,7 @@ function createPiece(name, fullName, color, position) {
         this.movement.doAfterMovement(this.position);
     }
 
-    piece.getAttackpositions = function(pieces) {
+    piece.getAttackPositions = function(pieces) {
         return this.movement.getAttackMovements(this.position, pieces);
     }
 

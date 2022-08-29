@@ -42,6 +42,7 @@ function createBoard() {
         if (this.isColorOnCheck(getOppositeColor(playerColor))) {
             // check is it's checkmate
             console.log('possible checkmate');
+            console.log('is checkmate :' + this.isColorOnCheckMate(getOppositeColor(playerColor)));
         }
         this.errorMessage = undefined;
     }
@@ -89,7 +90,7 @@ function createBoard() {
         const coordinatesUnderAttack = [];
         let pieces = this.getAllPiecesByColor(color);
         for (let i in pieces)
-            coordinatesUnderAttack.push(...pieces[i].getAttackpositions(this.pieces));
+            coordinatesUnderAttack.push(...pieces[i].getAttackPositions(this.pieces));
         return [...new Set(coordinatesUnderAttack)];
     }
 
@@ -109,47 +110,28 @@ function createBoard() {
         return coloredSquares;
     }
 
-    //TODO: PENDING to complete method getMovementToGetOutOfCheck
-    board.getCheckByColor = function(color) {
-        let check = {};
-        let kingOppositePosition = this.getKingByColor(color);
-        check.status = this.getCheckStatus(kingOppositePosition, color);
-
-        /*if(checkType.check == check.status){
-            let getOutOfCheck = this.getMovementToGetOutOfCheck(kingOppositePosition, color);
-            if(!getOutOfCheck || getOutOfCheck.length <= 0){
-                check.status = checkType.checkMate;
-            } else {
-                check.getOutOfCheck =getOutOfCheck
-            }
-        }*/
-
-        this.setCheck(check);
-        return check;
-    }
-
-
-    board.getCheckStatus = function(kingOppositePosition, color) {
-        if(this.isCheck(kingOppositePosition, color))
-            return checkType.check;
-        return checkType.checkless;
-    }
-
-    board.isCheck = function(kingOppositePosition, color) {
-        let dangerPositions = this.getAllAttackPositionsByColor(color);
-        return dangerPositions.includes(kingOppositePosition) ? true : false;
-    }
-
-    board.getMovementToGetOutOfCheck = function(kingOppositePosition, color) {
-        let possibleMovements = this.movementsFromTheCoordinate(kingOppositePosition);
-        return undefined;
-        //TODO: for each possible movement: simulate movement and recalculate check
-    }
-
     board.isColorOnCheck = function (color) {
         let attackpos = this.getAllAttackPositionsByColor(getOppositeColor(color));
         let kingpos = this.getKingPositionByColor(color);
         return attackpos.includes(kingpos);
+    }
+
+    board.isColorOnCheckMate = function (color) {
+        if (!this.isColorOnCheck(color))
+            return false;
+
+        const previousState = this.createMemento();
+        for (let coord of this.getAllCoordinatesByColor(color)) {
+            for (let mov of this.movementsFromTheCoordinate(this.pieces[coord].position)) {
+                this.performMovement(this.pieces[coord].position, mov);
+                if (!this.isColorOnCheck(color)) {
+                    this.setMemento(previousState);
+                    return false;
+                }
+                this.setMemento(previousState);
+            }
+        }
+        return true;
     }
 
     board.getKingPositionByColor = function(color) {
