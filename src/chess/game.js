@@ -28,14 +28,12 @@ function initializeGame() {
     game.play = function(movementOrigin, movementDestination) {
         if(this.board.getAllCoordinatesByColor(pieceTypes.white).length == 0){
             endGame(this);
-            return createMessage('Black player wins');
-        }
+            return createMessage('Black player wins');        }
 
         this.board.move(movementOrigin, movementDestination, pieceTypes.white);
 
         if(this.board.hasError())
             return createErrorMessage(this.board.getErrorMessage());
-
 
         if(this.board.getAllCoordinatesByColor(pieceTypes.black).length == 0){
             endGame(this);
