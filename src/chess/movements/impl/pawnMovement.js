@@ -56,7 +56,7 @@ function getPawnMovement() {
         return false;
     }
 
-    pawnMovement.killingMovements = function() {
+    pawnMovement.attackMovements = function() {
         return this.getEatingMovements()
     };
 

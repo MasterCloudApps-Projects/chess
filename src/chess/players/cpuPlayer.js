@@ -7,7 +7,7 @@ function cpuPlayer() {
     player.performRandomMovement = function(board) {
         const movement = getMovement(board);
         if(!movement.error){
-            board.blackMove(movement.origin, movement.destination);
+            board.move(movement.origin, movement.destination, pieceTypes.black);
 
         if (board.hasError())
                 return this.performRandomMovement(board);

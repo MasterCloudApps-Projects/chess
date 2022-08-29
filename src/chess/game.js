@@ -15,6 +15,8 @@ function createGame(uuid) {
     let game = initializeGame();
     game.uuid = uuid;
     game.gameStatus = gameStatus.pending;
+    game.turn = pieceTypes.white;
+
     game.board = boardBuilder().usingInitialPieceDisposition().build();
     game.cpuPlayer = cpuPlayer();
     game.registry = createRegistry(game.board);
@@ -34,7 +36,7 @@ function initializeGame() {
             return createMessage('Black player wins');
         }
 
-        this.board.whiteMove(movementOrigin, movementDestination);
+        this.board.move(movementOrigin, movementDestination, pieceTypes.white);
 
         if(this.board.hasError()) {
             return createErrorMessage(this.board.getErrorMessage());

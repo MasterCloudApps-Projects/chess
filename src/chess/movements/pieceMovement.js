@@ -8,19 +8,13 @@ function createPieceMovement(){
         return (this.getPossibleMovements().includes(destination));
     };
 
-    pieceMovement.getKillingMovements = function(origin, pieces) {
+    pieceMovement.getAttackMovements = function(origin, pieces) {
         this.updateCurrentPosition(origin, pieces);
-        return this.killingMovements();
+        return this.attackMovements();
     }
 
-    pieceMovement.killingMovements = function() {
-        let killingMovements = [];
-        let possibleMovements = this.getPossibleMovements();
-
-        for (let i in possibleMovements) // Individual movements already check this, loop is unnecessary
-            if(this.isOpposingColor(possibleMovements[i]))
-                killingMovements.push(possibleMovements[i]);
-        return killingMovements;
+    pieceMovement.attackMovements = function() {
+        return this.getPossibleMovements();
     }
 
     pieceMovement.getPossibleMovements = function () {};

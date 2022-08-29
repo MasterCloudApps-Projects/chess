@@ -16,11 +16,13 @@ const pieceNames = {
     _: { type : pieceTypes.empty, call : 'getEmptyPiece' }
 }
 
-function getKingColor(color){
-    return pieceTypes.black === color ? 'BK'
-    : pieceTypes.white === color ? 'WK' : null;
+function getKingForColor(color){
+    if (color === pieceTypes.black)
+        return 'BK';
+    if (color === pieceTypes.white)
+        return 'WK';
 }
 
 export {
-    pieceNames, getKingColor
+    pieceNames, getKingForColor
 }

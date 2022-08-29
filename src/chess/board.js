@@ -1,5 +1,5 @@
 import { pieceTypes, getOppositeColor } from './pieces/pieceType.js';
-import { pieceNames, getKingColor } from './pieces/pieceName.js';
+import { pieceNames, getKingForColor } from './pieces/pieceName.js';
 import { checkType } from './checkType.js';
 import { factory as blackPieceFactory } from './pieces/blackPieceFactory.js';
 import { factory as whitePieceFactory } from './pieces/whitePieceFactory.js';
@@ -10,8 +10,8 @@ function createBoard() {
     board.pieces = {};
     board.check = {};
 
-    board.whiteMove = function(movementOrigin, movementDestination) {
-        if(this.isBlackPiece(movementOrigin)){
+    board.move = function(movementOrigin, movementDestination, playerColor) {
+        if(!this.pieces[movementOrigin].isOfColor(playerColor)) {
             this.errorMessage = 'Invalid move: Attempting to move a wrong color piece.';
             return;
         }
@@ -22,25 +22,10 @@ function createBoard() {
             return;
         }
 
-        this.move(movementOrigin, movementDestination);
+        this.performMovement(movementOrigin, movementDestination);
     }
 
-    board.blackMove = function(movementOrigin, movementDestination) {
-        if(this.isWhitePiece(movementOrigin)){
-            this.errorMessage = 'Invalid move: Attempting to move a wrong color piece.';
-            return;
-        }
-
-        if(checkType.check == this.check.status && this.check.getOutOfCheck &&
-            !checkStatus.getOutOfCheck.includes(movementOrigin)  ){
-            this.errorMessage = 'Must get out of check';
-            return;
-        }
-
-        this.move(movementOrigin, movementDestination);
-    }
-
-    board.move = function(movementOrigin, movementDestination) {
+    board.performMovement = function(movementOrigin, movementDestination) {
         if (this.pieces[movementOrigin].performMovement(movementDestination, this.pieces)) {
             this.pieces[movementDestination] = this.pieces[movementOrigin];
             this.pieces[movementDestination].position = movementDestination;
@@ -156,12 +141,9 @@ function createBoard() {
     }
 
     board.getKingByColor = function(color) {
-        let king = getKingColor(getOppositeColor(color));
-        let piecesOppositeColor = this.getAllCoordinatesByColor(getOppositeColor(color));
-        for(let i = 0; i < piecesOppositeColor.length; i++) {
-            if(this.pieces[piecesOppositeColor[i]].name === king)
-                return piecesOppositeColor[i];
-        }
+        color = getOppositeColor(color);
+        let king = getKingForColor(color);
+        return this.getAllCoordinatesByColor(color).find(piece => piece.name === king);
     }
 
     board.createEmptyTile = function(coordinate) {

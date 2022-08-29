@@ -21,7 +21,7 @@ function createPiece(name, fullName, color, position) {
     }
 
     piece.getAttackpositions = function(pieces) {
-        return this.movement.getKillingMovements(this.position, pieces);
+        return this.movement.getAttackMovements(this.position, pieces);
     }
 
     piece.isWhite = function() {

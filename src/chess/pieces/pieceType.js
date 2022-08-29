@@ -5,9 +5,9 @@ const pieceTypes = {
 }
 
 function getOppositeColor(color) {
-    return pieceTypes.black === color ? pieceTypes.white
-        : pieceTypes.white === color ? pieceTypes.black
-            : pieceTypes.empty;
+    if (color === pieceTypes.black)
+        return pieceTypes.white
+    return pieceTypes.black;
 }
 
 export {
