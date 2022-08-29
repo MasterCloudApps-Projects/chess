@@ -49,7 +49,7 @@ function createPiece(name, fullName, color, position) {
 
 // Constructor/Decorator functions for use on pieceFactory.js, not to be added to piece!
 const decorators = {
-    decoratePawn: function decoratePawn(pawn) {
+    decoratePawn: function decoratePawn(pawn, isFirstMovement = true, isFromNorthSide = undefined) {
         pawn.movement = movements.getPawnMovement();
         pawn.isQueen = false;
         pawn.doAfterMovement = function () {
@@ -61,6 +61,9 @@ const decorators = {
                 this.isQueen = true;
             }
         };
+        pawn.movement.isFirstMovement = isFirstMovement;
+        if (isFromNorthSide != undefined)
+            pawn.movement.checkIfFromNorthSide = function () { return isFromNorthSide; }
         return pawn;
     },
 

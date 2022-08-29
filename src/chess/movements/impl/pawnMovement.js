@@ -4,9 +4,9 @@ import { getRow } from '../../coordinate/coordinate.js'
 function getPawnMovement() {
     let pawnMovement = createPieceMovement();
     pawnMovement.isFirstMovement = true;
-    
+
     pawnMovement.getPossibleMovements = function () {
-        checkIfFromNorthSide();
+        this.checkIfFromNorthSide();
         let possibleMovements = [];
         possibleMovements.push(...getForwardMovements());
         possibleMovements.push(...getEatingMovements());
@@ -30,7 +30,7 @@ function getPawnMovement() {
         return getEatingMovements()
     };
 
-    function checkIfFromNorthSide() {
+    pawnMovement.checkIfFromNorthSide = function () {
         if (pawnMovement.isFirstMovement)
             pawnMovement.isFromNorthSide = getRow(pawnMovement.currentPosition) >= 5;
         return pawnMovement.isFromNorthSide;
