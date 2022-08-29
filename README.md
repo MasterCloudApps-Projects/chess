@@ -98,6 +98,10 @@ Board creation and initialization is done via a builder pattern.
 #### Strategy pattern
 Used to manage how pieces move across the board. As so, several movement strategies exist to implement each kind of piece, which can also be swapped during execution. This is the case of the pawn piece turning into a queen when reaching the end of the board, which was solved smoothly by using this pattern.
 
+ <p align="center">
+    <img src=".readme/movementStrategyPatternDiagram.png" />
+ </p>
+
 #### Memento
 Undo/Redo functionality is implemented by a memento pattern, which is also used to simulate movements when calculating checkmate possibilities.
 
@@ -106,5 +110,3 @@ The Queen movement strategy is implemented via a composite movement of both Rook
 
 #### Decorator
 Attributes, and some functionality specific to certain piece types, are added via a series of decorator functions called from the piece factory during piece creation.
-
-![Strategy pattern ES6 module structure diagram](.readme/movementStrategyPatternDiagram.png)
