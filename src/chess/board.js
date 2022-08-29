@@ -9,6 +9,7 @@ function createBoard() {
     board.pieces = {};
 
     board.tryMove = function(movementOrigin, movementDestination, playerColor) {
+        this.errorMessage = undefined;
         if(!this.pieces[movementOrigin].isOfColor(playerColor)) {
             this.errorMessage = 'Invalid move: Attempting to move a wrong color piece.';
             return;
@@ -20,7 +21,6 @@ function createBoard() {
         let stateBeforeMoving = this.createMemento();
         this.move(movementOrigin, movementDestination);
         this.updateCheckStatus(playerColor, stateBeforeMoving);
-        return;
     }
 
     board.move = function(movementOrigin, movementDestination) {
@@ -28,7 +28,6 @@ function createBoard() {
             this.pieces[movementDestination].position = movementDestination;
             this.createEmptyTile(movementOrigin);
             this.pieces[movementDestination].doAfterMovement();
-            this.errorMessage = undefined;
     }
 
     board.updateCheckStatus = function (playerColor, previousState) {
@@ -42,7 +41,6 @@ function createBoard() {
             console.log('possible checkmate');
             console.log('is checkmate :' + this.isColorOnCheckMate(getOppositeColor(playerColor)));
         }
-        this.errorMessage = undefined;
     }
 
     board.movementsFromTheCoordinate = function(origin) {
