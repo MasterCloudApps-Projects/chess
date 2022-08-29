@@ -1,6 +1,5 @@
 import { pieceTypes, getOppositeColor } from './pieces/pieceType.js';
 import { pieceNames, getKingForColor } from './pieces/pieceName.js';
-import { checkType } from './checkType.js';
 import { factory as blackPieceFactory } from './pieces/blackPieceFactory.js';
 import { factory as whitePieceFactory } from './pieces/whitePieceFactory.js';
 import { getEmptyPiece } from './pieces/pieceFactory.js';
@@ -8,7 +7,6 @@ import { getEmptyPiece } from './pieces/pieceFactory.js';
 function createBoard() {
     let board = {};
     board.pieces = {};
-    board.check = {};
 
     board.move = function(movementOrigin, movementDestination, playerColor) {
         if(!this.pieces[movementOrigin].isOfColor(playerColor)) {
@@ -16,13 +14,11 @@ function createBoard() {
             return;
         }
 
-        if(checkType.check == this.check.status && this.check.getOutOfCheck &&
-            !checkStatus.getOutOfCheck.includes(movementOrigin)  ){
-            this.errorMessage = 'Must get out of check';
-            return;
-        }
-
+        let stateBeforeMoving = this.createMemento();
         this.performMovement(movementOrigin, movementDestination);
+        if (!this.hasError())
+            this.updateCheckStatus(playerColor, stateBeforeMoving);
+
     }
 
     board.performMovement = function(movementOrigin, movementDestination) {
@@ -37,8 +33,22 @@ function createBoard() {
         this.errorMessage = getInvalidMovementError(this.pieces[movementOrigin].fullName);
     }
 
+    board.updateCheckStatus = function (playerColor, previousState) {
+        if (this.isColorOnCheck(playerColor)) {
+            this.errorMessage = 'Invalid move: cannot end turn on check';
+            this.setMemento(previousState);
+            return;
+        }
+        if (this.isColorOnCheck(getOppositeColor(playerColor))) {
+            // check is it's checkmate
+            console.log('possible checkmate');
+        }
+        this.errorMessage = undefined;
+    }
+
     board.movementsFromTheCoordinate = function(origin) {
-        return this.pieces[origin].getPossibleMovements(this.pieces);
+        this.pieces[origin].movement.updateCurrentPosition(origin, this.pieces);
+        return this.pieces[origin].getPossibleMovements();
     }
 
     board.getPiece = function(coordinate ){
@@ -73,7 +83,7 @@ function createBoard() {
         return this.getAllCoordinatesByColor(pieceTypes.empty);
     }
 
-    board.getAllAttackpositionsByColor = function(color) {
+    board.getAllAttackPositionsByColor = function(color) {
         if (color === pieceTypes.empty)
             return [];
         const coordinatesUnderAttack = [];
@@ -97,10 +107,6 @@ function createBoard() {
             if (this.pieces[coordinate].isOfColor(color))
                 coloredSquares.push(coordinate);
         return coloredSquares;
-    }
-
-    board.setCheck = function(check) {
-        this.check = this.check;
     }
 
     //TODO: PENDING to complete method getMovementToGetOutOfCheck
@@ -130,7 +136,7 @@ function createBoard() {
     }
 
     board.isCheck = function(kingOppositePosition, color) {
-        let dangerPositions = this.getAllAttackpositionsByColor(color);
+        let dangerPositions = this.getAllAttackPositionsByColor(color);
         return dangerPositions.includes(kingOppositePosition) ? true : false;
     }
 
@@ -140,10 +146,15 @@ function createBoard() {
         //TODO: for each possible movement: simulate movement and recalculate check
     }
 
-    board.getKingByColor = function(color) {
-        color = getOppositeColor(color);
+    board.isColorOnCheck = function (color) {
+        let attackpos = this.getAllAttackPositionsByColor(getOppositeColor(color));
+        let kingpos = this.getKingPositionByColor(color);
+        return attackpos.includes(kingpos);
+    }
+
+    board.getKingPositionByColor = function(color) {
         let king = getKingForColor(color);
-        return this.getAllCoordinatesByColor(color).find(piece => piece.name === king);
+        return this.getAllPiecesByColor(color).find(piece => piece.name === king).position;
     }
 
     board.createEmptyTile = function(coordinate) {

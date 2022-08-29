@@ -16,7 +16,7 @@ const pieceNames = {
     _: { type : pieceTypes.empty, call : 'getEmptyPiece' }
 }
 
-function getKingForColor(color){
+function getKingForColor(color) {
     if (color === pieceTypes.black)
         return 'BK';
     if (color === pieceTypes.white)
