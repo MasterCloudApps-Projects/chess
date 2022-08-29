@@ -8,7 +8,7 @@ function cpuPlayer() {
         do {
             movement = getMovement(board);
             if(!movement.error)
-                board.move(movement.origin, movement.destination, pieceTypes.black);
+                board.tryMove(movement.origin, movement.destination, pieceTypes.black);
         } while (board.hasError());
         return movement;
     };

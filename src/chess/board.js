@@ -8,29 +8,27 @@ function createBoard() {
     let board = {};
     board.pieces = {};
 
-    board.move = function(movementOrigin, movementDestination, playerColor) {
+    board.tryMove = function(movementOrigin, movementDestination, playerColor) {
         if(!this.pieces[movementOrigin].isOfColor(playerColor)) {
             this.errorMessage = 'Invalid move: Attempting to move a wrong color piece.';
             return;
         }
-
+        if (!this.pieces[movementOrigin].isPossibleMove(movementDestination, this.pieces)){
+            this.errorMessage = getInvalidMovementError(this.pieces[movementOrigin].fullName);
+            return;
+        }
         let stateBeforeMoving = this.createMemento();
-        this.performMovement(movementOrigin, movementDestination);
-        if (!this.hasError())
-            this.updateCheckStatus(playerColor, stateBeforeMoving);
-
+        this.move(movementOrigin, movementDestination);
+        this.updateCheckStatus(playerColor, stateBeforeMoving);
+        return;
     }
 
-    board.performMovement = function(movementOrigin, movementDestination) {
-        if (this.pieces[movementOrigin].performMovement(movementDestination, this.pieces)) {
+    board.move = function(movementOrigin, movementDestination) {
             this.pieces[movementDestination] = this.pieces[movementOrigin];
             this.pieces[movementDestination].position = movementDestination;
             this.createEmptyTile(movementOrigin);
             this.pieces[movementDestination].doAfterMovement();
             this.errorMessage = undefined;
-            return;
-        }
-        this.errorMessage = getInvalidMovementError(this.pieces[movementOrigin].fullName);
     }
 
     board.updateCheckStatus = function (playerColor, previousState) {
@@ -50,22 +48,6 @@ function createBoard() {
     board.movementsFromTheCoordinate = function(origin) {
         this.pieces[origin].movement.updateCurrentPosition(origin, this.pieces);
         return this.pieces[origin].getPossibleMovements();
-    }
-
-    board.getPiece = function(coordinate ){
-        return this.pieces[coordinate];
-    }
-
-    board.isEmptySquare = function(coordinate) {
-        return this.pieces[coordinate].isEmpty();
-    }
-
-    board.isWhitePiece = function(coordinate) {
-        return this.pieces[coordinate].isWhite();
-    }
-
-    board.isBlackPiece = function(coordinate) {
-        return !this.pieces[coordinate].isWhite();
     }
 
     board.getBoardPieceNames = function() {
@@ -123,7 +105,7 @@ function createBoard() {
         const previousState = this.createMemento();
         for (let coord of this.getAllCoordinatesByColor(color)) {
             for (let mov of this.movementsFromTheCoordinate(this.pieces[coord].position)) {
-                this.performMovement(this.pieces[coord].position, mov);
+                this.move(this.pieces[coord].position, mov);
                 if (!this.isColorOnCheck(color)) {
                     this.setMemento(previousState);
                     return false;

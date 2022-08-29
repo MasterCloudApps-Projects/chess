@@ -3,7 +3,7 @@ import { createAbstractMovement } from "./abstractMovement.js";
 function createPieceMovement(){
     let pieceMovement = createAbstractMovement();
 
-    pieceMovement.move = function (origin, destination, pieces) {
+    pieceMovement.isPossibleMove = function (origin, destination, pieces) {
         this.updateCurrentPosition(origin, pieces);
         return (this.getPossibleMovements().includes(destination));
     };

@@ -8,8 +8,8 @@ function createPiece(name, fullName, color, position) {
     piece.color = color;
     piece.position = position;
 
-    piece.performMovement = function(destination, pieces) {
-        return this.movement.move(this.position, destination, pieces);
+    piece.isPossibleMove = function(destination, pieces) {
+        return this.movement.isPossibleMove(this.position, destination, pieces);
     }
 
     piece.getPossibleMovements = function(pieces) {

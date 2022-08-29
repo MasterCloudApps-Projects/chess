@@ -11,7 +11,7 @@ const gameStatus = {
 }
 
 function createGame(uuid) {
-    let game = initializeGame();
+    let game = {};
     game.uuid = uuid;
     game.gameStatus = gameStatus.pending;
     game.turn = pieceTypes.white;
@@ -19,18 +19,13 @@ function createGame(uuid) {
     game.board = boardBuilder().usingInitialPieceDisposition().build();
     game.cpuPlayer = cpuPlayer();
     game.registry = createRegistry(game.board);
-    return game;
-}
-
-function initializeGame() {
-    let game = {};
 
     game.play = function(movementOrigin, movementDestination) {
         if(this.board.getAllCoordinatesByColor(pieceTypes.white).length == 0){
             endGame(this);
             return createMessage('Black player wins');        }
 
-        this.board.move(movementOrigin, movementDestination, pieceTypes.white);
+        this.board.tryMove(movementOrigin, movementDestination, pieceTypes.white);
 
         if(this.board.hasError())
             return createErrorMessage(this.board.getErrorMessage());
