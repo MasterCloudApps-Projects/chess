@@ -3,14 +3,12 @@ import { pieceTypes } from '../pieces/pieceType.js';
 function cpuPlayer() {
     let player = {};
 
-    player.performRandomMovement = function(board) {
-        let movement;
+    player.performRandomMovement = function(game) {
+        let movement, result;
         do {
-            movement = getMovement(board);
-            if(!movement.error)
-                board.tryMove(movement.origin, movement.destination, pieceTypes.black);
-        } while (board.hasError());
-        return movement;
+            movement = getMovement(game.board);
+            result = game.play(movement.origin, movement.destination, pieceTypes.black);
+        } while (result.error);
     };
 
     return player;
@@ -24,7 +22,10 @@ function getMovement(board) {
     let origin = generateRandomMovement(origins);
     destinations = board.movementsFromTheCoordinate(origin)
 
-    return { origin: origin, destination: generateRandomMovement(destinations) }; //board.getAllEmptySquares()
+    return {
+        origin: origin,
+        destination: generateRandomMovement(destinations)
+    };
 }
 
 function generateRandomMovement(squares){

@@ -1,5 +1,6 @@
 import express from 'express';
 import { createGame } from './chess/game.js';
+import { cpuPlayer } from './chess/players/cpuPlayer.js';
 
 const router = express.Router();
 let games = [];
@@ -14,11 +15,13 @@ router.post('/game', (req, res) => {
 router.post('/move', (req, res) => {
     console.log(req.body);
     let game = games.find(g => g.uuid === req.body.gameUUID);
-    let movementMsg = game.play(req.body.movementOrigin, req.body.movementDestination);
+    let movementMsg = game.play(req.body.movementOrigin, req.body.movementDestination, 'white');
     if (movementMsg.error)
-        res.status(400).send(movementMsg);
-    else
+        return res.status(400).send(movementMsg);
+    else {
+        cpuPlayer().performRandomMovement(game);
         res.status(200).send(game.getBoardResponse());
+    }
 });
 
 router.post('/undo', (req, res) => {
