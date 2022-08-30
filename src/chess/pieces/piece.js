@@ -47,15 +47,13 @@ function createPiece(name, fullName, color, position) {
     return piece;
 }
 
-const pawnFirstPositions = {
-    'BP' : '7',
-    'WP' : '2'
-}
-
 // Constructor/Decorator functions for use on pieceFactory.js, not to be added to piece!
 const decorators = {
     decoratePawn: function decoratePawn(pawn) {
-        pawn.movement = movements.getPawnMovement();
+        const pawnFirstPositions = { 'BP' : '7', 'WP' : '2' }
+        pawn.movement = movements.getPawnMovement(
+            pawn.position.includes(pawnFirstPositions[pawn.name]),
+            !pawn.isWhite());
         pawn.isQueen = false;
         pawn.doAfterMovement = function () {
             this.movement.doAfterMovement(this.position);
@@ -66,8 +64,6 @@ const decorators = {
                 this.isQueen = true;
             }
         };
-        pawn.movement.isFirstMovement = pawn.position.includes(pawnFirstPositions[pawn.name]);
-        pawn.movement.isFromNorthSide = !pawn.isWhite();
         return pawn;
     },
 

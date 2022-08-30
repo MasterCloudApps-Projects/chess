@@ -1,9 +1,10 @@
 import { createPieceMovement } from "../pieceMovement.js";
 import { getRow } from '../../coordinate/coordinate.js'
 
-function getPawnMovement() {
+function getPawnMovement(isFirstMovement, isFromNorthSide) {
     let pawnMovement = createPieceMovement();
-    pawnMovement.isFirstMovement = true;
+    pawnMovement.isFirstMovement = isFirstMovement;
+    pawnMovement.isFromNorthSide = isFromNorthSide;
 
     pawnMovement.getPossibleMovements = function () {
         let possibleMovements = [];
