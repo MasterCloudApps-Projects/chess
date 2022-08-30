@@ -6,7 +6,6 @@ function getPawnMovement() {
     pawnMovement.isFirstMovement = true;
 
     pawnMovement.getPossibleMovements = function () {
-        this.checkIfFromNorthSide();
         let possibleMovements = [];
         possibleMovements.push(...getForwardMovements());
         possibleMovements.push(...getEatingMovements());
@@ -29,12 +28,6 @@ function getPawnMovement() {
     pawnMovement.attackMovements = function() {
         return getEatingMovements()
     };
-
-    pawnMovement.checkIfFromNorthSide = function () {
-        if (pawnMovement.isFirstMovement)
-            pawnMovement.isFromNorthSide = getRow(pawnMovement.currentPosition) >= 5;
-        return pawnMovement.isFromNorthSide;
-    }
 
     function getForwardMovements() {
         let movements = [];

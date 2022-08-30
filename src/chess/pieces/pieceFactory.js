@@ -31,9 +31,9 @@ function createFactory() {
         return decorators.decorateKing(king);
     }
 
-    factory.getPawn = function (position, isFirstMovement, isFromNorthSide) {
+    factory.getPawn = function (position) {
         let pawn = this._getPawn(position);
-        return decorators.decoratePawn(pawn, isFirstMovement, isFromNorthSide);
+        return decorators.decoratePawn(pawn);
     }
 
     function factoryMethodGetRook(position) {};
