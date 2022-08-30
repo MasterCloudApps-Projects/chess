@@ -1,37 +1,91 @@
-function getBackendURL(endpoint = '') {
-    return 'http://localhost:3000' + endpoint;
-}
+import { http } from './restClient.js';
 
-function createMovementManagement() {
+function initializeGameManagement() {
     let movementOriginTemp;
+    let gameUUID;
+    let temporalSelectionColor = '#CDFAFA';
 
-    function selectPositionForMovement(positionId) {
+    async function initializeGame() {
+        gameUUID = crypto.randomUUID();
+        const resMsg = await http('/game', 'POST', {gameUUID: gameUUID});
+        if(resMsg.error){
+            console.log('Error initializing game, trying again...');
+            gameUUID = undefined;
+            setTimeout(() => {initializeGame()}, 1500);
+        }
+        else{
+            console.log('Game successfully initialized');
+            paintBoardOnHTML(resMsg.data);
+        }
+    }
+
+    function getGameUUID() {
+        return gameUUID;
+    }
+
+    async function selectPositionForMovement(positionId) {
+        if (gameUUID === undefined)
+            return;
         if (movementOriginTemp === undefined) {
             movementOriginTemp = positionId;
+            paintSelectedBoardTile(temporalSelectionColor, positionId);
             return;
         }
-        $.ajax({
-            url: getBackendURL('/move'),
-            method: 'POST',
-            data: JSON.stringify({
-                movementOrigin: movementOriginTemp,
-                movementDestination: positionId
-            }),
-            contentType: 'application/json; charset=utf-8',
-            success: (newBoardData) => {
-                movementOriginTemp = undefined;
-                paintBoardOnHTML(newBoardData);
-            },
-            error: (err) => {
-                // Movement wasn't valid (moving empty cell, a not owned piece, other cases)
-                // TODO: Show error on HTML
-                console.log(err);
-            }
+        removeBoardTilePaint(movementOriginTemp);
+        const resMsg = await http('/move', 'POST', {
+            gameUUID: gameUUID,
+            movementOrigin: movementOriginTemp,
+            movementDestination: positionId
         });
+        if(resMsg.error){
+                console.log(resMsg.errorMessage);
+                paintErrorsOnHTML([resMsg.errorMessage]);
+        }
+        else{
+            paintBoardOnHTML(resMsg.data);
+            paintErrorsOnHTML([]);
+        }
+        movementOriginTemp = undefined;
+    };
+
+    async function undo(){
+        if (gameUUID === undefined)
+            return;
+        const resMsg = await http('/undo', 'POST', {
+            gameUUID: gameUUID
+        });
+        if(resMsg.error){
+                console.log(resMsg.errorMessage);
+                paintErrorsOnHTML([resMsg.errorMessage]);
+        }
+        else{
+            paintBoardOnHTML(resMsg.data);
+            paintErrorsOnHTML([]);
+        }
+    };
+
+    async function redo(){
+        if (gameUUID === undefined)
+            return;
+        const resMsg = await http('/redo', 'POST', {
+            gameUUID: gameUUID
+        });
+        if(resMsg.error){
+                console.log(resMsg.errorMessage);
+                paintErrorsOnHTML([resMsg.errorMessage]);
+        }
+        else{
+            paintBoardOnHTML(resMsg.data);
+            paintErrorsOnHTML([]);
+        }
     };
 
     return {
-        selectPositionForMovement
+        initializeGame,
+        getGameUUID,
+        selectPositionForMovement,
+        undo,
+        redo
     };
 
 }
@@ -40,15 +94,44 @@ function paintBoardOnHTML(boardData) {
     for (let i = 1; i <= 8; i++)
         for (let letter = 0; letter < "abcdefgh".length; letter++) {
             let currentID = "abcdefgh"[letter] + i.toString();
-            document.getElementById(currentID).innerHTML = boardData[currentID];
+            document.getElementById(currentID).innerHTML = "";
+            if (boardData[currentID] !== '_')
+                document.getElementById(currentID).innerHTML = "<img class='piece' src='./icons/" + boardData[currentID] + ".png' />";
          }
 }
 
-function setCellOnClickEvents() {
-    let movementManagement = createMovementManagement();
+function paintSelectedBoardTile(color, tileID) {
+    document.getElementById(tileID).style = 'background-color: ' + color + ' !important;';
+}
+
+function removeBoardTilePaint(tileID) {
+    document.getElementById(tileID).style = '';
+}
+
+function paintErrorsOnHTML(errorArray) {
+    let errorHTML = '';
+    for (let i in errorArray) {
+        errorHTML += "<span class='errorMessage'>" + errorArray[i] + "</span><br>";
+    }
+    document.getElementById('errorMessages').innerHTML = errorHTML;
+}
+
+function prepareGameAndClickEvents() {
+    let gameManager = initializeGameManagement();
+    gameManager.initializeGame();
     $('.cell').each(function(i, cell) {
-        cell.onclick = function() { movementManagement.selectPositionForMovement(cell.id) };
+        cell.onclick = function() { gameManager.selectPositionForMovement(cell.id) };
+    });
+    $('.undo').each(function(i, btn){
+        btn.onclick = function(){
+            gameManager.undo();
+        }
+    });
+    $('.redo').each(function(i, btn){
+        btn.onclick = function(){
+            gameManager.redo();
+        }
     });
 }
 
-setCellOnClickEvents();
+prepareGameAndClickEvents();

@@ -1,13 +1,22 @@
+:root {
+    --cellSideLength: 40px;
+    --minusHalfCellSideLength: -20px;
+    --clearTileColor: #FFF4AB;
+    --darkTileColor: #ca6c13;
+  }
+
 h1 {
     margin: 1% auto 1% auto;
     text-align: center;
 }
 
 #chessboard {
+    position: relative;
     margin: 1% auto 1% auto;
+    left: var(--minusHalfCellSideLength); /* To ignore coordinate index's extra width */
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: repeat(8, 1fr);
+    grid-template-rows: repeat(9, 1fr);
     align-items: center;
     justify-items: center;
     row-gap: 1px;
@@ -15,7 +24,7 @@ h1 {
 
 .boardRow {
     display: grid;
-    grid-template-columns: repeat(8, 1fr);
+    grid-template-columns: repeat(9, 1fr);
     grid-template-rows: 1fr;
     column-gap: 1px;
 }
@@ -23,11 +32,60 @@ h1 {
 .cell {
     text-align: center;
     border: 1px solid black;
-    line-height: 40px;
-    height: 40px;
-    width: 40px;
+    line-height: var(--cellSideLength);
+    height: var(--cellSideLength);
+    width: var(--cellSideLength);
+    background-color: var(--clearTileColor);
+    text-shadow: 1px 1px 2px #ffffff;
+}
+
+.coordinateIndex {
+    border: 1px solid #ffffff00;
+    text-align: center;
+    line-height: var(--cellSideLength);
+    height: var(--cellSideLength);
+    width: var(--cellSideLength);
+    font-size: 0.75em;
+}
+
+#coordA, #coordC, #coordE, #coordG,
+#coord1, #coord3, #coord5, #coord7  {
+    color: var(--darkTileColor)
+}
+
+img.piece {
+    max-height: var(--cellSideLength);
+    max-width: var(--cellSideLength);
+    height: auto;
+    width: auto;
 }
 
 .cell:hover {
-    background-color: #e46363;
+    background-color: #498df3 !important;
+}
+
+div.boardRow:nth-child(2n+1) div.cell:nth-child(2n+0),
+div.boardRow:nth-child(2n+0) div.cell:nth-child(2n+1) {
+    background-color: var(--darkTileColor);
+}
+
+#errorMessages {
+    margin: auto;
+    text-align: center;
+    font-size: 2.5em;
+    color: #ca4713;
+}
+
+#undoredo{
+    display: flex;
+    justify-content: center;
+}
+
+.undo{
+    margin: 0 6%;
+}
+
+.redo{
+    margin: 0 6%;
+    transform: rotateY(180deg);
 }

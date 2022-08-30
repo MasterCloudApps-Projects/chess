@@ -68,12 +68,45 @@ function createCounter () {
   };
 }
 ```
-### Dependency injection
+### Dependency injection:
 Dependency injection can also be approached with ES modules since functions can also receive parameters. Classes must be used only when it is not possible to implement a specific design pattern otherwise.
-
 
 ## Project Structure
 TBD
 
 ## Design Pattern Implementation
-TBD
+### Creational patterns
+- [Factory]()
+- [Factory Method]()
+- [Builder]()
+### Behavioral patterns
+- [Strategy](#strategy-pattern)
+- [Memento]()
+### Structural patterns
+- [Composite]()
+- [Decorator]()
+
+#### Factory pattern
+Piece creation is handled by color factories.
+
+#### Factory method
+Piece factories define concrete piece objects by using a factory method only implemented on child modules.
+
+#### Builder
+Board creation and initialization is done via a builder pattern.
+
+#### Strategy pattern
+Used to manage how pieces move across the board. As so, several movement strategies exist to implement each kind of piece, which can also be swapped during execution. This is the case of the pawn piece turning into a queen when reaching the end of the board, which was solved smoothly by using this pattern.
+
+ <p align="center">
+    <img src=".readme/movementStrategyPatternDiagram.png" />
+ </p>
+
+#### Memento
+Undo/Redo functionality is implemented by a memento pattern, which is also used to simulate movements when calculating checkmate possibilities.
+
+#### Composite
+The Queen movement strategy is implemented via a composite movement of both Rook and Bishop movement strategies.
+
+#### Decorator
+Attributes, and some functionality specific to certain piece types, are added via a series of decorator functions called from the piece factory during piece creation.

@@ -3,25 +3,32 @@
     <meta charset="utf-8" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./css/boardStyle.css">
+    <script type="module" src="./js/restClient.js"></script>
     <script type="module" src="./js/main.js"></script>
     <title>Patterned NodeJS</title>
 </head>
 
 <body>
     <h1> Patterned NodeJS Chess </h1>
+    <div id="undoredo">
+        <div class="undo"><img class='piece' src='./icons/undo.png' /></div>
+        <div class="redo"><img class='piece' src='./icons/undo.png'></div>
+    </div>
     <div id="chessboard">
         <!-- Topmost row is black king row, bottom row is white king  -->
         <div class="boardRow">
+            <div class="coordinateIndex" id="coord8">8</div>
             <div class="cell" id="a8">BR</div>
             <div class="cell" id="b8">BH</div>
             <div class="cell" id="c8">BB</div>
-            <div class="cell" id="d8">BQ</div>
-            <div class="cell" id="e8">BK</div>
+            <div class="cell" id="d8">BK</div>
+            <div class="cell" id="e8">BQ</div>
             <div class="cell" id="f8">BB</div>
             <div class="cell" id="g8">BH</div>
             <div class="cell" id="h8">BR</div>
         </div>
         <div class="boardRow">
+            <div class="coordinateIndex" id="coord7">7</div>
             <div class="cell" id="a7">BP</div>
             <div class="cell" id="b7">BP</div>
             <div class="cell" id="c7">BP</div>
@@ -32,6 +39,7 @@
             <div class="cell" id="h7">BP</div>
         </div>
         <div class="boardRow">
+            <div class="coordinateIndex" id="coord6">6</div>
             <div class="cell" id="a6">_</div>
             <div class="cell" id="b6">_</div>
             <div class="cell" id="c6">_</div>
@@ -40,8 +48,9 @@
             <div class="cell" id="f6">_</div>
             <div class="cell" id="g6">_</div>
             <div class="cell" id="h6">_</div>
-        </div>        
+        </div>
         <div class="boardRow">
+            <div class="coordinateIndex" id="coord5">5</div>
             <div class="cell" id="a5">_</div>
             <div class="cell" id="b5">_</div>
             <div class="cell" id="c5">_</div>
@@ -52,6 +61,7 @@
             <div class="cell" id="h5">_</div>
         </div>
         <div class="boardRow">
+            <div class="coordinateIndex" id="coord4">4</div>
             <div class="cell" id="a4">_</div>
             <div class="cell" id="b4">_</div>
             <div class="cell" id="c4">_</div>
@@ -62,6 +72,7 @@
             <div class="cell" id="h4">_</div>
         </div>
         <div class="boardRow">
+            <div class="coordinateIndex" id="coord3">3</div>
             <div class="cell" id="a3">_</div>
             <div class="cell" id="b3">_</div>
             <div class="cell" id="c3">_</div>
@@ -72,6 +83,7 @@
             <div class="cell" id="h3">_</div>
         </div>
         <div class="boardRow">
+            <div class="coordinateIndex" id="coord2">2</div>
             <div class="cell" id="a2">WP</div>
             <div class="cell" id="b2">WP</div>
             <div class="cell" id="c2">WP</div>
@@ -82,14 +94,28 @@
             <div class="cell" id="h2">WP</div>
         </div>
         <div class="boardRow">
+            <div class="coordinateIndex" id="coord1">1</div>
             <div class="cell" id="a1">WR</div>
             <div class="cell" id="b1">WH</div>
             <div class="cell" id="c1">WB</div>
-            <div class="cell" id="d1">WQ</div>
-            <div class="cell" id="e1">WK</div>
+            <div class="cell" id="d1">WK</div>
+            <div class="cell" id="e1">WQ</div>
             <div class="cell" id="f1">WB</div>
-            <div class="cell" id="g1">WH</div>   
+            <div class="cell" id="g1">WH</div>
             <div class="cell" id="h1">WR</div>
+        </div>
+        <div class="boardRow">
+            <div class="coordinateIndex"></div>
+            <div class="coordinateIndex" id="coordA">a</div>
+            <div class="coordinateIndex" id="coordB">b</div>
+            <div class="coordinateIndex" id="coordC">c</div>
+            <div class="coordinateIndex" id="coordD">d</div>
+            <div class="coordinateIndex" id="coordE">e</div>
+            <div class="coordinateIndex" id="coordF">f</div>
+            <div class="coordinateIndex" id="coordG">g</div>
+            <div class="coordinateIndex" id="coordH">h</div>
+        </div>
     </div>
+    <div id="errorMessages"></div>
 </body>
 </html>
