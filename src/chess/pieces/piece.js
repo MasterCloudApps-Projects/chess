@@ -67,7 +67,7 @@ const decorators = {
             }
         };
         pawn.movement.isFirstMovement = pawn.position.includes(pawnFirstPositions[pawn.name]);
-        pawn.movement.isFromNorthSide = pawn.color === pieceTypes.black;
+        pawn.movement.isFromNorthSide = !pawn.isWhite();
         return pawn;
     },
 
