@@ -1,7 +1,7 @@
-import { createAbstractMovement } from "./abstractMovement.js";
+import { createAbstractMoveRule } from "./abstractMoveRule.js";
 
-function createPieceMovement(){
-    let pieceMovement = createAbstractMovement();
+function createPieceMoveRule(){
+    let pieceMovement = createAbstractMoveRule();
 
     pieceMovement.isPossibleMove = function (origin, destination, pieces) {
         this.updateCurrentPosition(origin, pieces);
@@ -24,5 +24,5 @@ function createPieceMovement(){
 }
 
 export {
-    createPieceMovement
+    createPieceMoveRule
 }

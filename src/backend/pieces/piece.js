@@ -1,4 +1,4 @@
-import { movements } from "../movements/movementsEnum.js";
+import { moveRules } from "../moveRules/MoveRuleEnum.js";
 import { pieceTypes } from './pieceType.js';
 
 function createPiece(name, fullName, color, position) {
@@ -51,14 +51,14 @@ function createPiece(name, fullName, color, position) {
 const decorators = {
     decoratePawn: function decoratePawn(pawn) {
         const pawnFirstPositions = { 'BP' : '7', 'WP' : '2' }
-        pawn.movement = movements.getPawnMovement(
+        pawn.movement = moveRules.getPawnMoveRule(
             pawn.position.includes(pawnFirstPositions[pawn.name]),
             !pawn.isWhite());
         pawn.isQueen = false;
         pawn.doAfterMovement = function () {
             this.movement.doAfterMovement(this.position);
             if (!this.isQueen && this.movement.shouldTurnToQueen()) {
-                this.movement = movements.getQueenMovement();
+                this.movement = moveRules.getQueenMoveRule();
                 this.fullName = this.fullName.replace('pawn', 'queen')
                 this.name = this.name.replace('P', 'Q');
                 this.isQueen = true;
@@ -68,27 +68,27 @@ const decorators = {
     },
 
     decorateRook: function decorateRook(rook) {
-        rook.movement = movements.getRookMovement();
+        rook.movement = moveRules.getRookMoveRule();
         return rook;
     },
 
     decorateBishop: function decorateBishop(bishop) {
-        bishop.movement = movements.getBishopMovement();
+        bishop.movement = moveRules.getBishopMoveRule();
         return bishop;
     },
 
     decorateHorse: function decorateHorse(horse) {
-        horse.movement = movements.getHorseMovement();
+        horse.movement = moveRules.getHorseMoveRule();
         return horse;
     },
 
     decorateQueen: function decorateQueen(queen) {
-        queen.movement = movements.getQueenMovement();
+        queen.movement = moveRules.getQueenMoveRule();
         return queen;
     },
 
     decorateKing: function decorateKing(king) {
-        king.movement = movements.getKingMovement();
+        king.movement = moveRules.getKingMoveRule();
         return king;
     }
 };
