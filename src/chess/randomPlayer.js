@@ -1,15 +1,6 @@
-import { pieceTypes } from '../pieces/pieceType.js';
+import { pieceTypes } from './pieces/pieceType.js';
 
-function cpuPlayer() {
-    let player = {};
-
-    player.performRandomMovement = function(game) {
-        let movement, result;
-        do {
-            movement = getMovement(game.board);
-            result = game.play(movement.origin, movement.destination, pieceTypes.black);
-        } while (result.error);
-    };
+function randomPlayer() {
 
     function getMovement(board) {
         let origins;
@@ -32,9 +23,17 @@ function cpuPlayer() {
         return squares[Math.floor(Math.random()*(squares.length - 1))];
     }
 
-    return player;
+    return  {
+        performRandomMovement: function(game) {
+            let movement, result;
+            do {
+                movement = getMovement(game.board);
+                result = game.play(movement.origin, movement.destination, pieceTypes.black);
+            } while (result.error);
+        }
+    }
 }
 
 export {
-    cpuPlayer
+    randomPlayer
 }

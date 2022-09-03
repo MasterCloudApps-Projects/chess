@@ -1,6 +1,6 @@
 import express from 'express';
 import { createGame } from './chess/game.js';
-import { cpuPlayer } from './chess/players/cpuPlayer.js';
+import { randomPlayer } from './chess/randomPlayer.js';
 
 const router = express.Router();
 let games = [];
@@ -20,7 +20,7 @@ router.post('/move', (req, res) => {
         return res.status(400).send(movementMsg);
     if (game.isGameFinished())
         return res.status(200).send(game.getBoardResponse());
-    cpuPlayer().performRandomMovement(game);
+    randomPlayer().performRandomMovement(game);
     res.status(200).send(game.getBoardResponse());
 
 });
