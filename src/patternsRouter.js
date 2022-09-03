@@ -1,6 +1,6 @@
 import express from 'express';
-import { createGame } from './chess/game.js';
-import { randomPlayer } from './chess/randomPlayer.js';
+import { createGame } from './backend/game.js';
+import { randomPlayer } from './backend/randomPlayer.js';
 
 const router = express.Router();
 let games = [];
