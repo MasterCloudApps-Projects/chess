@@ -68,7 +68,6 @@ function createCounter () {
   };
 }
 ```
-
 ### Inheritance
 Using the [spread operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax), it is possible to return a object that augmentates (or extends) another object. As a consequence, inheritance is approached this way in the project:
 
@@ -171,21 +170,12 @@ TBD
 
 ## Design Pattern Implementation
 ### Creational patterns
-- [Factory]()
-- [Factory Method]()
 - [Builder]()
 ### Behavioral patterns
 - [Strategy](#strategy-pattern)
 - [Memento]()
 ### Structural patterns
 - [Composite]()
-- [Decorator]()
-
-#### Factory pattern
-Piece creation is handled by color factories.
-
-#### Factory method
-Piece factories define concrete piece objects by using a factory method only implemented on child modules.
 
 #### Builder
 Board creation and initialization is done via a builder pattern.
@@ -202,6 +192,3 @@ Undo/Redo functionality is implemented by a memento pattern, which is also used 
 
 #### Composite
 The Queen movement strategy is implemented via a composite movement of both Rook and Bishop movement strategies.
-
-#### Decorator
-Attributes, and some functionality specific to certain piece types, are added via a series of decorator functions called from the piece factory during piece creation.
