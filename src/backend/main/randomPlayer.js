@@ -1,4 +1,4 @@
-import { pieceTypes } from './pieces/pieceType.js';
+import { pieceTypes } from '../piece/pieceType.js';
 
 function randomPlayer() {
 

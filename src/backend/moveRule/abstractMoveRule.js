@@ -1,5 +1,4 @@
-import {incrementColumn, incrementRow, decreaseColumn, decreaseRow} from '../coordinate/coordinate.js';
-import { moveRules } from './MoveRuleEnum.js';
+import {incrementColumn, incrementRow, decreaseColumn, decreaseRow} from './coordinate.js';
 
 function createAbstractMoveRule() {
     //TODO:

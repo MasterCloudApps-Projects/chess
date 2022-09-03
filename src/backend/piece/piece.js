@@ -1,4 +1,4 @@
-import { moveRules } from "../moveRules/MoveRuleEnum.js";
+import { moveRules } from "../moveRule/MoveRuleEnum.js";
 import { pieceTypes } from './pieceType.js';
 
 function createPiece(name, fullName, color, position) {

@@ -1,5 +1,5 @@
 import { createPieceMoveRule } from "./pieceMoveRule.js";
-import { getRow } from "../coordinate/coordinate.js";
+import { getRow } from "./coordinate.js";
 
 function getPawnMoveRule(isFirstMovement, isFromNorthSide) {
     let moveRule = createPieceMoveRule();

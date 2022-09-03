@@ -1,7 +1,7 @@
 import { boardBuilder } from './boardBuilder.js';
 import { createRegistry } from './registry.js';
-import { createMessage, createErrorMessage } from './io/message.js';
-import { pieceTypes, getOppositeColor } from './pieces/pieceType.js';
+import { createMessage, createErrorMessage } from './message.js';
+import { pieceTypes, getOppositeColor } from '../piece/pieceType.js';
 
 const gameStatus = {
     ongoing: 'ongoing',

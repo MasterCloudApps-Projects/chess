@@ -1,8 +1,8 @@
-import { pieceTypes, getOppositeColor } from './pieces/pieceType.js';
-import { pieceNames, getKingForColor } from './pieces/pieceName.js';
-import { factory as blackPieceFactory } from './pieces/blackPieceFactory.js';
-import { factory as whitePieceFactory } from './pieces/whitePieceFactory.js';
-import { getEmptyPiece } from './pieces/pieceFactory.js';
+import { pieceTypes, getOppositeColor } from '../piece/pieceType.js';
+import { pieceNames, getKingForColor } from '../piece/pieceName.js';
+import { factory as blackPieceFactory } from '../piece/blackPieceFactory.js';
+import { factory as whitePieceFactory } from '../piece/whitePieceFactory.js';
+import { getEmptyPiece } from '../piece/pieceFactory.js';
 
 function createBoard() {
     let board = {};

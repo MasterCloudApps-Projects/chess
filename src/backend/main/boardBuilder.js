@@ -1,8 +1,8 @@
 import { createBoard } from './board.js';
-import { pieceTypes } from './pieces/pieceType.js';
-import { pieceNames } from './pieces/pieceName.js';
-import { factory as blackPieceFactory } from './pieces/blackPieceFactory.js';
-import { factory as whitePieceFactory } from './pieces/whitePieceFactory.js';
+import { pieceTypes } from '../piece/pieceType.js';
+import { pieceNames } from '../piece/pieceName.js';
+import { factory as blackPieceFactory } from '../piece/blackPieceFactory.js';
+import { factory as whitePieceFactory } from '../piece/whitePieceFactory.js';
 
 function boardBuilder() {
     let board = createBoard();
