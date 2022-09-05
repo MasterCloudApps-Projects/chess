@@ -195,4 +195,8 @@ Used to manage how pieces move across the board. As so, several movement strateg
 Undo/Redo functionality is implemented by a memento pattern, which is also used to simulate movements when calculating checkmate possibilities.
 
 #### Composite
-The Queen movement strategy is implemented via a composite movement of both Rook and Bishop movement strategies.
+The Queen movement strategy is implemented via a composite movement of both Rook and Bishop movement strategies, while still operating the same as a normal piece movement rule.
+
+<p align="center">
+    <img src=".readme/queenCompositePatternDiagram.png" />
+</p>
