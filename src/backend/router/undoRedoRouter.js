@@ -1,5 +1,5 @@
 import express from 'express';
-import { findById } from '../main/gamehistory.js'
+import { findById } from '../main/gameHistory.js'
 
 const undoRedoRouter = express.Router();
 
