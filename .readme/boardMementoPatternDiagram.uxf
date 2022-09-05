@@ -1,13 +1,57 @@
-<diagram program="umletino" version="15.0.0"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>790</x><y>190</y><w>160</w><h>90</h></coordinates><panel_attributes>board.js
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.0.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>830</x>
+      <y>190</y>
+      <w>190</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>board.js
 bg=orange
 --
 - pieces : Piece []
 --
 + createMemento ()
-- setMemento (memento)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>470</x><y>120</y><w>360</w><h>30</h></coordinates><panel_attributes>Board Memento - Memento Pattern ES6 Module Structure
-bg=cyan</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>340</x><y>200</y><w>150</w><h>50</h></coordinates><panel_attributes>game.js
+- setMemento (memento)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>460</x>
+      <y>120</y>
+      <w>430</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>Board Memento - Memento Pattern ES6 Module Structure
+bg=cyan</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>380</x>
+      <y>200</y>
+      <w>150</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>game.js
 --
-- registry : Registry</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>560</x><y>190</y><w>170</w><h>150</h></coordinates><panel_attributes>registry.js
+- registry : Registry</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>590</x>
+      <y>190</y>
+      <w>200</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>registry.js
 bg=orange
 --
 - mementos : string []
@@ -19,4 +63,29 @@ bg=orange
 + redo ()
 + isUndoable ()
 + isRedoable ()
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>480</x><y>220</y><w>100</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>80;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>720</x><y>220</y><w>90</w><h>30</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>70;10;10;10</additional_attributes></element></diagram>
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>520</x>
+      <y>220</y>
+      <w>90</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;&gt;&gt;&gt;</panel_attributes>
+    <additional_attributes>70.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>780</x>
+      <y>220</y>
+      <w>70</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>50.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>
