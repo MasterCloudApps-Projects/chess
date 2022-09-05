@@ -1,7 +1,7 @@
 import express from 'express';
 import { createGame } from '../main/game.js';
 import { randomPlayer } from '../main/randomPlayer.js';
-import { save, findById } from '../main/gamehistory.js'
+import { save, findById } from '../main/gameHistory.js'
 
 const gameRouter = express.Router();
 
