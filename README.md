@@ -170,22 +170,26 @@ TBD
 
 ## Design Pattern Implementation
 ### Creational patterns
-- [Builder]()
+- [Builder](#builder)
 ### Behavioral patterns
 - [Strategy](#strategy-pattern)
-- [Memento]()
+- [Memento](#memento)
 ### Structural patterns
-- [Composite]()
+- [Composite](#composite)
 
 #### Builder
-Board creation and initialization is done via a builder pattern.
+Board creation and initialization is done via a builder pattern, which accepts custom board layouts as strings and features default ones.
+
+<p align="center">
+    <img src=".readme/boardBuilderPatternDiagram.png" />
+</p>
 
 #### Strategy pattern
 Used to manage how pieces move across the board. As so, several movement strategies exist to implement each kind of piece, which can also be swapped during execution. This is the case of the pawn piece turning into a queen when reaching the end of the board, which was solved smoothly by using this pattern.
 
- <p align="center">
+<p align="center">
     <img src=".readme/movementStrategyPatternDiagram.png" />
- </p>
+</p>
 
 #### Memento
 Undo/Redo functionality is implemented by a memento pattern, which is also used to simulate movements when calculating checkmate possibilities.
