@@ -17,6 +17,7 @@ function initializeGameManagement() {
             console.log('Game successfully initialized');
             paintBoardOnHTML(resMsg.data);
         }
+        updateUndoRedo();
     }
 
     function getGameUUID() {
@@ -46,6 +47,7 @@ function initializeGameManagement() {
             paintErrorsOnHTML([]);
         }
         movementOriginTemp = undefined;
+        updateUndoRedo();
     };
 
     async function undo(){
@@ -62,6 +64,7 @@ function initializeGameManagement() {
             paintBoardOnHTML(resMsg.data);
             paintErrorsOnHTML([]);
         }
+        updateUndoRedo();
     };
 
     async function redo(){
@@ -78,7 +81,23 @@ function initializeGameManagement() {
             paintBoardOnHTML(resMsg.data);
             paintErrorsOnHTML([]);
         }
+        updateUndoRedo();
     };
+
+    async function updateUndoRedo(){
+        if (gameUUID === undefined)
+            return;
+        const resMsg = await http('/undoableRedoable', 'POST', {
+            gameUUID: gameUUID
+        });
+        if(resMsg.error){
+                console.log(resMsg.errorMessage);
+                paintErrorsOnHTML([resMsg.errorMessage]);
+        }
+        else{
+            updateUndoRedoDisplay(resMsg.data.isUndoable, resMsg.data.isRedoable);
+        }
+    }
 
     return {
         initializeGame,
@@ -114,6 +133,11 @@ function paintErrorsOnHTML(errorArray) {
         errorHTML += "<span class='errorMessage'>" + errorArray[i] + "</span><br>";
     }
     document.getElementById('errorMessages').innerHTML = errorHTML;
+}
+
+function updateUndoRedoDisplay(undo, redo){
+    document.querySelector('.undo').style.visibility = undo ? 'visible' : 'hidden';
+    document.querySelector('.redo').style.visibility = redo ? 'visible' : 'hidden';
 }
 
 function prepareGameAndClickEvents() {

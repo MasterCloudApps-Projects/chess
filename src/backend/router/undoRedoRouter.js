@@ -15,6 +15,11 @@ undoRedoRouter.post('/redo', (req, res) => {
     res.status(200).send(game.getBoardResponse());
 });
 
+undoRedoRouter.post('/undoableRedoable', (req, res) => {
+    let game = findById(req.body.gameUUID);
+    res.status(200).send(game.undoableRedoable());
+});
+
 export {
     undoRedoRouter
 }

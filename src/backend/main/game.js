@@ -56,6 +56,13 @@ function createGame(uuid) {
         return createMessage(this.board.getBoardPieceNames());
     }
 
+    game.undoableRedoable = function () {
+        return createMessage({
+            isUndoable: this.registry.isUndoable(),
+            isRedoable: this.registry.isRedoable()
+        });
+    }
+
     return game;
 }
 
