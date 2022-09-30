@@ -8,7 +8,9 @@ function getRookMoveRule() {
         'getNextSquareWest'
     ];
 
-    return createStraightLineMoveRule(motionCoordinate);
+    return {
+        ...createStraightLineMoveRule(motionCoordinate)
+    }
 }
 
 export {

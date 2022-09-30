@@ -3,18 +3,16 @@ import { createPieceMoveRule } from "./pieceMoveRule.js";
 function createStraightLineMoveRule(motionCoordinates) {
     let moveRule = createPieceMoveRule();
 
-    moveRule.motionCoordinates = motionCoordinates;
-
-    moveRule.getPossibleMovements = function ( ) {
+    function getPossibleMovements () {
         let possibleMovements = [];
-        for (let i=0; i < this.motionCoordinates.length; i++)
-            possibleMovements.push(...getMovements(this.motionCoordinates[i]));
+        for (let i=0; i < motionCoordinates.length; i++)
+            possibleMovements.push(...getMovements(motionCoordinates[i]));
         return possibleMovements;
     }
 
     function getMovements(nextCoordinate) {
         let movements = [];
-        let origin = moveRule.currentPosition;
+        let origin = moveRule.getCurrentPosition();
         let nextSquare = moveRule[nextCoordinate](origin);
         let possible = moveRule.isEmptyCoordinate(nextSquare) || moveRule.isOpposingColor(nextSquare);
 
@@ -29,7 +27,12 @@ function createStraightLineMoveRule(motionCoordinates) {
         return movements;
     }
 
-    return moveRule;
+    return {
+        ...moveRule,
+        ...{
+            getPossibleMovements
+        }
+    }
 }
 
 export {

@@ -7,7 +7,9 @@ function getBishopMoveRule() {
         'getNextSouthEastDiagonal',
         'getNextSouthWestDiagonal'
     ];
-    return createStraightLineMoveRule(motionCoordinates);
+    return {
+        ...createStraightLineMoveRule(motionCoordinates)
+    }
 }
 
 export {

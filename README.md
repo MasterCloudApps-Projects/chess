@@ -172,6 +172,7 @@ TBD
 ### Creational patterns
 - [Builder](#builder)
 ### Behavioral patterns
+- [Template Method](#template-metod)
 - [Strategy](#strategy-pattern)
 - [Memento](#memento)
 ### Structural patterns
@@ -183,6 +184,9 @@ Board creation and initialization is done via a builder pattern, which accepts c
 <p align="center">
     <img src=".readme/boardBuilderPatternDiagram.png" />
 </p>
+
+#### Template Method
+TBD
 
 #### Strategy pattern
 Used to manage how pieces move across the board. As so, several movement strategies exist to implement each kind of piece, which can also be swapped during execution. This is the case of the pawn piece turning into a queen when reaching the end of the board, which was solved smoothly by using this pattern.

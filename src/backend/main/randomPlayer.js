@@ -25,6 +25,7 @@ function randomPlayer() {
 
     return  {
         performRandomMovement: function(game) {
+            console.log("CPU performing movement...");
             let movement, result;
             do {
                 movement = getMovement(game.board);

@@ -3,7 +3,7 @@ import { createPieceMoveRule } from "./pieceMoveRule.js";
 function getKingMoveRule() {
     let moveRule = createPieceMoveRule();
 
-    moveRule.getPossibleMovements = function () {
+    function getPossibleMovements () {
         let possibleMovements = [];
         possibleMovements.push(...getMovements('getNextSquareNorth'));
         possibleMovements.push(...getMovements('getNextSquareSouth'));
@@ -19,14 +19,19 @@ function getKingMoveRule() {
 
     function getMovements(nextCoordinate) {
         let movements = [];
-        let origin = moveRule.currentPosition;
+        let origin = moveRule.getCurrentPosition();
         let nextSquare = moveRule[nextCoordinate](origin);
         if(moveRule.isEmptyCoordinate(nextSquare) || moveRule.isOpposingColor(nextSquare))
             movements.push(nextSquare)
         return movements;
     }
 
-    return moveRule;
+    return {
+        ...moveRule,
+        ...{
+            getPossibleMovements
+        }
+    }
 }
 
 export {

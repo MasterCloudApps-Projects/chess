@@ -1,26 +1,31 @@
 import { createAbstractMoveRule } from "./abstractMoveRule.js";
 
 function createPieceMoveRule(){
-    let pieceMovement = createAbstractMoveRule();
+    let absMovement = createAbstractMoveRule();
 
-    pieceMovement.isPossibleMove = function (origin, destination, pieces) {
-        this.updateCurrentPosition(origin, pieces);
+    // Function overriden on lower child level requires 'this', otherwise calls local empty implementation
+    function isPossibleMove (origin, destination, pieces) {
+        absMovement.updateCurrentPosition(origin, pieces);
         return (this.getPossibleMovements().includes(destination));
     };
 
-    pieceMovement.getAttackMovements = function(origin, pieces) {
-        this.updateCurrentPosition(origin, pieces);
-        return this.attackMovements();
-    }
-
-    pieceMovement.attackMovements = function() {
+    function getAttackMovements (origin, pieces) {
+        absMovement.updateCurrentPosition(origin, pieces);
         return this.getPossibleMovements();
     }
 
-    pieceMovement.getPossibleMovements = function () {};
-    pieceMovement.doAfterMovement = function () {};
+    function getPossibleMovements () {};
+    function doAfterMovement () {};
 
-    return pieceMovement;
+    return {
+        ...absMovement,
+        ...{
+            isPossibleMove,
+            getAttackMovements,
+            getPossibleMovements,
+            doAfterMovement
+        }
+    }
 }
 
 export {

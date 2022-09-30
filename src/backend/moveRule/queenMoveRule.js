@@ -7,15 +7,20 @@ function getQueenMoveRule() {
     let straightMovement = getRookMoveRule();
     let diagonalMovement = getBishopMoveRule();
 
-    moveRule.getPossibleMovements = function () {
-        straightMovement.updateCurrentPosition(this.currentPosition, this.boardPieces);
-        diagonalMovement.updateCurrentPosition(this.currentPosition, this.boardPieces);
+    function getPossibleMovements () {
+        straightMovement.updateCurrentPosition(moveRule.getCurrentPosition(), moveRule.getBoardPieces());
+        diagonalMovement.updateCurrentPosition(moveRule.getCurrentPosition(), moveRule.getBoardPieces());
         let movements = straightMovement.getPossibleMovements();
         movements.push(...diagonalMovement.getPossibleMovements());
         return movements;
     }
 
-    return moveRule;
+    return {
+        ...moveRule,
+        ...{
+            getPossibleMovements
+        }
+    }
 }
 
 export {
