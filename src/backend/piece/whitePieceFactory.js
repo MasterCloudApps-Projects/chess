@@ -1,33 +1,47 @@
 import { createFactory } from "./pieceFactory.js";
-import { createPiece } from "./piece.js";
 import { pieceTypes } from './pieceType.js';
 
-const factory = createFactory();
+function createWhiteFactory() {
+    //TODO: Pending to refactor white and with factory
+    const returned = createFactory();
+    const color = pieceTypes.white;
 
-factory._getRook = function (position) {
-    return createPiece('WR','white rook', pieceTypes.white, position);
+    function getRook(position){
+        return returned.getRook(color, position)
+    }
+
+    function getHorse(position){
+        return returned.getHorse(color, position)
+    }
+
+    function getBishop(position){
+        return returned.getBishop(color, position)
+    }
+
+    function getQueen(position){
+        return returned.getQueen(color, position)
+    }
+
+    function getKing(position){
+        return returned.getKing(color, position)
+    }
+
+    //TODO: Pending to add old pawn decorator functionality
+    function getPawn(position){
+        return returned.getPawn(color, position)
+    }
+
+    return {
+        ...returned,
+        ...{ getRook,
+        getHorse,
+        getBishop,
+        getQueen,
+        getKing,
+        getPawn }
+    }
 }
 
-factory._getHorse = function (position) {
-    return createPiece('WH','white horse', pieceTypes.white, position);
-}
-
-factory._getBishop = function (position) {
-    return createPiece('WB', 'white bishop', pieceTypes.white, position);
-}
-
-factory._getQueen = function (position) {
-    return createPiece('WQ', 'white queen', pieceTypes.white, position);
-}
-
-factory._getKing = function (position) {
-    return createPiece('WK', 'white king', pieceTypes.white, position);
-}
-
-factory._getPawn = function (position) {
-    return createPiece('WP', 'white pawn', pieceTypes.white, position);
-}
-
-export {
-    factory
+export{
+    createWhiteFactory
 }

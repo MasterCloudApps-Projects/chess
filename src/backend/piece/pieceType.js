@@ -1,13 +1,22 @@
 const pieceTypes = {
-	white: 'white',
-	black: 'black',
-    empty: 'empty'
+    white :{
+        abbreviate : 'W',
+        name: 'white'
+    },
+    black :{
+        abbreviate : 'B',
+        name: 'black'
+    },
+    empty: {
+        abbreviate: '',
+        name: 'empty'
+    }
 }
 
 function getOppositeColor(color) {
-    if (color === pieceTypes.black)
-        return pieceTypes.white
-    return pieceTypes.black;
+    if (color === pieceTypes.black.name)
+        return pieceTypes.white.name
+    return pieceTypes.black.name;
 }
 
 export {

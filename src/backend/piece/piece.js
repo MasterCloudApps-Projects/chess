@@ -1,99 +1,87 @@
-import { moveRules } from "../moveRule/moveRules.js";
 import { pieceTypes } from './pieceType.js';
 
-function createPiece(name, fullName, color, position) {
-    let piece = {};
-    piece.name = name;
-    piece.fullName = fullName;
-    piece.color = color;
-    piece.position = position;
+function createPiece(pieceName, pieceFullName, pieceColor, piecePosition, pieceMovement) {
+    let name = pieceName;
+    let fullName = pieceFullName;
+    let color = pieceColor;
+    let position = piecePosition;
+    let movement = pieceMovement;
 
-    piece.isPossibleMove = function(destination, pieces) {
-        return this.movement.isPossibleMove(this.position, destination, pieces);
+    function getName() {
+        return name;
     }
 
-    piece.getPossibleMovements = function(pieces) {
-        return this.movement.getPossibleMovements(this.position, pieces);
+    function getFullName() {
+        return fullName;
     }
 
-    piece.doAfterMovement = function() {
-        this.movement.doAfterMovement(this.position);
+    function getPosition() {
+        return position;
     }
 
-    piece.getAttackPositions = function(pieces) {
-        return this.movement.getAttackMovements(this.position, pieces);
+    function setPosition(positionPiece) {
+        position = positionPiece;
     }
 
-    piece.isWhite = function() {
-        return this.color === pieceTypes.white;
+
+    function updateCurrentPosition(origin, pieces) {
+        movement.updateCurrentPosition(origin, pieces);
     }
 
-    piece.isOpposingColor = function(piece) {
-        return this.color !== piece.color && !piece.isEmpty();
+    function isPossibleMove(destination, pieces) {
+        return movement.isPossibleMove(position, destination, pieces);
     }
 
-    piece.isOfColor = function(color) {
-        return this.color === color;
+    function getPossibleMovements(pieces) {
+        return movement.getPossibleMovements(position, pieces);
     }
 
-    piece.isEmpty = function() {
-        return this.color === pieceTypes.empty;
+    function doAfterMovement() {
+        movement.doAfterMovement(position);
     }
 
-    piece.getMovementError = function() {
-        return this.movement.getErrorMessages();
+    function getAttackPositions(pieces) {
+        return movement.getAttackMovements(position, pieces);
     }
 
-    return piece;
+    function isWhite() {
+        return color === pieceTypes.white.name;
+    }
+
+    function isOpposingColor(piece) {
+        return color !== piece.color && !piece.isEmpty();
+    }
+
+    function isOfColor(colorParam) {
+        return color === colorParam;
+    }
+
+    function isEmpty() {
+        return color === pieceTypes.empty.name;
+    }
+
+    function getMovementError() {
+        return movement.getErrorMessages();
+    }
+
+    return {
+        getName,
+        getFullName,
+        getPosition,
+        setPosition,
+        isPossibleMove,
+        getPossibleMovements,
+        doAfterMovement,
+        getAttackPositions,
+        isWhite,
+        isOpposingColor,
+        isOfColor,
+        isEmpty,
+        getMovementError,
+        updateCurrentPosition
+    };
 }
-
-// Constructor/Decorator functions for use on pieceFactory.js, not to be added to piece!
-const decorators = {
-    decoratePawn: function decoratePawn(pawn) {
-        const pawnFirstPositions = { 'BP' : '7', 'WP' : '2' }
-        pawn.movement = moveRules.getPawnMoveRule(
-            pawn.position.includes(pawnFirstPositions[pawn.name]),
-            !pawn.isWhite());
-        pawn.isQueen = false;
-        pawn.doAfterMovement = function () {
-            this.movement.doAfterMovement(this.position);
-            if (!this.isQueen && this.movement.shouldTurnToQueen()) {
-                this.movement = moveRules.getQueenMoveRule();
-                this.fullName = this.fullName.replace('pawn', 'queen')
-                this.name = this.name.replace('P', 'Q');
-                this.isQueen = true;
-            }
-        };
-        return pawn;
-    },
-
-    decorateRook: function decorateRook(rook) {
-        rook.movement = moveRules.getRookMoveRule();
-        return rook;
-    },
-
-    decorateBishop: function decorateBishop(bishop) {
-        bishop.movement = moveRules.getBishopMoveRule();
-        return bishop;
-    },
-
-    decorateHorse: function decorateHorse(horse) {
-        horse.movement = moveRules.getHorseMoveRule();
-        return horse;
-    },
-
-    decorateQueen: function decorateQueen(queen) {
-        queen.movement = moveRules.getQueenMoveRule();
-        return queen;
-    },
-
-    decorateKing: function decorateKing(king) {
-        king.movement = moveRules.getKingMoveRule();
-        return king;
-    }
-};
 
 export {
     createPiece,
-    decorators
 }

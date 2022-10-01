@@ -12,7 +12,7 @@ function createGame(uuid) {
     let game = {};
     game.uuid = uuid;
     game.gameStatus = gameStatus.ongoing;
-    game.turn = pieceTypes.white;
+    game.turn = pieceTypes.white.name;
     game.board = boardBuilder().usingInitialPieceDisposition().build();
     game.registry = createRegistry(game.board);
 

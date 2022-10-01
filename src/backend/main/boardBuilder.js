@@ -1,8 +1,8 @@
 import { createBoard } from './board.js';
 import { pieceTypes } from '../piece/pieceType.js';
 import { pieceNames } from '../piece/pieceName.js';
-import { factory as blackPieceFactory } from '../piece/blackPieceFactory.js';
-import { factory as whitePieceFactory } from '../piece/whitePieceFactory.js';
+import { createBlackFactory as blackPieceFactory } from '../piece/blackPieceFactory.js';
+import { createWhiteFactory as whitePieceFactory } from '../piece/whitePieceFactory.js';
 
 function boardBuilder() {
     let board = createBoard();
@@ -15,9 +15,10 @@ function boardBuilder() {
                 pieceName = pieceNames[pieceStringLayout[stringCounter].trim()];
                 let position = "abcdefgh"[letter]+i.toString();
 
-                let piece = blackPieceFactory[pieceName.call](position);
+                //TODO: Review for possible refactoring -> blackPieceFactory[pieceName.call]
+                let piece = blackPieceFactory()[pieceName.call](position);
                 if (pieceName.type === pieceTypes.white)
-                    piece = whitePieceFactory[pieceName.call](position);
+                    piece = whitePieceFactory()[pieceName.call](position);
 
                 board.pieces[position] = piece;
                 stringCounter++;

@@ -1,63 +1,54 @@
-import { createPiece, decorators } from "./piece.js";
+import { createPiece } from "./piece.js";
+import { moveRules } from "../moveRule/moveRules.js";
 import { pieceTypes } from './pieceType.js';
 
+
 function createFactory() {
-    let factory = {};
 
-    factory.getEmptyPiece = getEmptyPiece;
-
-    factory.getRook = function (position) {
-        let rook = this._getRook(position);
-        return decorators.decorateRook(rook);
+    function getEmptyPiece(position) {
+        return createPiece('_', 'empty', pieceTypes.empty.name, position);
     }
 
-    factory.getHorse = function (position) {
-        let horse = this._getHorse(position);
-        return decorators.decorateHorse(horse);
+    function getRook(color, position) {
+        return createPiece(color.abbreviate + 'R', color.name + ' rook', color.name, position, moveRules.getRookMoveRule());
     }
 
-    factory.getBishop = function (position) {
-        let bishop = this._getBishop(position);
-        return decorators.decorateBishop(bishop);
+    function getHorse(color, position) {
+        return createPiece(color.abbreviate + 'H', color.name + ' horse', color.name, position, moveRules.getHorseMoveRule());
     }
 
-    factory.getQueen = function (position) {
-        let queen = this._getQueen(position);
-        return decorators.decorateQueen(queen);
+    function getBishop(color, position) {
+        return createPiece(color.abbreviate + 'B', color.name + ' bishop', color.name, position, moveRules.getBishopMoveRule());
     }
 
-    factory.getKing = function (position) {
-        let king = this._getKing(position);
-        return decorators.decorateKing(king);
+    function getQueen(color, position) {
+        return createPiece(color.abbreviate + 'Q', color.name + ' queen', color.name, position, moveRules.getQueenMoveRule());
     }
 
-    factory.getPawn = function (position) {
-        let pawn = this._getPawn(position);
-        return decorators.decoratePawn(pawn);
+    function getKing(color, position) {
+        return createPiece(color.abbreviate + 'K', color.name + ' king', color.name, position, moveRules.getKingMoveRule());
     }
 
-    function factoryMethodGetRook(position) {};
-    function factoryMethodGetHorse(position) {};
-    function factoryMethodGetBishop(position) {};
-    function factoryMethodGetQueen(position) {};
-    function factoryMethodGetKing(position) {};
-    function factoryMethodGetPawn(position) {};
+    function getPawn (color, position) {
+        //TODO: decorate pawn
+        const pawnFirstPositions = { 'BP' : '7', 'WP' : '2' };
+        let pawnName = color.abbreviate + 'P';
+        return createPiece(pawnName, color.name + 'pawn', color.name, position,
+            moveRules.getPawnMoveRule(position.includes(pawnFirstPositions[pawnName]), !color.abbreviate.includes('W')));
 
-    // Functions to Override on child modules
-    factory._getRook = factoryMethodGetRook;
-    factory._getHorse = factoryMethodGetHorse;
-    factory._getBishop = factoryMethodGetBishop;
-    factory._getQueen = factoryMethodGetQueen;
-    factory._getKing = factoryMethodGetKing;
-    factory._getPawn = factoryMethodGetPawn;
+    }
 
-    return factory;
-}
-
-function getEmptyPiece (position) {
-    return createPiece('_', 'empty', pieceTypes.empty, position);
+    return {
+        getEmptyPiece,
+        getRook,
+        getHorse,
+        getBishop,
+        getQueen,
+        getKing,
+        getPawn
+    };
 }
 
 export {
-    createFactory, getEmptyPiece
+    createFactory
 }

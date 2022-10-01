@@ -1,8 +1,8 @@
 import { pieceTypes, getOppositeColor } from '../piece/pieceType.js';
 import { pieceNames, getKingForColor } from '../piece/pieceName.js';
-import { factory as blackPieceFactory } from '../piece/blackPieceFactory.js';
-import { factory as whitePieceFactory } from '../piece/whitePieceFactory.js';
-import { getEmptyPiece } from '../piece/pieceFactory.js';
+import { createBlackFactory as blackPieceFactory } from '../piece/blackPieceFactory.js';
+import { createWhiteFactory as whitePieceFactory } from '../piece/whitePieceFactory.js';
+import { createFactory } from '../piece/pieceFactory.js';
 
 function createBoard() {
     let board = {};
@@ -26,9 +26,10 @@ function createBoard() {
 
     function move(movementOrigin, movementDestination) {
         board.pieces[movementDestination] = board.pieces[movementOrigin];
-        board.pieces[movementDestination].position = movementDestination;
+        board.pieces[movementDestination].setPosition(movementDestination);
         createEmptyTile(movementOrigin);
-        board.pieces[movementDestination].doAfterMovement();
+        //TODO: refactor -> doAftherMovement method must be executed from the pawn
+        //board.pieces[movementDestination].doAfterMovement();
     }
 
     function updateCheckStatus(playerColor, previousState) {
@@ -61,8 +62,8 @@ function createBoard() {
     board.getValidMovementWhileColorIsOnCheck = function (color) {
         const previousState = this.createMemento();
         for (let coord of this.getAllCoordinatesByColor(color)) {
-            for (let mov of this.movementsFromTheCoordinate(this.pieces[coord].position)) {
-                move(this.pieces[coord].position, mov);
+            for (let mov of this.movementsFromTheCoordinate(this.pieces[coord].getPosition())) {
+                move(this.pieces[coord].getPosition(), mov);
                 if (!this.isColorOnCheck(color)) {
                     this.setMemento(previousState);
                     return { origin: coord, destination: mov };
@@ -74,24 +75,24 @@ function createBoard() {
     }
 
     board.movementsFromTheCoordinate = function(origin) {
-        this.pieces[origin].movement.updateCurrentPosition(origin, this.pieces);
+        this.pieces[origin].updateCurrentPosition(origin, this.pieces);
         return this.pieces[origin].getPossibleMovements();
     }
 
     board.getBoardPieceNames = function() {
         let result = {};
         for (let key in this.pieces)
-            result[key] = this.pieces[key].name;
+            result[key] = this.pieces[key].getName();
 
         return result;
     }
 
     board.getAllSquaresOfBlackPieces = function() {
-        return this.getAllCoordinatesByColor(pieceTypes.black);
+        return this.getAllCoordinatesByColor(pieceTypes.black.name);
     }
 
     board.getAllEmptySquares = function() {
-        return this.getAllCoordinatesByColor(pieceTypes.empty);
+        return this.getAllCoordinatesByColor(pieceTypes.empty.name);
     }
 
     board.getAllCoordinatesByColor = function(color) {
@@ -140,7 +141,7 @@ function createBoard() {
     }
 
     function getAllAttackPositionsByColor(color) {
-        if (color === pieceTypes.empty)
+        if (color === pieceTypes.empty.name)
             return [];
         const coordinatesUnderAttack = [];
         let pieces = getAllPiecesByColor(color);
@@ -151,7 +152,7 @@ function createBoard() {
 
     function getKingPositionByColor(color) {
         let king = getKingForColor(color);
-        return getAllPiecesByColor(color).find(piece => piece.name === king).position;
+        return getAllPiecesByColor(color).find(piece => piece.getName() === king).getPosition();
     }
 
     function getAllPiecesByColor(color) {
@@ -162,8 +163,10 @@ function createBoard() {
         return coloredPieces;
     }
 
+
     function createEmptyTile(coordinate) {
-        board.pieces[coordinate] = getEmptyPiece(coordinate);
+        //TODO: refactor factory
+        board.pieces[coordinate] = createFactory().getEmptyPiece(coordinate);
     }
 
     function getInvalidMovementError(piece) {

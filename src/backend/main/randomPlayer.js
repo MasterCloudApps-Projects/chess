@@ -6,8 +6,8 @@ function randomPlayer() {
         let origins;
         let destinations;
 
-        if (board.isColorOnCheck(pieceTypes.black))
-            return board.getValidMovementWhileColorIsOnCheck(pieceTypes.black);
+        if (board.isColorOnCheck(pieceTypes.black.name))
+            return board.getValidMovementWhileColorIsOnCheck(pieceTypes.black.name);
 
         origins = board.getAllSquaresOfBlackPieces();
         let origin = generateRandomMovement(origins);
@@ -29,7 +29,7 @@ function randomPlayer() {
             let movement, result;
             do {
                 movement = getMovement(game.board);
-                result = game.play(movement.origin, movement.destination, pieceTypes.black);
+                result = game.play(movement.origin, movement.destination, pieceTypes.black.name);
             } while (result.error);
         }
     }

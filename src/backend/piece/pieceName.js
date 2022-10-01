@@ -17,9 +17,9 @@ const pieceNames = {
 }
 
 function getKingForColor(color) {
-    if (color === pieceTypes.black)
+    if (color === pieceTypes.black.name)
         return 'BK';
-    if (color === pieceTypes.white)
+    if (color === pieceTypes.white.name)
         return 'WK';
 }
 
