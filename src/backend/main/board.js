@@ -35,8 +35,7 @@ function createBoard() {
         pieces[movementDestination] = pieces[movementOrigin];
         pieces[movementDestination].setPosition(movementDestination);
         createEmptyTile(movementOrigin);
-        //TODO: refactor -> doAftherMovement method must be executed from the pawn
-        //pieces[movementDestination].doAfterMovement();
+        pieces[movementDestination].doAfterMovement();
     }
 
     function updateCheckStatus(playerColor, previousState) {

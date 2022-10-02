@@ -1,4 +1,5 @@
 import { PieceTypeEnum } from './pieceTypeEnum.js';
+import { moveRules } from '../moveRule/moveRules.js';
 
 function createPiece(pieceName, pieceFullName, pieceColor, piecePosition, pieceMovement) {
     let name = pieceName;
@@ -38,6 +39,15 @@ function createPiece(pieceName, pieceFullName, pieceColor, piecePosition, pieceM
 
     function doAfterMovement() {
         movement.doAfterMovement(position);
+        if(name.includes('P') && movement.shouldTurnToQueen()){
+            transformToQueen();
+        }
+    }
+
+    function transformToQueen() {
+        movement = moveRules.getQueenMoveRule();
+        fullName = fullName.replace('pawn', 'queen');
+        name = name.replace('P', 'Q');
     }
 
     function getAttackPositions(pieces) {
