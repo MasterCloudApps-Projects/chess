@@ -2,7 +2,7 @@ import { createFactory } from "./pieceFactory.js";
 import { PieceTypeEnum } from './pieceTypeEnum.js';
 
 function createWhiteFactory() {
-    //TODO: Pending to refactor white and with factory
+    //TODO: Pending to refactor black and white factory
     const returned = createFactory();
     const color = PieceTypeEnum.white;
 
