@@ -49,7 +49,7 @@ function createPiece(pieceName, pieceFullName, pieceColor, piecePosition, pieceM
     }
 
     function isOpposingColor(piece) {
-        return color !== piece.color && !piece.isEmpty();
+        return !piece.isOfColor(color) && !piece.isEmpty();
     }
 
     function isOfColor(colorParam) {

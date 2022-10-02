@@ -1,7 +1,7 @@
 import { pieceTypes, getOppositeColor } from '../piece/pieceType.js';
 import { pieceNames, getKingForColor } from '../piece/pieceName.js';
-import { createBlackFactory as blackPieceFactory } from '../piece/blackPieceFactory.js';
-import { createWhiteFactory as whitePieceFactory } from '../piece/whitePieceFactory.js';
+import { createBlackFactory } from '../piece/blackPieceFactory.js';
+import { createWhiteFactory } from '../piece/whitePieceFactory.js';
 import { createFactory } from '../piece/pieceFactory.js';
 
 function createBoard() {
@@ -115,6 +115,8 @@ function createBoard() {
     }
 
     board.setMemento = function(memento) {
+        const blackPieceFactory = createBlackFactory();
+        const whitePieceFactory = createWhiteFactory();
         memento = memento.split('-');
         let stringCounter = 0;
         for (let i = 1; i <= 8; i++)
