@@ -1,10 +1,10 @@
 import { createFactory } from "./pieceFactory.js";
-import { pieceTypes } from './pieceType.js';
+import { PieceTypeEnum } from './pieceTypeEnum.js';
 
 function createWhiteFactory() {
     //TODO: Pending to refactor white and with factory
     const returned = createFactory();
-    const color = pieceTypes.white;
+    const color = PieceTypeEnum.white;
 
     function getRook(position){
         return returned.getRook(color, position)

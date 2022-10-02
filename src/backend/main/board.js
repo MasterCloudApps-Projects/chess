@@ -1,5 +1,5 @@
-import { pieceTypes, getOppositeColor } from '../piece/pieceType.js';
-import { pieceNames, getKingForColor } from '../piece/pieceName.js';
+import { PieceTypeEnum, getOppositeColor } from '../piece/pieceTypeEnum.js';
+import { PieceNameEnum, getKingForColor } from '../piece/pieceNameEnum.js';
 import { createBlackFactory } from '../piece/blackPieceFactory.js';
 import { createWhiteFactory } from '../piece/whitePieceFactory.js';
 import { createFactory } from '../piece/pieceFactory.js';
@@ -16,7 +16,6 @@ function createBoard() {
     function isCheckMate() {
         return checkmate;
     }
-
     function tryMove(movementOrigin, movementDestination, playerColor) {
         errorMessage = undefined;
         if(!pieces[movementOrigin].isOfColor(playerColor)) {
@@ -96,11 +95,11 @@ function createBoard() {
     }
 
     function getAllSquaresOfBlackPieces() {
-        return getAllCoordinatesByColor(pieceTypes.black.name);
+        return getAllCoordinatesByColor(PieceTypeEnum.black);
     }
 
     function getAllEmptySquares() {
-        return getAllCoordinatesByColor(pieceTypes.empty.name);
+        return getAllCoordinatesByColor(PieceTypeEnum.empty);
     }
 
     function getAllCoordinatesByColor(color) {
@@ -129,10 +128,10 @@ function createBoard() {
         let stringCounter = 0;
         for (let i = 1; i <= 8; i++)
         for (let letter = 0; letter < "abcdefgh".length; letter++) {
-            let pieceName = pieceNames[memento[stringCounter].trim()];
+            let pieceName = PieceNameEnum[memento[stringCounter].trim()];
             let position = "abcdefgh"[letter]+i.toString();
             let piece = blackPieceFactory[pieceName.call](position);
-            if (pieceName.type === pieceTypes.white)
+            if (pieceName.type === PieceTypeEnum.white)
             piece = whitePieceFactory[pieceName.call](position);
 
             pieces[position] = piece;
@@ -151,7 +150,7 @@ function createBoard() {
     }
 
     function getAllAttackPositionsByColor(color) {
-        if (color === pieceTypes.empty.name)
+        if (color === PieceTypeEnum.empty)
             return [];
         const coordinatesUnderAttack = [];
         let colorPieces = getAllPiecesByColor(color);

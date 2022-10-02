@@ -1,6 +1,6 @@
 import { createBoard } from './board.js';
-import { pieceTypes } from '../piece/pieceType.js';
-import { pieceNames } from '../piece/pieceName.js';
+import { PieceTypeEnum } from '../piece/pieceTypeEnum.js';
+import { PieceNameEnum } from '../piece/pieceNameEnum.js';
 import { createBlackFactory as blackPieceFactory } from '../piece/blackPieceFactory.js';
 import { createWhiteFactory as whitePieceFactory } from '../piece/whitePieceFactory.js';
 
@@ -12,12 +12,12 @@ function boardBuilder() {
         let stringCounter = 0, pieceName;
         for (let i=8; i>0; i--)
             for (let letter = 0; letter < "abcdefgh".length; letter++) {
-                pieceName = pieceNames[pieceStringLayout[stringCounter].trim()];
+                pieceName = PieceNameEnum[pieceStringLayout[stringCounter].trim()];
                 let position = "abcdefgh"[letter]+i.toString();
 
                 //TODO: Review for possible refactoring -> blackPieceFactory[pieceName.call]
                 let piece = blackPieceFactory()[pieceName.call](position);
-                if (pieceName.type === pieceTypes.white)
+                if (pieceName.type === PieceTypeEnum.white)
                     piece = whitePieceFactory()[pieceName.call](position);
 
                 board.getPieces()[position] = piece;

@@ -1,4 +1,4 @@
-import { pieceTypes } from './pieceType.js';
+import { PieceTypeEnum } from './pieceTypeEnum.js';
 
 function createPiece(pieceName, pieceFullName, pieceColor, piecePosition, pieceMovement) {
     let name = pieceName;
@@ -45,7 +45,7 @@ function createPiece(pieceName, pieceFullName, pieceColor, piecePosition, pieceM
     }
 
     function isWhite() {
-        return color === pieceTypes.white.name;
+        return color === PieceTypeEnum.white;
     }
 
     function isOpposingColor(piece) {
@@ -57,7 +57,7 @@ function createPiece(pieceName, pieceFullName, pieceColor, piecePosition, pieceM
     }
 
     function isEmpty() {
-        return color === pieceTypes.empty.name;
+        return color === PieceTypeEnum.empty;
     }
 
     function getMovementError() {

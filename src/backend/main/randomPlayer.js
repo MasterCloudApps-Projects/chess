@@ -1,4 +1,4 @@
-import { pieceTypes } from '../piece/pieceType.js';
+import { PieceTypeEnum } from '../piece/pieceTypeEnum.js';
 
 function randomPlayer() {
 
@@ -7,7 +7,7 @@ function randomPlayer() {
         let movement, result;
         do {
             movement = getMovement(game.getBoard());
-            result = game.play(movement.origin, movement.destination, pieceTypes.black.name);
+            result = game.play(movement.origin, movement.destination, PieceTypeEnum.black);
         } while (result.error);
     }
 
@@ -15,8 +15,8 @@ function randomPlayer() {
         let origins;
         let destinations;
 
-        if (board.isColorOnCheck(pieceTypes.black.name))
-            return board.getValidMovementWhileColorIsOnCheck(pieceTypes.black.name);
+        if (board.isColorOnCheck(PieceTypeEnum.black))
+            return board.getValidMovementWhileColorIsOnCheck(PieceTypeEnum.black);
 
         origins = board.getAllSquaresOfBlackPieces();
         let origin = generateRandomMovement(origins);

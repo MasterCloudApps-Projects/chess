@@ -1,41 +1,48 @@
 import { createPiece } from "./piece.js";
 import { moveRules } from "../moveRule/moveRules.js";
-import { pieceTypes } from './pieceType.js';
+import { PieceTypeEnum } from './pieceTypeEnum.js';
 
 
 function createFactory() {
 
     function getEmptyPiece(position) {
-        return createPiece('_', 'empty', pieceTypes.empty.name, position);
+        return createPiece('_', 'empty', PieceTypeEnum.empty, position);
     }
 
     function getRook(color, position) {
-        return createPiece(color.abbreviate + 'R', color.name + ' rook', color.name, position, moveRules.getRookMoveRule());
+        return createPiece(getNamePiece(color, 'R'), getFullNamePiece(color, 'rook'), color, position, moveRules.getRookMoveRule());
     }
 
     function getHorse(color, position) {
-        return createPiece(color.abbreviate + 'H', color.name + ' horse', color.name, position, moveRules.getHorseMoveRule());
+        return createPiece(getNamePiece(color, 'H'), getFullNamePiece(color, 'horse'), color, position, moveRules.getHorseMoveRule());
     }
 
     function getBishop(color, position) {
-        return createPiece(color.abbreviate + 'B', color.name + ' bishop', color.name, position, moveRules.getBishopMoveRule());
+        return createPiece(getNamePiece(color, 'B'), getFullNamePiece(color, 'bishop'), color, position, moveRules.getBishopMoveRule());
     }
 
     function getQueen(color, position) {
-        return createPiece(color.abbreviate + 'Q', color.name + ' queen', color.name, position, moveRules.getQueenMoveRule());
+        return createPiece(getNamePiece(color, 'Q'), getFullNamePiece(color, 'queen'), color, position, moveRules.getQueenMoveRule());
     }
 
     function getKing(color, position) {
-        return createPiece(color.abbreviate + 'K', color.name + ' king', color.name, position, moveRules.getKingMoveRule());
+        return createPiece(getNamePiece(color, 'K'), getFullNamePiece(color, 'king'), color, position, moveRules.getKingMoveRule());
     }
 
     function getPawn (color, position) {
         //TODO: decorate pawn
         const pawnFirstPositions = { 'BP' : '7', 'WP' : '2' };
-        let pawnName = color.abbreviate + 'P';
-        return createPiece(pawnName, color.name + 'pawn', color.name, position,
+        let pawnName = getNamePiece(color, 'P');
+        return createPiece(pawnName, getFullNamePiece(color, 'pawn'), color, position,
             moveRules.getPawnMoveRule(position.includes(pawnFirstPositions[pawnName]), !color.abbreviate.includes('W')));
+    }
 
+    function getNamePiece(color, abbreviate){
+        return color.abbreviate + abbreviate
+    }
+
+    function getFullNamePiece(color, name){
+        return color.name + ' ' + name
     }
 
     return {
