@@ -5,107 +5,115 @@ import { createWhiteFactory } from '../piece/whitePieceFactory.js';
 import { createFactory } from '../piece/pieceFactory.js';
 
 function createBoard() {
-    let board = {};
-    board.pieces = {};
-    board.checkmate = false;
+    let pieces = {};
+    let checkmate = false;
+    let errorMessage;
 
-    board.tryMove = function(movementOrigin, movementDestination, playerColor) {
-        this.errorMessage = undefined;
-        if(!this.pieces[movementOrigin].isOfColor(playerColor)) {
-            this.errorMessage = 'Invalid move: Attempting to move a wrong color piece.';
+    function getPieces() {
+        return pieces;
+    }
+
+    function isCheckMate() {
+        return checkmate;
+    }
+
+    function tryMove(movementOrigin, movementDestination, playerColor) {
+        errorMessage = undefined;
+        if(!pieces[movementOrigin].isOfColor(playerColor)) {
+            errorMessage = 'Invalid move: Attempting to move a wrong color piece.';
             return;
         }
-        if (!this.pieces[movementOrigin].isPossibleMove(movementDestination, this.pieces)){
-            this.errorMessage = getInvalidMovementError(this.pieces[movementOrigin].fullName);
+        if (!pieces[movementOrigin].isPossibleMove(movementDestination, pieces)){
+            errorMessage = getInvalidMovementError(pieces[movementOrigin].fullName);
             return;
         }
-        let stateBeforeMoving = this.createMemento();
+        let stateBeforeMoving = createMemento();
         move(movementOrigin, movementDestination);
         updateCheckStatus(playerColor, stateBeforeMoving);
     }
 
     function move(movementOrigin, movementDestination) {
-        board.pieces[movementDestination] = board.pieces[movementOrigin];
-        board.pieces[movementDestination].setPosition(movementDestination);
+        pieces[movementDestination] = pieces[movementOrigin];
+        pieces[movementDestination].setPosition(movementDestination);
         createEmptyTile(movementOrigin);
         //TODO: refactor -> doAftherMovement method must be executed from the pawn
-        //board.pieces[movementDestination].doAfterMovement();
+        //pieces[movementDestination].doAfterMovement();
     }
 
     function updateCheckStatus(playerColor, previousState) {
-        if (board.isColorOnCheck(playerColor)) {
-            board.errorMessage = 'Invalid move: cannot end turn on check';
-            board.setMemento(previousState);
+        if (isColorOnCheck(playerColor)) {
+            errorMessage = 'Invalid move: cannot end turn on check';
+            setMemento(previousState);
             return;
         }
-        if (board.isColorOnCheck(getOppositeColor(playerColor))) {
+        if (isColorOnCheck(getOppositeColor(playerColor))) {
             console.log('possible checkmate');
             console.log('is checkmate: ' + isColorOnCheckMate(getOppositeColor(playerColor)));
             if (isColorOnCheckMate(getOppositeColor(playerColor)))
-                board.checkmate = true;
+                checkmate = true;
         }
     }
 
-    board.isColorOnCheck = function (color) {
+    function isColorOnCheck(color) {
         let attackpos = getAllAttackPositionsByColor(getOppositeColor(color));
         let kingpos = getKingPositionByColor(color);
         return attackpos.includes(kingpos);
     }
 
     function isColorOnCheckMate(color) {
-        if (!board.isColorOnCheck(color))
+        if (!isColorOnCheck(color))
             return false;
 
-        return board.getValidMovementWhileColorIsOnCheck(color) == undefined;
+        return getValidMovementWhileColorIsOnCheck(color) == undefined;
     }
 
-    board.getValidMovementWhileColorIsOnCheck = function (color) {
-        const previousState = this.createMemento();
-        for (let coord of this.getAllCoordinatesByColor(color)) {
-            for (let mov of this.movementsFromTheCoordinate(this.pieces[coord].getPosition())) {
-                move(this.pieces[coord].getPosition(), mov);
-                if (!this.isColorOnCheck(color)) {
-                    this.setMemento(previousState);
+    function getValidMovementWhileColorIsOnCheck(color) {
+        const previousState = createMemento();
+        for (let coord of getAllCoordinatesByColor(color)) {
+            for (let mov of movementsFromTheCoordinate(pieces[coord].getPosition())) {
+                move(pieces[coord].getPosition(), mov);
+                if (!isColorOnCheck(color)) {
+                    setMemento(previousState);
                     return { origin: coord, destination: mov };
                 }
-                this.setMemento(previousState);
+                setMemento(previousState);
             }
         }
         return undefined;
     }
 
-    board.movementsFromTheCoordinate = function(origin) {
-        this.pieces[origin].updateCurrentPosition(origin, this.pieces);
-        return this.pieces[origin].getPossibleMovements();
+    function movementsFromTheCoordinate(origin) {
+        pieces[origin].updateCurrentPosition(origin, pieces);
+        return pieces[origin].getPossibleMovements();
     }
 
-    board.getBoardPieceNames = function() {
+    function getBoardPieceNames() {
         let result = {};
-        for (let key in this.pieces)
-            result[key] = this.pieces[key].getName();
+        for (let key in pieces)
+            result[key] = pieces[key].getName();
 
         return result;
     }
 
-    board.getAllSquaresOfBlackPieces = function() {
-        return this.getAllCoordinatesByColor(pieceTypes.black.name);
+    function getAllSquaresOfBlackPieces() {
+        return getAllCoordinatesByColor(pieceTypes.black.name);
     }
 
-    board.getAllEmptySquares = function() {
-        return this.getAllCoordinatesByColor(pieceTypes.empty.name);
+    function getAllEmptySquares() {
+        return getAllCoordinatesByColor(pieceTypes.empty.name);
     }
 
-    board.getAllCoordinatesByColor = function(color) {
+    function getAllCoordinatesByColor(color) {
         const coloredSquares = [];
-        for (let coordinate in this.pieces)
-            if (this.pieces[coordinate].isOfColor(color))
+        for (let coordinate in pieces)
+            if (pieces[coordinate].isOfColor(color))
                 coloredSquares.push(coordinate);
         return coloredSquares;
     }
 
-    board.createMemento = function() {
+    function createMemento() {
         let boardString = "";
-        const boardNames = this.getBoardPieceNames();
+        const boardNames = getBoardPieceNames();
         for (let i = 1; i <= 8; i++)
         for (let letter = 0; letter < "abcdefgh".length; letter++) {
             let currentID = "abcdefgh"[letter] + i.toString();
@@ -114,7 +122,7 @@ function createBoard() {
         return boardString;
     }
 
-    board.setMemento = function(memento) {
+    function setMemento(memento) {
         const blackPieceFactory = createBlackFactory();
         const whitePieceFactory = createWhiteFactory();
         memento = memento.split('-');
@@ -127,28 +135,28 @@ function createBoard() {
             if (pieceName.type === pieceTypes.white)
             piece = whitePieceFactory[pieceName.call](position);
 
-            this.pieces[position] = piece;
+            pieces[position] = piece;
             stringCounter++;
         }
     }
 
-    board.getErrorMessage = function() {
-        let result = this.errorMessage;
-        this.errorMessage = undefined;
+    function getErrorMessage() {
+        let result = errorMessage;
+        errorMessage = undefined;
         return result;
     }
 
-    board.hasError = function(){
-        return this.errorMessage !== undefined;
+    function hasError() {
+        return errorMessage !== undefined;
     }
 
     function getAllAttackPositionsByColor(color) {
         if (color === pieceTypes.empty.name)
             return [];
         const coordinatesUnderAttack = [];
-        let pieces = getAllPiecesByColor(color);
-        for (let i in pieces)
-            coordinatesUnderAttack.push(...pieces[i].getAttackPositions(board.pieces));
+        let colorPieces = getAllPiecesByColor(color);
+        for (let i in colorPieces)
+            coordinatesUnderAttack.push(...colorPieces[i].getAttackPositions(pieces));
         return [...new Set(coordinatesUnderAttack)];
     }
 
@@ -159,23 +167,38 @@ function createBoard() {
 
     function getAllPiecesByColor(color) {
         const coloredPieces = [];
-        let allColorCoordinates = board.getAllCoordinatesByColor(color);
+        let allColorCoordinates = getAllCoordinatesByColor(color);
         for (let i in allColorCoordinates)
-            coloredPieces.push(board.pieces[allColorCoordinates[i]]);
+            coloredPieces.push(pieces[allColorCoordinates[i]]);
         return coloredPieces;
     }
 
 
     function createEmptyTile(coordinate) {
         //TODO: refactor factory
-        board.pieces[coordinate] = createFactory().getEmptyPiece(coordinate);
+        pieces[coordinate] = createFactory().getEmptyPiece(coordinate);
     }
 
     function getInvalidMovementError(piece) {
         return 'Invalid ' + piece + ' movement';
     }
 
-    return board;
+    return {
+        tryMove,
+        isColorOnCheck,
+        getValidMovementWhileColorIsOnCheck,
+        movementsFromTheCoordinate,
+        getBoardPieceNames,
+        getAllSquaresOfBlackPieces,
+        getAllEmptySquares,
+        getAllCoordinatesByColor,
+        createMemento,
+        setMemento,
+        getErrorMessage,
+        hasError,
+        getPieces,
+        isCheckMate
+    }
 }
 
 export {

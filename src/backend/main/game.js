@@ -36,7 +36,7 @@ function createGame(uuid) {
 
         game.registry.register();
         advanceTurn();
-        if (game.board.checkmate) endGame();
+        if (game.board.isCheckMate()) endGame();
         return createMessage();
     }
 

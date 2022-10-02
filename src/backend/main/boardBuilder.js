@@ -20,7 +20,7 @@ function boardBuilder() {
                 if (pieceName.type === pieceTypes.white)
                     piece = whitePieceFactory()[pieceName.call](position);
 
-                board.pieces[position] = piece;
+                board.getPieces()[position] = piece;
                 stringCounter++;
             }
 
