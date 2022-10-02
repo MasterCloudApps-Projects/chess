@@ -2,6 +2,15 @@ import { pieceTypes } from '../piece/pieceType.js';
 
 function randomPlayer() {
 
+    function performRandomMovement(game) {
+        console.log("CPU performing movement...");
+        let movement, result;
+        do {
+            movement = getMovement(game.getBoard());
+            result = game.play(movement.origin, movement.destination, pieceTypes.black.name);
+        } while (result.error);
+    }
+
     function getMovement(board) {
         let origins;
         let destinations;
@@ -24,14 +33,7 @@ function randomPlayer() {
     }
 
     return  {
-        performRandomMovement: function(game) {
-            console.log("CPU performing movement...");
-            let movement, result;
-            do {
-                movement = getMovement(game.board);
-                result = game.play(movement.origin, movement.destination, pieceTypes.black.name);
-            } while (result.error);
-        }
+        performRandomMovement
     }
 }
 

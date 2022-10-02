@@ -1,44 +1,48 @@
-function createRegistry(board){
-    let registry = {};
-    registry.mementos = [];
-    registry.index = 0;
-    registry.board = board;
+function createRegistry(boardP){
+    let mementos = [];
+    let index = 0;
+    let board = boardP;
 
-    registry.register = function(){
-        for(let i = 0; i < this.index; i++){
-            this.mementos.shift();
+    function register() {
+        for(let i = 0; i < index; i++){
+            mementos.shift();
         }
-        this.index = 0;
-        this.mementos.splice(0, 0, this.board.createMemento());
+        index = 0;
+        mementos.splice(0, 0, board.createMemento());
     }
 
-    registry.undo = function(){
-        if(!this.isUndoable())
+    function undo() {
+        if(!isUndoable())
             return;
-        this.index++;
-        this.board.setMemento(this.mementos[this.index]);
+        index++;
+        board.setMemento(mementos[index]);
     }
 
-    registry.redo = function(){
-        if(!this.isRedoable())
+    function redo() {
+        if(!isRedoable())
             return;
-        this.index--;
-        this.board.setMemento(this.mementos[this.index]);
+        index--;
+        board.setMemento(mementos[index]);
     }
 
-    registry.isUndoable = function(){
-        return this.index < (this.mementos.length - 1);
+    function isUndoable() {
+        return index < (mementos.length - 1);
     }
 
-    registry.isRedoable = function isRedoable(){
-        return this.index > 0;
+    function isRedoable() {
+        return index > 0;
     }
 
-    registry.register();
+    register();
 
-    return registry;
+    return {
+        register,
+        undo,
+        redo,
+        isUndoable,
+        isRedoable,
+    }
 }
-
 
 export {
     createRegistry

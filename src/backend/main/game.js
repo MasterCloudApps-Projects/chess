@@ -3,26 +3,42 @@ import { createRegistry } from './registry.js';
 import { createMessage, createErrorMessage } from './message.js';
 import { pieceTypes, getOppositeColor } from '../piece/pieceType.js';
 
-const gameStatus = {
+const GameStatusEnum = {
     ongoing: 'ongoing',
     finished: 'finished'
 }
 
-function createGame(uuid) {
-    let game = {};
-    game.uuid = uuid;
-    game.gameStatus = gameStatus.ongoing;
-    game.turn = pieceTypes.white.name;
-    game.board = boardBuilder().usingInitialPieceDisposition().build();
-    game.registry = createRegistry(game.board);
+function createGame(uuidP) {
+    let uuid = uuidP;
+    let gameStatus = GameStatusEnum.ongoing;
+    let turn = pieceTypes.white.name;
+    let board = boardBuilder().usingInitialPieceDisposition().build();
+    let registry = createRegistry(board);
+    let status;
 
-    game.play = function(movementOrigin, movementDestination, playerColor) {
-        if (this.gameStatus === gameStatus.finished)
+    function getBoard() {
+        return board;
+    }
+
+    function getUuid() {
+        return uuid;
+    }
+
+    function undo() {
+        registry.undo();
+    }
+
+    function redo() {
+        registry.redo();
+    }
+
+    function play(movementOrigin, movementDestination, playerColor) {
+        if (gameStatus === GameStatusEnum.finished)
             return createMessage('Game finished.');
-        if (playerColor != this.turn)
+        if (playerColor != turn)
             return createErrorMessage('Not ' + playerColor + "'s turn to play.");
-        if (this.board.getAllCoordinatesByColor(playerColor).length == 0){
-            endGame(this);
+        if (board.getAllCoordinatesByColor(playerColor).length == 0){
+            endGame();
             return createMessage(playerColor + 's win.');
         }
 
@@ -30,40 +46,49 @@ function createGame(uuid) {
     }
 
     function performTurn (movementOrigin, movementDestination, playerColor) {
-        game.board.tryMove(movementOrigin, movementDestination, playerColor);
-        if(game.board.hasError())
-            return createErrorMessage(game.board.getErrorMessage());
+        board.tryMove(movementOrigin, movementDestination, playerColor);
+        if(board.hasError())
+            return createErrorMessage(board.getErrorMessage());
 
-        game.registry.register();
+        registry.register();
         advanceTurn();
-        if (game.board.isCheckMate()) endGame();
+        if (board.isCheckMate()) endGame();
         return createMessage();
     }
 
     function advanceTurn() {
-        game.turn = getOppositeColor(game.turn);
+        turn = getOppositeColor(turn);
     }
 
     function endGame() {
-        game.status = gameStatus.finished;
+        status = GameStatusEnum.finished;
     }
 
-    game.isGameFinished = function () {
-        return game.status === gameStatus.finished;
+    function isGameFinished() {
+        return status === GameStatusEnum.finished;
     }
 
-    game.getBoardResponse = function () {
-        return createMessage(this.board.getBoardPieceNames());
+    function getBoardResponse() {
+        return createMessage(board.getBoardPieceNames());
     }
 
-    game.undoableRedoable = function () {
+    function undoableRedoable() {
         return createMessage({
-            isUndoable: this.registry.isUndoable(),
-            isRedoable: this.registry.isRedoable()
+            isUndoable: registry.isUndoable(),
+            isRedoable: registry.isRedoable()
         });
     }
 
-    return game;
+    return{
+        play,
+        isGameFinished,
+        getBoardResponse,
+        undoableRedoable,
+        getBoard,
+        getUuid,
+        undo,
+        redo
+    }
 }
 
 export {

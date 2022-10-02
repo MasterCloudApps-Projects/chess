@@ -5,7 +5,7 @@ function save(game) {
 }
 
 function findById(id) {
-    return games.find(g => g.uuid === id);
+    return games.find(g => g.getUuid() === id);
 }
 
 
