@@ -1,18 +1,27 @@
-function createMessage(data={}){
-    return {
-        error: false,
-        data: data
-    };
-}
+const messageManager = createMessageManager();
 
-function createErrorMessage(errorMessage){
+function createMessageManager() {
+    function createMessage(data={}){
+        return {
+            error: false,
+            data: data
+        };
+    }
+    
+    function createErrorMessage(errorMessage){
+        return {
+            error: true,
+            errorMessage: errorMessage
+        }
+    }
+
     return {
-        error: true,
-        errorMessage: errorMessage
+        createMessage,
+        createErrorMessage
     }
 }
 
+
 export {
-    createMessage,
-    createErrorMessage
+    messageManager
 }

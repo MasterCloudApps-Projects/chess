@@ -1,6 +1,6 @@
 import { boardBuilder } from './boardBuilder.js';
 import { createRegistry } from './registry.js';
-import { createMessage, createErrorMessage } from './message.js';
+import { messageManager } from './message.js';
 import { pieceTypes, getOppositeColor } from '../piece/pieceType.js';
 
 const GameStatusEnum = {
@@ -34,12 +34,12 @@ function createGame(uuidP) {
 
     function play(movementOrigin, movementDestination, playerColor) {
         if (gameStatus === GameStatusEnum.finished)
-            return createMessage('Game finished.');
+            return messageManager.createMessage('Game finished.');
         if (playerColor != turn)
-            return createErrorMessage('Not ' + playerColor + "'s turn to play.");
+            return messageManager.createErrorMessage('Not ' + playerColor + "'s turn to play.");
         if (board.getAllCoordinatesByColor(playerColor).length == 0){
             endGame();
-            return createMessage(playerColor + 's win.');
+            return messageManager.createMessage(playerColor + 's win.');
         }
 
         return performTurn(movementOrigin, movementDestination, playerColor);
@@ -48,12 +48,12 @@ function createGame(uuidP) {
     function performTurn (movementOrigin, movementDestination, playerColor) {
         board.tryMove(movementOrigin, movementDestination, playerColor);
         if(board.hasError())
-            return createErrorMessage(board.getErrorMessage());
+            return messageManager.createErrorMessage(board.getErrorMessage());
 
         registry.register();
         advanceTurn();
         if (board.isCheckMate()) endGame();
-        return createMessage();
+        return messageManager.createMessage();
     }
 
     function advanceTurn() {
@@ -69,11 +69,11 @@ function createGame(uuidP) {
     }
 
     function getBoardResponse() {
-        return createMessage(board.getBoardPieceNames());
+        return messageManager.createMessage(board.getBoardPieceNames());
     }
 
     function undoableRedoable() {
-        return createMessage({
+        return messageManager.createMessage({
             isUndoable: registry.isUndoable(),
             isRedoable: registry.isRedoable()
         });
