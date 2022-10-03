@@ -6,7 +6,7 @@ import { PieceTypeEnum } from './pieceTypeEnum.js';
 function createFactory() {
 
     function getEmptyPiece(position) {
-        return createPiece('_', 'empty', PieceTypeEnum.empty, position);
+        return createPiece('_', 'empty', PieceTypeEnum.Empty, position);
     }
 
     function getRook(color, position) {
@@ -34,11 +34,11 @@ function createFactory() {
         const pawnFirstPositions = { 'BP' : '7', 'WP' : '2' };
         let pawnName = getNamePiece(color, 'P');
         return createPiece(pawnName, getFullNamePiece(color, 'pawn'), color, position,
-            moveRules.getPawnMoveRule(position.includes(pawnFirstPositions[pawnName]), !color.abbreviate.includes('W')));
+            moveRules.getPawnMoveRule(position.includes(pawnFirstPositions[pawnName]), !color.getAbbreviation().includes('W')));
     }
 
-    function getNamePiece(color, abbreviate){
-        return color.abbreviate + abbreviate
+    function getNamePiece(color, pieceAbbreviation){
+        return color.getAbbreviation() + pieceAbbreviation;
     }
 
     function getFullNamePiece(color, name){

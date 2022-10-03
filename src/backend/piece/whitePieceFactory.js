@@ -4,7 +4,7 @@ import { PieceTypeEnum } from './pieceTypeEnum.js';
 function createWhiteFactory() {
     //TODO: Pending to refactor black and white factory
     const returned = createFactory();
-    const color = PieceTypeEnum.white;
+    const color = PieceTypeEnum.White;
 
     function getRook(position){
         return returned.getRook(color, position)

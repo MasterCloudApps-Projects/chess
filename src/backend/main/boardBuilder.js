@@ -17,7 +17,7 @@ function boardBuilder() {
 
                 //TODO: Review for possible refactoring -> blackPieceFactory[pieceName.call]
                 let piece = blackPieceFactory()[pieceName.getFactoryCall()](position);
-                if (pieceName.getColor() === PieceTypeEnum.white)
+                if (pieceName.getColor() === PieceTypeEnum.White)
                     piece = whitePieceFactory()[pieceName.getFactoryCall()](position);
 
                 board.getPieces()[position] = piece;

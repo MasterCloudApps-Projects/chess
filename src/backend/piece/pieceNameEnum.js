@@ -21,29 +21,28 @@ function createPieceName(name, color, factoryCall) {
 }
 
 const PieceNameEnum = {
-    BR: createPieceName('BR', PieceTypeEnum.black, 'getRook'),
-    BH: createPieceName('BH', PieceTypeEnum.black, 'getHorse'),
-    BB: createPieceName('BB', PieceTypeEnum.black, 'getBishop'),
-    BQ: createPieceName('BQ', PieceTypeEnum.black, 'getQueen'),
-    BK: createPieceName('BK', PieceTypeEnum.black, 'getKing'),
-    BP: createPieceName('BP', PieceTypeEnum.black, 'getPawn'),
-    WR: createPieceName('WR', PieceTypeEnum.white, 'getRook'),
-    WH: createPieceName('WH', PieceTypeEnum.white, 'getHorse'),
-    WB: createPieceName('WB', PieceTypeEnum.white, 'getBishop'),
-    WQ: createPieceName('WQ', PieceTypeEnum.white, 'getQueen'),
-    WK: createPieceName('WK', PieceTypeEnum.white, 'getKing'),
-    WP: createPieceName('WP', PieceTypeEnum.white, 'getPawn'),
-    _: createPieceName('WR', PieceTypeEnum.white, 'getEmptyPiece'),
+    BR: createPieceName('BR', PieceTypeEnum.Black, 'getRook'),
+    BH: createPieceName('BH', PieceTypeEnum.Black, 'getHorse'),
+    BB: createPieceName('BB', PieceTypeEnum.Black, 'getBishop'),
+    BQ: createPieceName('BQ', PieceTypeEnum.Black, 'getQueen'),
+    BK: createPieceName('BK', PieceTypeEnum.Black, 'getKing'),
+    BP: createPieceName('BP', PieceTypeEnum.Black, 'getPawn'),
+    WR: createPieceName('WR', PieceTypeEnum.White, 'getRook'),
+    WH: createPieceName('WH', PieceTypeEnum.White, 'getHorse'),
+    WB: createPieceName('WB', PieceTypeEnum.White, 'getBishop'),
+    WQ: createPieceName('WQ', PieceTypeEnum.White, 'getQueen'),
+    WK: createPieceName('WK', PieceTypeEnum.White, 'getKing'),
+    WP: createPieceName('WP', PieceTypeEnum.White, 'getPawn'),
+    _: createPieceName('WR', PieceTypeEnum.Empty, 'getEmptyPiece'),
 }
 
-function getKingForColor(color) {
-    if (color === PieceTypeEnum.black)
-        return 'BK';
-    if (color === PieceTypeEnum.white)
-        return 'WK';
+PieceNameEnum.getKingNameForColor = function (color) {
+    if (color === PieceTypeEnum.Black)
+        return PieceNameEnum.BK;
+    if (color === PieceTypeEnum.White)
+        return PieceNameEnum.WK;
 }
 
 export {
-    PieceNameEnum,
-    getKingForColor
+    PieceNameEnum
 }

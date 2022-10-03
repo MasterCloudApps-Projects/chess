@@ -55,7 +55,7 @@ function createPiece(pieceName, pieceFullName, pieceColor, piecePosition, pieceM
     }
 
     function isWhite() {
-        return color === PieceTypeEnum.white;
+        return color === PieceTypeEnum.White;
     }
 
     function isOpposingColor(piece) {
@@ -67,7 +67,7 @@ function createPiece(pieceName, pieceFullName, pieceColor, piecePosition, pieceM
     }
 
     function isEmpty() {
-        return color === PieceTypeEnum.empty;
+        return color === PieceTypeEnum.Empty;
     }
 
     function getMovementError() {

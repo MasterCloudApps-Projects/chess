@@ -1,5 +1,5 @@
-import { PieceTypeEnum, getOppositeColor } from '../piece/pieceTypeEnum.js';
-import { PieceNameEnum, getKingForColor } from '../piece/pieceNameEnum.js';
+import { PieceTypeEnum } from '../piece/pieceTypeEnum.js';
+import { PieceNameEnum } from '../piece/pieceNameEnum.js';
 import { createBlackFactory } from '../piece/blackPieceFactory.js';
 import { createWhiteFactory } from '../piece/whitePieceFactory.js';
 import { createFactory } from '../piece/pieceFactory.js';
@@ -44,16 +44,16 @@ function createBoard() {
             setMemento(previousState);
             return;
         }
-        if (isColorOnCheck(getOppositeColor(playerColor))) {
+        if (isColorOnCheck(playerColor.getOppositeColor())) {
             console.log('possible checkmate');
-            console.log('is checkmate: ' + isColorOnCheckMate(getOppositeColor(playerColor)));
-            if (isColorOnCheckMate(getOppositeColor(playerColor)))
+            console.log('is checkmate: ' + isColorOnCheckMate(playerColor.getOppositeColor()));
+            if (isColorOnCheckMate(playerColor.getOppositeColor()))
                 checkmate = true;
         }
     }
 
     function isColorOnCheck(color) {
-        let attackpos = getAllAttackPositionsByColor(getOppositeColor(color));
+        let attackpos = getAllAttackPositionsByColor(color.getOppositeColor());
         let kingpos = getKingPositionByColor(color);
         return attackpos.includes(kingpos);
     }
@@ -94,11 +94,11 @@ function createBoard() {
     }
 
     function getAllSquaresOfBlackPieces() {
-        return getAllCoordinatesByColor(PieceTypeEnum.black);
+        return getAllCoordinatesByColor(PieceTypeEnum.Black);
     }
 
     function getAllEmptySquares() {
-        return getAllCoordinatesByColor(PieceTypeEnum.empty);
+        return getAllCoordinatesByColor(PieceTypeEnum.Empty);
     }
 
     function getAllCoordinatesByColor(color) {
@@ -130,7 +130,7 @@ function createBoard() {
             let pieceName = PieceNameEnum[memento[stringCounter].trim()];
             let position = "abcdefgh"[letter]+i.toString();
             let piece = blackPieceFactory[pieceName.getFactoryCall()](position);
-            if (pieceName.getColor() === PieceTypeEnum.white)
+            if (pieceName.getColor() === PieceTypeEnum.White)
             piece = whitePieceFactory[pieceName.getFactoryCall()](position);
 
             pieces[position] = piece;
@@ -149,7 +149,7 @@ function createBoard() {
     }
 
     function getAllAttackPositionsByColor(color) {
-        if (color === PieceTypeEnum.empty)
+        if (color === PieceTypeEnum.Empty)
             return [];
         const coordinatesUnderAttack = [];
         let colorPieces = getAllPiecesByColor(color);
@@ -159,8 +159,8 @@ function createBoard() {
     }
 
     function getKingPositionByColor(color) {
-        let king = getKingForColor(color);
-        return getAllPiecesByColor(color).find(piece => piece.getName() === king).getPosition();
+        let king = PieceNameEnum.getKingNameForColor(color);
+        return getAllPiecesByColor(color).find(piece => piece.getName() === king.getName()).getPosition();
     }
 
     function getAllPiecesByColor(color) {

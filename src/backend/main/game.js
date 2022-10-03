@@ -1,13 +1,13 @@
 import { boardBuilder } from './boardBuilder.js';
 import { createRegistry } from './registry.js';
 import { messageManager } from './message.js';
-import { PieceTypeEnum, getOppositeColor, valueOf } from '../piece/pieceTypeEnum.js';
+import { PieceTypeEnum } from '../piece/pieceTypeEnum.js';
 import { GameStatusEnum } from './gameStatusEnum.js'
 
 function createGame(uuidGame) {
     let uuid = uuidGame;
     let gameStatus = GameStatusEnum.ongoing;
-    let turn = PieceTypeEnum.white;
+    let turn = PieceTypeEnum.White;
     let board = boardBuilder().usingInitialPieceDisposition().build();
     let registry = createRegistry(board);
     let status;
@@ -53,7 +53,7 @@ function createGame(uuidGame) {
     }
 
     function advanceTurn() {
-        turn = getOppositeColor(turn);
+        turn = turn.getOppositeColor();
     }
 
     function endGame() {

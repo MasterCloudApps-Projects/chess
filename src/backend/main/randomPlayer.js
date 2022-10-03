@@ -7,7 +7,7 @@ function randomPlayer() {
         let movement, result;
         do {
             movement = getMovement(game.getBoard());
-            result = game.play(movement.origin, movement.destination, PieceTypeEnum.black);
+            result = game.play(movement.origin, movement.destination, PieceTypeEnum.Black);
         } while (result.error);
     }
 
@@ -15,8 +15,8 @@ function randomPlayer() {
         let origins;
         let destinations;
 
-        if (board.isColorOnCheck(PieceTypeEnum.black))
-            return board.getValidMovementWhileColorIsOnCheck(PieceTypeEnum.black);
+        if (board.isColorOnCheck(PieceTypeEnum.Black))
+            return board.getValidMovementWhileColorIsOnCheck(PieceTypeEnum.Black);
 
         origins = board.getAllSquaresOfBlackPieces();
         let origin = generateRandomMovement(origins);
