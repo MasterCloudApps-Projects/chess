@@ -16,9 +16,9 @@ function boardBuilder() {
                 let position = "abcdefgh"[letter]+i.toString();
 
                 //TODO: Review for possible refactoring -> blackPieceFactory[pieceName.call]
-                let piece = blackPieceFactory()[pieceName.call](position);
-                if (pieceName.type === PieceTypeEnum.white)
-                    piece = whitePieceFactory()[pieceName.call](position);
+                let piece = blackPieceFactory()[pieceName.getFactoryCall()](position);
+                if (pieceName.getColor() === PieceTypeEnum.white)
+                    piece = whitePieceFactory()[pieceName.getFactoryCall()](position);
 
                 board.getPieces()[position] = piece;
                 stringCounter++;

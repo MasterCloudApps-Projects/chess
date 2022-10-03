@@ -1,19 +1,39 @@
 import { PieceTypeEnum } from './pieceTypeEnum.js';
 
+function createPieceName(name, color, factoryCall) {
+    function getName() {
+        return name;
+    }
+
+    function getColor() {
+        return color;
+    }
+
+    function getFactoryCall() {
+        return factoryCall;
+    }
+
+    return {
+        getName,
+        getColor,
+        getFactoryCall
+    }
+}
+
 const PieceNameEnum = {
-    BR: { type : PieceTypeEnum.black, call : 'getRook' },
-    BH: { type : PieceTypeEnum.black, call : 'getHorse' },
-    BB: { type : PieceTypeEnum.black, call : 'getBishop' },
-    BQ: { type : PieceTypeEnum.black, call : 'getQueen' },
-    BK: { type : PieceTypeEnum.black, call : 'getKing' },
-    BP: { type : PieceTypeEnum.black, call : 'getPawn' },
-    WR: { type : PieceTypeEnum.white, call : 'getRook' },
-    WH: { type : PieceTypeEnum.white, call : 'getHorse' },
-    WB: { type : PieceTypeEnum.white, call : 'getBishop' },
-    WQ: { type : PieceTypeEnum.white, call : 'getQueen' },
-    WK: { type : PieceTypeEnum.white, call : 'getKing' },
-    WP: { type : PieceTypeEnum.white, call : 'getPawn' },
-    _: { type : PieceTypeEnum.empty, call : 'getEmptyPiece' }
+    BR: createPieceName('BR', PieceTypeEnum.black, 'getRook'),
+    BH: createPieceName('BH', PieceTypeEnum.black, 'getHorse'),
+    BB: createPieceName('BB', PieceTypeEnum.black, 'getBishop'),
+    BQ: createPieceName('BQ', PieceTypeEnum.black, 'getQueen'),
+    BK: createPieceName('BK', PieceTypeEnum.black, 'getKing'),
+    BP: createPieceName('BP', PieceTypeEnum.black, 'getPawn'),
+    WR: createPieceName('WR', PieceTypeEnum.white, 'getRook'),
+    WH: createPieceName('WH', PieceTypeEnum.white, 'getHorse'),
+    WB: createPieceName('WB', PieceTypeEnum.white, 'getBishop'),
+    WQ: createPieceName('WQ', PieceTypeEnum.white, 'getQueen'),
+    WK: createPieceName('WK', PieceTypeEnum.white, 'getKing'),
+    WP: createPieceName('WP', PieceTypeEnum.white, 'getPawn'),
+    _: createPieceName('WR', PieceTypeEnum.white, 'getEmptyPiece'),
 }
 
 function getKingForColor(color) {
@@ -24,5 +44,6 @@ function getKingForColor(color) {
 }
 
 export {
-    PieceNameEnum, getKingForColor
+    PieceNameEnum,
+    getKingForColor
 }

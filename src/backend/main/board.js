@@ -129,9 +129,9 @@ function createBoard() {
         for (let letter = 0; letter < "abcdefgh".length; letter++) {
             let pieceName = PieceNameEnum[memento[stringCounter].trim()];
             let position = "abcdefgh"[letter]+i.toString();
-            let piece = blackPieceFactory[pieceName.call](position);
-            if (pieceName.type === PieceTypeEnum.white)
-            piece = whitePieceFactory[pieceName.call](position);
+            let piece = blackPieceFactory[pieceName.getFactoryCall()](position);
+            if (pieceName.getColor() === PieceTypeEnum.white)
+            piece = whitePieceFactory[pieceName.getFactoryCall()](position);
 
             pieces[position] = piece;
             stringCounter++;
