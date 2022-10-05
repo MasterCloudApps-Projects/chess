@@ -1,8 +1,6 @@
-const GameStatusEnum = {
-    ongoing: 'ongoing',
-    finished: 'finished'
-}
+const GameStatusEnum = Object.freeze({
+    ongoing: "ongoing",
+    finished: "finished",
+});
 
-export {
-    GameStatusEnum
-}
+export { GameStatusEnum };
