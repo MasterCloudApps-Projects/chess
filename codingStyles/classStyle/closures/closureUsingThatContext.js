@@ -31,7 +31,6 @@ clousureA.STATIC_FIELD = "This is a static field";
 console.log(clousureA.STATIC_FIELD);
 clousureA.publicStaticMethod();
 let objA = new clousureA();
-console.log(objA.publicAttribute);
 //console.log(objA.#privateAttribute); // Will print undefined
 objA.publicMethod();
 // objA.privateMethod(); // Will throw not a function error

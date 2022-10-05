@@ -7,7 +7,7 @@ function Clazz(parameter) {
     this.publicAttributeY = 0;
 }
 
-Clazz.prototype.publicInstanceMethod = function () {
+Clazz.prototype.publicMethod = function () {
     privateFunction(this);
     console.log(`publicAttributeX: ${this.publicAttributeX} - publicAttributeY: ${this.publicAttributeY}`);
 
@@ -18,7 +18,7 @@ Clazz.prototype.publicInstanceMethod = function () {
 }
 
 const object = new Clazz(1);
-object.publicInstanceMethod();
+object.publicMethod();
 object.publicAttributeX = 666;
 console.log(`object.publicAttributeX: ${object.publicAttributeX}`);
-object.publicInstanceMethod();
+object.publicMethod();

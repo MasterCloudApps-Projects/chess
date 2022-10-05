@@ -11,16 +11,16 @@ function ConstructorA(parameter) {
 
     this.publicMethod = function() {
         console.log("This is a public method. ");
-        privateFunction();
+        privateFunction(this.publicAttribute);
     }
 
     this.publicMethod2 = function() {
         console.log("This is another public method. ");
     }
 
-    function privateFunction() {
+    function privateFunction(param) {
         console.log("This is a private function.");
-        console.log(this.publicAttribute);
+        console.log(param);
     }
 }
 
@@ -31,7 +31,6 @@ ConstructorA.STATIC_FIELD = "This is a static field";
 
 console.log(ConstructorA.STATIC_FIELD);
 ConstructorA.publicStaticMethod();
-let objA = ClousureA();
+let objA = new ConstructorA(2);
 objA.publicMethod();
 
-console.log('\nInheritance\n');
