@@ -68,8 +68,103 @@ function createCounter () {
   };
 }
 ```
-### Dependency injection:
-Dependency injection can also be approached with ES modules since functions can also receive parameters. Classes must be used only when it is not possible to implement a specific design pattern otherwise.
+
+### Inheritance
+Using the [spread operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax), it is possible to return a object that augmentates (or extends) another object. As a consequence, inheritance is approached this way in the project:
+
+```
+function createObjectA(parameter) {
+    let privateAttributeX = parameter;
+
+    function privateMethod() {
+        privateAttributeX++;
+    }
+
+    function publicMethod1() {
+        privateMethod();
+        console.log(`method1: privateAttributeX: ${privateAttributeX}`);
+    }
+
+    function publicMethod2() {
+        privateMethod();
+        console.log(`method2: privateAttributeX: ${privateAttributeX}`);
+    }
+
+    function parentExclusiveMethod() {
+        privateMethod();
+        console.log(`PARENT EXCLUSIVE: privateAttributeX: ${privateAttributeX}`);
+    }
+
+    return {
+        publicMethod1,
+        publicMethod2,
+        parentExclusiveMethod
+    }
+}
+
+function createObjectB(parameter1, parameter2) {
+    const returned = createObjectA(parameter1);
+
+    let privateAttributeY = parameter2;
+
+    function publicMethod1() {
+        console.log(`Overriden method: privateAttributeY: ${privateAttributeY}`);
+    }
+
+    function publicMethod2() {
+        console.log(`Augmentated method: privateAttributeY: ${privateAttributeY}`);
+        returned.publicMethod2();
+    }
+
+    function exclusiveMethod() {
+        console.log(`Exclusive method: ${privateAttributeY}`);
+    }
+
+    return {
+        ...returned,
+        ...{
+            publicMethod1,
+            exclusiveMethod,
+            publicMethod2,
+        }
+    }
+}
+```
+
+An ObjectB instance will have the ObjectA extended funtionality:
+
+```
+let test = createObjectB(5, 6);
+test.publicMethod1(); // Overriden method: privateAttributeY: 6
+test.publicMethod2();   // Augmentated method: privateAttributeY: 6
+                        // method2: privateAttributeX: 6
+test.exclusiveMethod(); // Exclusive method: 6 
+test.parentExclusiveMethod(); // PARENT EXCLUSIVE: privateAttributeX: 7
+```
+
+The drawback of this approach is that it is not possible to access to any parent's variable from the daughter class. Nevertheless, getters and setters will be used to deal with that.
+
+### Enums
+Enums are also coded with clousures and take advantage of [Object.freeze()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze), which makes impossible to extend or configure an object.
+
+```
+const SeasonEnum = Object.freeze({
+    Winter: createSeason("Winter"),
+    Summer: createSeason("Summer"),
+    Autumn: createSeason("Autumn"),
+    Spring: createSeason("Spring"),
+});
+
+function createSeason(season){
+    let name = season;
+    function methodA(){
+        return "Season: " + name;
+    }
+    return{
+        methodA
+    }
+}
+```
 
 ## Project Structure
 TBD
