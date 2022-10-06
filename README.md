@@ -52,7 +52,7 @@ The usage of **require() is to be avoided**.
 ### Using classes, OOP, and other tools:
 ES6 classes should be avoided and JS modules are a natural alternative. [Stop using javascript classes](https://medium.com/giant-machines/stop-using-javascript-classes-d0b6890ef097) explains why classes are not necessary and how to implement the alternative.
 ### Encapsulation:
-Encapsulation can be dealt with by making use of **clousures**.
+Encapsulation can be dealt with by making use of **closures**.
 ```
 function createCounter () {
   let counter;
@@ -137,14 +137,14 @@ let test = createObjectB(5, 6);
 test.publicMethod1(); // Overriden method: privateAttributeY: 6
 test.publicMethod2();   // Augmentated method: privateAttributeY: 6
                         // method2: privateAttributeX: 6
-test.exclusiveMethod(); // Exclusive method: 6 
+test.exclusiveMethod(); // Exclusive method: 6
 test.parentExclusiveMethod(); // PARENT EXCLUSIVE: privateAttributeX: 7
 ```
 
 The drawback of this approach is that it is not possible to access to any parent's variable from the daughter class. Nevertheless, getters and setters will be used to deal with that.
 
 ### Enums
-Enums are also coded with clousures and take advantage of [Object.freeze()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze), which makes impossible to extend or configure an object.
+Enums are also coded with closures and take advantage of [Object.freeze()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze), which makes impossible to extend or configure an object.
 
 ```
 const SeasonEnum = Object.freeze({
