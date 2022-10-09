@@ -1,6 +1,6 @@
 // Reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures
 
-function clousureA() {
+function closureA() {
     let that = {
         privateAttribute: "This is a private attribute.",
         privateMethod: function () {
@@ -23,14 +23,14 @@ function clousureA() {
 }
 
 
-clousureA.publicStaticMethod = function(){
+closureA.publicStaticMethod = function(){
     console.log("This is a static method.");
 }
-clousureA.STATIC_FIELD = "This is a static field";
+closureA.STATIC_FIELD = "This is a static field";
 
-console.log(clousureA.STATIC_FIELD);
-clousureA.publicStaticMethod();
-let objA = new clousureA();
+console.log(closureA.STATIC_FIELD);
+closureA.publicStaticMethod();
+let objA = new closureA();
 //console.log(objA.#privateAttribute); // Will print undefined
 objA.publicMethod();
 // objA.privateMethod(); // Will throw not a function error

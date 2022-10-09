@@ -1,10 +1,10 @@
 // Reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures
 
-// Clousure
+// Closure
 // Pro: private attributes, private functions, public methods
 // Limitations: No public attributes, must use getter/setter
 
-function ClousureA() {
+function ClosureA() {
 
     let privateAttribute = "This is a private attribute.";
 
@@ -28,12 +28,12 @@ function ClousureA() {
     }
 
 }
-ClousureA.publicStaticMethod = function() {
+ClosureA.publicStaticMethod = function() {
     console.log("This is a static method.");
 }
-ClousureA.STATIC_FIELD = "This is a static field";
+ClosureA.STATIC_FIELD = "This is a static field";
 
-console.log(ClousureA.STATIC_FIELD);
-ClousureA.publicStaticMethod();
-let objA = ClousureA();
+console.log(ClosureA.STATIC_FIELD);
+ClosureA.publicStaticMethod();
+let objA = ClosureA();
 objA.publicMethod();
