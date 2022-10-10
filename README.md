@@ -52,7 +52,7 @@ The usage of **require() is to be avoided**.
 ### Using classes, OOP, and other tools:
 ES6 classes should be avoided and JS modules are a natural alternative. [Stop using javascript classes](https://medium.com/giant-machines/stop-using-javascript-classes-d0b6890ef097) explains why classes are not necessary and how to implement the alternative.
 ### Encapsulation:
-Encapsulation can be dealt with by making use of **clousures**.
+Encapsulation can be dealt with by making use of **closures**.
 ```
 function createCounter () {
   let counter;
@@ -68,7 +68,6 @@ function createCounter () {
   };
 }
 ```
-
 ### Inheritance
 Using the [spread operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax), it is possible to return a object that augmentates (or extends) another object. As a consequence, inheritance is approached this way in the project:
 
@@ -138,14 +137,14 @@ let test = createObjectB(5, 6);
 test.publicMethod1(); // Overriden method: privateAttributeY: 6
 test.publicMethod2();   // Augmentated method: privateAttributeY: 6
                         // method2: privateAttributeX: 6
-test.exclusiveMethod(); // Exclusive method: 6 
+test.exclusiveMethod(); // Exclusive method: 6
 test.parentExclusiveMethod(); // PARENT EXCLUSIVE: privateAttributeX: 7
 ```
 
 The drawback of this approach is that it is not possible to access to any parent's variable from the daughter class. Nevertheless, getters and setters will be used to deal with that.
 
 ### Enums
-Enums are also coded with clousures and take advantage of [Object.freeze()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze), which makes impossible to extend or configure an object.
+Enums are also coded with closures and take advantage of [Object.freeze()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze), which makes impossible to extend or configure an object.
 
 ```
 const SeasonEnum = Object.freeze({
@@ -171,37 +170,41 @@ TBD
 
 ## Design Pattern Implementation
 ### Creational patterns
-- [Factory]()
-- [Factory Method]()
-- [Builder]()
+- [Builder](#builder)
 ### Behavioral patterns
+- [Template Method](#template-metod)
 - [Strategy](#strategy-pattern)
-- [Memento]()
+- [Memento](#memento)
 ### Structural patterns
-- [Composite]()
-- [Decorator]()
-
-#### Factory pattern
-Piece creation is handled by color factories.
-
-#### Factory method
-Piece factories define concrete piece objects by using a factory method only implemented on child modules.
+- [Composite](#composite)
 
 #### Builder
-Board creation and initialization is done via a builder pattern.
+Board creation and initialization is done via a builder pattern, which accepts custom board layouts as strings and features default ones.
+
+<p align="center">
+    <img src=".readme/boardBuilderPatternDiagram.png" />
+</p>
+
+#### Template Method
+TBD
 
 #### Strategy pattern
 Used to manage how pieces move across the board. As so, several movement strategies exist to implement each kind of piece, which can also be swapped during execution. This is the case of the pawn piece turning into a queen when reaching the end of the board, which was solved smoothly by using this pattern.
 
- <p align="center">
+<p align="center">
     <img src=".readme/movementStrategyPatternDiagram.png" />
- </p>
+</p>
 
 #### Memento
 Undo/Redo functionality is implemented by a memento pattern, which is also used to simulate movements when calculating checkmate possibilities.
 
-#### Composite
-The Queen movement strategy is implemented via a composite movement of both Rook and Bishop movement strategies.
+<p align="center">
+    <img src=".readme/boardMementoPatternDiagram.png" />
+</p>
 
-#### Decorator
-Attributes, and some functionality specific to certain piece types, are added via a series of decorator functions called from the piece factory during piece creation.
+#### Composite
+The Queen movement strategy is implemented via a composite movement of both Rook and Bishop movement strategies, while still operating the same as a normal piece movement rule.
+
+<p align="center">
+    <img src=".readme/queenCompositePatternDiagram.png" />
+</p>

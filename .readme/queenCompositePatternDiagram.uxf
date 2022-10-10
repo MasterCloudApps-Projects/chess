@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.0.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>90</x>
+      <y>210</y>
+      <w>190</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>piece.js
+--
+- movement : MoveRule</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>410</x>
+      <y>220</y>
+      <w>140</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>pieceMoveRule.js
+bg=green
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>270</x>
+      <y>230</y>
+      <w>160</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;&gt;&gt;&gt;</panel_attributes>
+    <additional_attributes>140.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>230</x>
+      <y>130</y>
+      <w>460</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>Queen Move Rule - Composite Pattern ES6 Module Structure
+bg=cyan</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>180</x>
+      <y>350</y>
+      <w>140</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>rookMoveRule.js
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>340</x>
+      <y>350</y>
+      <w>150</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>bishopMoveRule.js
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>520</x>
+      <y>340</y>
+      <w>290</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>queenMoveRule.js
+bg=orange
+--
+- straightMovement : RookMoveRule
+- diagonalMovement : BishopMoveRule</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>390</x>
+      <y>250</y>
+      <w>110</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>90.0;10.0;90.0;70.0;10.0;70.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>240</x>
+      <y>250</y>
+      <w>260</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>240.0;10.0;240.0;70.0;10.0;70.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>470</x>
+      <y>250</y>
+      <w>170</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0;150.0;70.0;150.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>390</x>
+      <y>370</y>
+      <w>250</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;&gt;&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0;230.0;80.0;230.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>240</x>
+      <y>370</y>
+      <w>400</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;&gt;&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0;380.0;80.0;380.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>390</x>
+      <y>250</y>
+      <w>110</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>90.0;10.0;90.0;70.0;10.0;70.0;10.0;100.0</additional_attributes>
+  </element>
+</diagram>
