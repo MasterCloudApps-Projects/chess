@@ -1,28 +1,41 @@
-import { moveRuleMap } from '../moveRule/moveRuleMap.js';
-
-function createPiece(pieceAbbreviation, pieceFullName, pieceColor, piecePosition, pieceMovement) {
+function createPiece(pieceAbbreviation, pieceFullName, pieceColor, piecePosition, pieceMovementRule) {
     let abbreviation = pieceAbbreviation;
     let fullName = pieceFullName;
     let color = pieceColor;
     let position = piecePosition;
-    let movement = pieceMovement;
+    let movement = pieceMovementRule;
 
     function getAbbreviation() {
         return abbreviation;
+    }
+
+    function setAbbreviation(newAbbreviation) {
+        abbreviation = newAbbreviation;
     }
 
     function getFullName() {
         return fullName;
     }
 
+    function setFullName(newFullName) {
+        fullName = newFullName
+    }
+
     function getPosition() {
         return position;
+    }
+
+    function getMovementRule() {
+        return movement;
+    }
+
+    function setMovementRule(newMovementRule) {
+        movement = newMovementRule;
     }
 
     function setPosition(positionPiece) {
         position = positionPiece;
     }
-
 
     function updateCurrentPosition(origin, pieces) {
         movement.updateCurrentPosition(origin, pieces);
@@ -34,19 +47,6 @@ function createPiece(pieceAbbreviation, pieceFullName, pieceColor, piecePosition
 
     function getPossibleMovements(pieces) {
         return movement.getPossibleMovements(position, pieces);
-    }
-
-    function doAfterMovement() {
-        movement.doAfterMovement(position);
-        if(abbreviation.includes('P') && movement.shouldTurnToQueen()){
-            transformToQueen();
-        }
-    }
-
-    function transformToQueen() {
-        movement = moveRuleMap.queen();
-        fullName = fullName.replace('pawn', 'queen');
-        abbreviation = abbreviation.replace('P', 'Q');
     }
 
     function getAttackPositions(pieces) {
@@ -75,12 +75,15 @@ function createPiece(pieceAbbreviation, pieceFullName, pieceColor, piecePosition
 
     return {
         getAbbreviation,
+        setAbbreviation,
         getFullName,
+        setFullName,
+        getMovementRule,
+        setMovementRule,
         getPosition,
         setPosition,
         isPossibleMove,
         getPossibleMovements,
-        doAfterMovement,
         getAttackPositions,
         isWhite,
         isOpposingColor,

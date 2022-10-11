@@ -38,7 +38,6 @@ function createBoard() {
         pieces[movementDestination] = pieces[movementOrigin];
         pieces[movementDestination].setPosition(movementDestination);
         createEmptyTile(movementOrigin);
-        pieces[movementDestination].doAfterMovement();
     }
 
     function updateCheckStatus(playerColor, previousState) {

@@ -15,7 +15,6 @@ function createPieceMoveRule(){
     }
 
     function getPossibleMovements () {};
-    function doAfterMovement () {};
 
     return {
         ...absMovement,
@@ -23,7 +22,6 @@ function createPieceMoveRule(){
             isPossibleMove,
             getAttackMovements,
             getPossibleMovements,
-            doAfterMovement
         }
     }
 }
