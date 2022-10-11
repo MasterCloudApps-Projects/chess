@@ -1,15 +1,15 @@
-import { PieceTypeEnum } from './pieceTypeEnum.js';
+import { PieceColorEnum } from './pieceColorEnum.js';
 import { moveRules } from '../moveRule/moveRules.js';
 
-function createPiece(pieceName, pieceFullName, pieceColor, piecePosition, pieceMovement) {
-    let name = pieceName;
+function createPiece(pieceAbbreviation, pieceFullName, pieceColor, piecePosition, pieceMovement) {
+    let abbreviation = pieceAbbreviation;
     let fullName = pieceFullName;
     let color = pieceColor;
     let position = piecePosition;
     let movement = pieceMovement;
 
-    function getName() {
-        return name;
+    function getAbbreviation() {
+        return abbreviation;
     }
 
     function getFullName() {
@@ -39,7 +39,7 @@ function createPiece(pieceName, pieceFullName, pieceColor, piecePosition, pieceM
 
     function doAfterMovement() {
         movement.doAfterMovement(position);
-        if(name.includes('P') && movement.shouldTurnToQueen()){
+        if(abbreviation.includes('P') && movement.shouldTurnToQueen()){
             transformToQueen();
         }
     }
@@ -47,7 +47,7 @@ function createPiece(pieceName, pieceFullName, pieceColor, piecePosition, pieceM
     function transformToQueen() {
         movement = moveRules.getQueenMoveRule();
         fullName = fullName.replace('pawn', 'queen');
-        name = name.replace('P', 'Q');
+        abbreviation = abbreviation.replace('P', 'Q');
     }
 
     function getAttackPositions(pieces) {
@@ -55,7 +55,7 @@ function createPiece(pieceName, pieceFullName, pieceColor, piecePosition, pieceM
     }
 
     function isWhite() {
-        return color === PieceTypeEnum.White;
+        return color === PieceColorEnum.White;
     }
 
     function isOpposingColor(piece) {
@@ -67,7 +67,7 @@ function createPiece(pieceName, pieceFullName, pieceColor, piecePosition, pieceM
     }
 
     function isEmpty() {
-        return color === PieceTypeEnum.Empty;
+        return color === PieceColorEnum.Empty;
     }
 
     function getMovementError() {
@@ -75,7 +75,7 @@ function createPiece(pieceName, pieceFullName, pieceColor, piecePosition, pieceM
     }
 
     return {
-        getName,
+        getAbbreviation,
         getFullName,
         getPosition,
         setPosition,

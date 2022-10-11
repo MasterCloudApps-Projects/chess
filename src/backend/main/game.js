@@ -1,13 +1,13 @@
 import { boardBuilder } from './boardBuilder.js';
 import { createRegistry } from './registry.js';
 import { messageManager } from './message.js';
-import { PieceTypeEnum } from '../piece/pieceTypeEnum.js';
+import { PieceColorEnum } from '../piece/pieceColorEnum.js';
 import { GameStatusEnum } from './gameStatusEnum.js'
 
 function createGame(uuidGame) {
     let uuid = uuidGame;
     let gameStatus = GameStatusEnum.ongoing;
-    let turn = PieceTypeEnum.White;
+    let turn = PieceColorEnum.White;
     let board = boardBuilder().usingInitialPieceDisposition().build();
     let registry = createRegistry(board);
     let status;

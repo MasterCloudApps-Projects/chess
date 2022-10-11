@@ -1,8 +1,6 @@
-import { PieceTypeEnum } from "../piece/pieceTypeEnum.js";
-import { PieceNameEnum } from "../piece/pieceNameEnum.js";
-import { createBlackFactory } from "../piece/blackPieceFactory.js";
-import { createWhiteFactory } from "../piece/whitePieceFactory.js";
-import { createFactory } from "../piece/pieceFactory.js";
+import { PieceColorEnum } from "../piece/pieceColorEnum.js";
+import { PieceAbbreviationEnum } from "../piece/pieceAbbreviationEnum.js";
+import { createPieceFactory } from "../piece/pieceFactory.js";
 
 function createBoard() {
     let pieces = {};
@@ -96,17 +94,17 @@ function createBoard() {
 
     function getBoardPieceNames() {
         let result = {};
-        for (let key in pieces) result[key] = pieces[key].getName();
+        for (let key in pieces) result[key] = pieces[key].getAbbreviation();
 
         return result;
     }
 
     function getAllSquaresOfBlackPieces() {
-        return getAllCoordinatesByColor(PieceTypeEnum.Black);
+        return getAllCoordinatesByColor(PieceColorEnum.Black);
     }
 
     function getAllEmptySquares() {
-        return getAllCoordinatesByColor(PieceTypeEnum.Empty);
+        return getAllCoordinatesByColor(PieceColorEnum.Empty);
     }
 
     function getAllCoordinatesByColor(color) {
@@ -129,19 +127,16 @@ function createBoard() {
     }
 
     function setMemento(memento) {
-        const blackPieceFactory = createBlackFactory();
-        const whitePieceFactory = createWhiteFactory();
+        const pieceFactory = createPieceFactory();
         memento = memento.split("-");
         let stringCounter = 0;
         for (let i = 1; i <= 8; i++)
             for (let letter = 0; letter < "abcdefgh".length; letter++) {
-                let pieceName = PieceNameEnum[memento[stringCounter].trim()];
+                let pieceAbbreviation = PieceAbbreviationEnum[memento[stringCounter].trim()];
                 let position = "abcdefgh"[letter] + i.toString();
                 let piece =
-                    blackPieceFactory[pieceName.getFactoryCall()](position);
-                if (pieceName.getColor() === PieceTypeEnum.White)
-                    piece =
-                        whitePieceFactory[pieceName.getFactoryCall()](position);
+                    pieceFactory[pieceAbbreviation.getFactoryCall()](pieceAbbreviation.getAbbreviation(), pieceAbbreviation.getColor(), position);
+
 
                 pieces[position] = piece;
                 stringCounter++;
@@ -159,7 +154,7 @@ function createBoard() {
     }
 
     function getAllAttackPositionsByColor(color) {
-        if (color === PieceTypeEnum.Empty) return [];
+        if (color === PieceColorEnum.Empty) return [];
         const coordinatesUnderAttack = [];
         let colorPieces = getAllPiecesByColor(color);
         for (let i in colorPieces)
@@ -171,9 +166,9 @@ function createBoard() {
 
     function getKingPositionByColor(color) {
         let king =
-            color === PieceTypeEnum.Black ? PieceNameEnum.BK : PieceNameEnum.WK;
+            color === PieceColorEnum.Black ? PieceAbbreviationEnum.BK : PieceAbbreviationEnum.WK;
         return getAllPiecesByColor(color)
-            .find((piece) => piece.getName() === king.getName())
+            .find((piece) => piece.getAbbreviation() === king.getAbbreviation())
             .getPosition();
     }
 
@@ -186,8 +181,7 @@ function createBoard() {
     }
 
     function createEmptyTile(coordinate) {
-        //TODO: refactor factory
-        pieces[coordinate] = createFactory().getEmptyPiece(coordinate);
+        pieces[coordinate] = createPieceFactory().getEmptyPiece(coordinate);
     }
 
     function getInvalidMovementError(piece) {
