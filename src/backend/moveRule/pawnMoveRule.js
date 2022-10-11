@@ -1,10 +1,8 @@
 import { createPieceMoveRule } from "./pieceMoveRule.js";
 import { getRow } from "./coordinate.js";
 
-function getPawnMoveRule(isFirstMovementP, isFromNorthSideP) {
+function getPawnMoveRule(isFirstMovement, isFromNorthSide) {
     let moveRule = createPieceMoveRule();
-    let isFirstMovement = isFirstMovementP;
-    let isFromNorthSide = isFromNorthSideP;
 
     function getPossibleMovements () {
         let possibleMovements = [];

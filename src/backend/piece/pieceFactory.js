@@ -1,48 +1,24 @@
 import { createPiece } from "./piece.js";
-import { moveRules } from "../moveRule/moveRules.js";
+import { moveRuleMap } from "../moveRule/moveRuleMap.js";
 import { PieceColorEnum } from './pieceColorEnum.js';
 
 function createPieceFactory() {
 
-    function getEmptyPiece(position) {
-        return createPiece('_', 'empty', PieceColorEnum.Empty, position);
-    }
-
-    function getRook(abbreviation, color, position) {
-        return createPiece(abbreviation, color.getLiteral()+' rook', color, position, moveRules.getRookMoveRule());
-    }
-
-    function getHorse(abbreviation, color, position) {
-        return createPiece(abbreviation, color.getLiteral()+' horse', color, position, moveRules.getHorseMoveRule());
-    }
-
-    function getBishop(abbreviation, color, position) {
-        return createPiece(abbreviation, color.getLiteral()+' bishop', color, position, moveRules.getBishopMoveRule());
-    }
-
-    function getQueen(abbreviation, color, position) {
-        return createPiece(abbreviation, color.getLiteral()+' queen', color, position, moveRules.getQueenMoveRule());
-    }
-
-    function getKing(abbreviation, color, position) {
-        return createPiece(abbreviation, color.getLiteral()+' king', color, position, moveRules.getKingMoveRule());
-    }
-
-    function getPawn (abbreviation, color, position) {
-        //TODO: decorate pawn
+    function getPiece(abbreviation, color, position, pieceName) {
         const pawnFirstPositions = { BP : '7', WP : '2' };
-        return createPiece(abbreviation, color.getLiteral()+' pawn', color, position,
-            moveRules.getPawnMoveRule(position.includes(pawnFirstPositions[abbreviation]), !color.getAbbreviation().includes('W')));
+        switch (pieceName) {
+            case 'empty':
+                return createPiece('_', pieceName, PieceColorEnum.Empty, position);
+            case 'pawn':
+                return createPiece(abbreviation, color.getLiteral()+' '+pieceName, color, position,
+                    moveRuleMap.pawn(position.includes(pawnFirstPositions[abbreviation]), !color.isWhite()));
+            default:
+                return createPiece(abbreviation, color.getLiteral()+' '+pieceName, color, position, moveRuleMap[pieceName]());
+        }
     }
 
     return {
-        getEmptyPiece,
-        getRook,
-        getHorse,
-        getBishop,
-        getQueen,
-        getKing,
-        getPawn
+        getPiece
     };
 }
 

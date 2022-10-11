@@ -1,5 +1,4 @@
-import { PieceColorEnum } from './pieceColorEnum.js';
-import { moveRules } from '../moveRule/moveRules.js';
+import { moveRuleMap } from '../moveRule/moveRuleMap.js';
 
 function createPiece(pieceAbbreviation, pieceFullName, pieceColor, piecePosition, pieceMovement) {
     let abbreviation = pieceAbbreviation;
@@ -45,7 +44,7 @@ function createPiece(pieceAbbreviation, pieceFullName, pieceColor, piecePosition
     }
 
     function transformToQueen() {
-        movement = moveRules.getQueenMoveRule();
+        movement = moveRuleMap.queen();
         fullName = fullName.replace('pawn', 'queen');
         abbreviation = abbreviation.replace('P', 'Q');
     }
@@ -55,7 +54,7 @@ function createPiece(pieceAbbreviation, pieceFullName, pieceColor, piecePosition
     }
 
     function isWhite() {
-        return color === PieceColorEnum.White;
+        return color.isWhite();
     }
 
     function isOpposingColor(piece) {
@@ -67,7 +66,7 @@ function createPiece(pieceAbbreviation, pieceFullName, pieceColor, piecePosition
     }
 
     function isEmpty() {
-        return color === PieceColorEnum.Empty;
+        return color.isEmpty();
     }
 
     function getMovementError() {

@@ -134,9 +134,11 @@ function createBoard() {
             for (let letter = 0; letter < "abcdefgh".length; letter++) {
                 let pieceAbbreviation = PieceAbbreviationEnum[memento[stringCounter].trim()];
                 let position = "abcdefgh"[letter] + i.toString();
-                let piece =
-                    pieceFactory[pieceAbbreviation.getFactoryCall()](pieceAbbreviation.getAbbreviation(), pieceAbbreviation.getColor(), position);
-
+                let piece = pieceFactory.getPiece(
+                    pieceAbbreviation.getAbbreviation(),
+                    pieceAbbreviation.getColor(),
+                    position,
+                    pieceAbbreviation.getPieceName());
 
                 pieces[position] = piece;
                 stringCounter++;
@@ -154,7 +156,7 @@ function createBoard() {
     }
 
     function getAllAttackPositionsByColor(color) {
-        if (color === PieceColorEnum.Empty) return [];
+        if (color.isEmpty()) return [];
         const coordinatesUnderAttack = [];
         let colorPieces = getAllPiecesByColor(color);
         for (let i in colorPieces)
@@ -166,7 +168,7 @@ function createBoard() {
 
     function getKingPositionByColor(color) {
         let king =
-            color === PieceColorEnum.Black ? PieceAbbreviationEnum.BK : PieceAbbreviationEnum.WK;
+            color.isWhite() ? PieceAbbreviationEnum.WK : PieceAbbreviationEnum.BK;
         return getAllPiecesByColor(color)
             .find((piece) => piece.getAbbreviation() === king.getAbbreviation())
             .getPosition();
@@ -181,7 +183,11 @@ function createBoard() {
     }
 
     function createEmptyTile(coordinate) {
-        pieces[coordinate] = createPieceFactory().getEmptyPiece(coordinate);
+        pieces[coordinate] = createPieceFactory().getPiece(
+            PieceAbbreviationEnum._.getAbbreviation(),
+            PieceColorEnum.Empty,
+            coordinate,
+            PieceAbbreviationEnum._.getPieceName());
     }
 
     function getInvalidMovementError(pieceFullName) {

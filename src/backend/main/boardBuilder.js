@@ -14,7 +14,11 @@ function boardBuilder() {
                 pieceAbbreviation = PieceAbbreviationEnum[pieceStringLayout[stringCounter].trim()];
                 let position = "abcdefgh"[letter]+i.toString();
 
-                let piece = pieceFactory[pieceAbbreviation.getFactoryCall()](pieceAbbreviation.getAbbreviation(), pieceAbbreviation.getColor(), position);
+                let piece = pieceFactory.getPiece(
+                    pieceAbbreviation.getAbbreviation(),
+                    pieceAbbreviation.getColor(),
+                    position,
+                    pieceAbbreviation.getPieceName());
 
                 board.getPieces()[position] = piece;
                 stringCounter++;

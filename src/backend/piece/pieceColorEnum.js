@@ -8,15 +8,25 @@ function createColor(abbreviation, literal) {
     }
 
     function getOppositeColor() {
-        if (abbreviation === PieceColorEnum.Black.getAbbreviation())
-            return PieceColorEnum.White;
-        return PieceColorEnum.Black;
+        if (this.isWhite())
+            return PieceColorEnum.Black;
+        return PieceColorEnum.White;
+    }
+
+    function isWhite() {
+        return this === PieceColorEnum.White;
+    }
+
+    function isEmpty() {
+        return this === PieceColorEnum.Empty;
     }
 
     return {
         getAbbreviation,
         getLiteral,
         getOppositeColor,
+        isWhite,
+        isEmpty
     };
 }
 
