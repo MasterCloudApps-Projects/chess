@@ -25,7 +25,7 @@ function createBoard() {
             !pieces[movementOrigin].isPossibleMove(movementDestination, pieces)
         ) {
             errorMessage = getInvalidMovementError(
-                pieces[movementOrigin].fullName
+                pieces[movementOrigin].getFullName()
             );
             return;
         }
@@ -184,8 +184,8 @@ function createBoard() {
         pieces[coordinate] = createPieceFactory().getEmptyPiece(coordinate);
     }
 
-    function getInvalidMovementError(piece) {
-        return "Invalid " + piece + " movement";
+    function getInvalidMovementError(pieceFullName) {
+        return "Invalid " + pieceFullName + " movement";
     }
 
     return {

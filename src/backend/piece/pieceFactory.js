@@ -31,7 +31,7 @@ function createPieceFactory() {
     function getPawn (abbreviation, color, position) {
         //TODO: decorate pawn
         const pawnFirstPositions = { BP : '7', WP : '2' };
-        return createPiece(abbreviation, color.getLiteral()+' king', color, position,
+        return createPiece(abbreviation, color.getLiteral()+' pawn', color, position,
             moveRules.getPawnMoveRule(position.includes(pawnFirstPositions[abbreviation]), !color.getAbbreviation().includes('W')));
     }
 
