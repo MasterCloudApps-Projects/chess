@@ -20,31 +20,35 @@ function createCoordinate(){
         return coordinate.slice(1, 2);
     }
 
-    function nextRow(coordinate, direction){
-        let index = parseInt(getRow(coordinate)) + direction;
-        return (index > 0  && index <= rows.length) ? getColumn(coordinate) + index : coordinate;
+    function nextSquare(origin, direction){
+        if(direction.isDiagonal())
+            return nextDiagonal(origin, direction);
+        return nextHorizontal(origin, direction.getRow(), direction.getColumn())
     }
 
-    function nextColumn(coordinate, direction){
-        let index = columns.indexOf(getColumn(coordinate)) + direction;
-        return (index >= 0 && index < columns.length) ? columns[index] + getRow(coordinate) : coordinate;
+    function nextHorizontal(origin, directionRow, directionColumn){
+        let newRow = parseInt(getRow(origin)) + directionRow;
+        let newColumn = columns.indexOf(getColumn(origin)) + directionColumn;
+        if((newRow > 0  && newRow <= rows.length) && (newColumn >= 0 && newColumn < columns.length))
+            return columns[newColumn] + newRow;
+        return origin;
     }
 
-    function nextDiagonal(coordinate, rowDirection, columnDirection) {
-        return validDiagonal(coordinate, nextRow(coordinate, + rowDirection), nextColumn(coordinate, + columnDirection));
+    function nextDiagonal(origin, direction) {
+        let nextRow = nextHorizontal(origin, direction.getRow(), 0);
+        let nextColumn = nextHorizontal(origin, 0, direction.getColumn());
+        return getValidDiagonal(origin, nextRow, nextColumn);
     }
 
-    function validDiagonal(coordinate, newRow, newColumn) {
-        return (coordinate === newRow || coordinate === newColumn) ? coordinate : getColumn(newColumn) + getRow(newRow);
+    function getValidDiagonal(origin, newRow, newColumn) {
+        return (origin === newRow || origin === newColumn) ? origin : getColumn(newColumn) + getRow(newRow);
     }
 
     return {
         setPosition,
         getPosition,
         getRow,
-        nextRow,
-        nextColumn,
-        nextDiagonal
+        nextSquare
     }
 }
 

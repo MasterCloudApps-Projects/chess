@@ -23,13 +23,8 @@ function createAbstractMoveRule() {
         return boardPieces;
     }
 
-    //TODO: pending refactor
     function getNextSquare(origin, direction){
-        if(direction.isDiagonal())
-            return currentPosition.nextDiagonal(origin, direction.getRow(),  direction.getColumn());
-        else if(direction.isColumn())
-            return currentPosition.nextColumn(origin, direction.getColumn());
-        return currentPosition.nextRow(origin, direction.getRow());
+        return currentPosition.nextSquare(origin, direction);
     }
 
     function isEmptyCoordinate(destination) {
