@@ -13,7 +13,7 @@ function createStraightLineMoveRule(motionCoordinates) {
     function getMovements(nextCoordinate) {
         let movements = [];
         let origin = moveRule.getCurrentPosition();
-        let nextSquare = moveRule[nextCoordinate](origin);
+        let nextSquare = moveRule.getNextSquare(origin, nextCoordinate);
         let possible = moveRule.isEmptyCoordinate(nextSquare) || moveRule.isOpposingColor(nextSquare);
 
         while(possible && !movements.includes(nextSquare)) {
@@ -21,7 +21,7 @@ function createStraightLineMoveRule(motionCoordinates) {
             if (moveRule.isOpposingColor(nextSquare))
                 return movements;
 
-            nextSquare = moveRule[nextCoordinate](nextSquare);
+            nextSquare = moveRule.getNextSquare(nextSquare, nextCoordinate);
             possible = moveRule.isEmptyCoordinate(nextSquare) || moveRule.isOpposingColor(nextSquare);
         }
         return movements;

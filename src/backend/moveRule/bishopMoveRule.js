@@ -1,12 +1,14 @@
 import { createStraightLineMoveRule } from "./straightLineMoveRule.js";
+import { DirectionEnum } from "./directionEnum.js";
 
 function getBishopMoveRule() {
     let motionCoordinates = [
-        'getNextNorthEastDiagonal',
-        'getNextNorthWestDiagonal',
-        'getNextSouthEastDiagonal',
-        'getNextSouthWestDiagonal'
+        DirectionEnum.northEast,
+        DirectionEnum.northWest,
+        DirectionEnum.southEast,
+        DirectionEnum.southWest
     ];
+
     return {
         ...createStraightLineMoveRule(motionCoordinates)
     }

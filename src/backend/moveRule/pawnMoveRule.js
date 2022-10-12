@@ -1,5 +1,6 @@
 import { createPieceMoveRule } from "./pieceMoveRule.js";
 import { createCoordinate } from "./coordinate.js";
+import { DirectionEnum} from "./directionEnum.js"
 
 function getPawnMoveRule(isFirstMovementP, isFromNorthSideP) {
     let moveRule = createPieceMoveRule();
@@ -19,7 +20,6 @@ function getPawnMoveRule(isFirstMovementP, isFromNorthSideP) {
     }
 
     function shouldTurnToQueen () {
-        //TODO: review
         let coordinate = createCoordinate();
         if (isFromNorthSide && coordinate.getRow(moveRule.getCurrentPosition()) <= 1)
             return true;
@@ -58,23 +58,23 @@ function getPawnMoveRule(isFirstMovementP, isFromNorthSideP) {
 
     function getForwardSquare(origin) {
         if (isFromNorthSide)
-            return moveRule.getNextSquareSouth(origin);
+            return moveRule.getNextSquare(origin, DirectionEnum.south);
         else
-            return moveRule.getNextSquareNorth(origin);
+            return moveRule.getNextSquare(origin, DirectionEnum.north);
     }
 
     function getDiagonalRightSquare(origin) {
         if (isFromNorthSide)
-            return moveRule.getNextSouthEastDiagonal(origin);
+            return moveRule.getNextSquare(origin, DirectionEnum.southEast);
         else
-            return moveRule.getNextNorthEastDiagonal(origin);
+            return moveRule.getNextSquare(origin, DirectionEnum.northEast);
     }
 
     function getDiagonalLeftSquare(origin) {
         if (isFromNorthSide)
-            return moveRule.getNextSouthWestDiagonal(origin);
+            return moveRule.getNextSquare(origin, DirectionEnum.southEast);
         else
-            return moveRule.getNextNorthWestDiagonal(origin);
+            return moveRule.getNextSquare(origin, DirectionEnum.northWest);
     }
 
     return {

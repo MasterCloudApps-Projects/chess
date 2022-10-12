@@ -1,4 +1,5 @@
 import {createCoordinate} from './coordinate.js';
+import { DirectionEnum } from './directionEnum.js';
 
 function createAbstractMoveRule() {
 
@@ -22,40 +23,13 @@ function createAbstractMoveRule() {
         return boardPieces;
     }
 
-    function getNextSquareNorth(origin) {
-        return currentPosition.nextRow(origin, +1);
-    }
-
-    function getNextSquareSouth(origin)  {
-        return currentPosition.nextRow(origin, -1);
-    }
-
-    function getNextSquareEast(origin) {
-        return currentPosition.nextColumn(origin, +1);
-    }
-
-    function getNextSquareWest(origin) {
-        return currentPosition.nextColumn(origin, -1);
-    }
-
-    function getNextNorthEastDiagonal(origin) {
-        return currentPosition.nextDiagonal(origin, +1, +1);
-    }
-
-    function getNextNorthWestDiagonal(origin) {
-        return currentPosition.nextDiagonal(origin, +1, -1);
-    }
-
-    function getNextSouthEastDiagonal(origin) {
-        return currentPosition.nextDiagonal(origin, -1, +1);
-    }
-
-    function getNextSouthWestDiagonal(origin) {
-        return currentPosition.nextDiagonal(origin, -1, -1);
-    }
-
-    function goesOutOfBounds(directionFunction, origin) {
-            return directionFunction(origin) === origin;
+    //TODO: pending refactor
+    function getNextSquare(origin, direction){
+        if(direction.isDiagonal())
+            return currentPosition.nextDiagonal(origin, direction.getRow(),  direction.getColumn());
+        else if(direction.isColumn())
+            return currentPosition.nextColumn(origin, direction.getColumn());
+        return currentPosition.nextRow(origin, direction.getRow());
     }
 
     function isEmptyCoordinate(destination) {
@@ -68,15 +42,7 @@ function createAbstractMoveRule() {
 
     return {
         updateCurrentPosition,
-        getNextSquareNorth,
-        getNextSquareEast,
-        getNextSquareSouth,
-        getNextSquareWest,
-        getNextNorthEastDiagonal,
-        getNextSouthEastDiagonal,
-        getNextSouthWestDiagonal,
-        getNextNorthWestDiagonal,
-        goesOutOfBounds,
+        getNextSquare,
         isEmptyCoordinate,
         isOpposingColor,
         getCurrentPosition,

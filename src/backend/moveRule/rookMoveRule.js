@@ -1,15 +1,16 @@
 import { createStraightLineMoveRule } from "./straightLineMoveRule.js";
+import { DirectionEnum } from "./directionEnum.js";
 
 function getRookMoveRule() {
-    let motionCoordinate = [
-        'getNextSquareNorth',
-        'getNextSquareSouth',
-        'getNextSquareEast',
-        'getNextSquareWest'
+    let motionCoordinates = [
+        DirectionEnum.north,
+        DirectionEnum.south,
+        DirectionEnum.east,
+        DirectionEnum.west
     ];
 
     return {
-        ...createStraightLineMoveRule(motionCoordinate)
+        ...createStraightLineMoveRule(motionCoordinates)
     }
 }
 

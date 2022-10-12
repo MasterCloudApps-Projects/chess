@@ -1,4 +1,6 @@
 import { createPieceMoveRule } from "./pieceMoveRule.js";
+import { DirectionEnum } from "./directionEnum.js"
+
 
 function getHorseMoveRule() {
     let moveRule = createPieceMoveRule();
@@ -9,39 +11,47 @@ function getHorseMoveRule() {
 
     function getLShapes () {
         let movements = [];
-        movements.push(...getLShapeMovement(moveRule.getNextSquareNorth, moveRule.getNextSquareEast));
-        movements.push(...getLShapeMovement(moveRule.getNextSquareNorth, moveRule.getNextSquareWest));
+        movements.push(...getLShapeMovement(DirectionEnum.north, DirectionEnum.east));
+        movements.push(...getLShapeMovement(DirectionEnum.north, DirectionEnum.west));
 
-        movements.push(...getLShapeMovement(moveRule.getNextSquareSouth, moveRule.getNextSquareEast));
-        movements.push(...getLShapeMovement(moveRule.getNextSquareSouth, moveRule.getNextSquareWest));
+        movements.push(...getLShapeMovement(DirectionEnum.south, DirectionEnum.east));
+        movements.push(...getLShapeMovement(DirectionEnum.south, DirectionEnum.west));
 
-        movements.push(...getLShapeMovement(moveRule.getNextSquareEast, moveRule.getNextSquareNorth));
-        movements.push(...getLShapeMovement(moveRule.getNextSquareEast, moveRule.getNextSquareSouth));
+        movements.push(...getLShapeMovement(DirectionEnum.east, DirectionEnum.north));
+        movements.push(...getLShapeMovement(DirectionEnum.east, DirectionEnum.south));
 
-        movements.push(...getLShapeMovement(moveRule.getNextSquareWest, moveRule.getNextSquareNorth));
-        movements.push(...getLShapeMovement(moveRule.getNextSquareWest, moveRule.getNextSquareSouth));
+        movements.push(...getLShapeMovement(DirectionEnum.west, DirectionEnum.north));
+        movements.push(...getLShapeMovement(DirectionEnum.west, DirectionEnum.south));
         return movements;
     }
 
+    //TODO: refactor duplicate code
     function getLShapeMovement(singleSquareDirection, doubleSquareDirection) {
         let movements = [];
         let origin = moveRule.getCurrentPosition();
 
-        if (moveRule.goesOutOfBounds(singleSquareDirection, origin))
+        let partMovement = moveRule.getNextSquare(origin, singleSquareDirection);
+        if(isInvalidPartMovements(partMovement, origin))
             return movements;
-        origin = singleSquareDirection(origin);
+        origin = partMovement;
 
-        if (moveRule.goesOutOfBounds(doubleSquareDirection, origin))
+        partMovement = moveRule.getNextSquare(origin, doubleSquareDirection);
+        if(isInvalidPartMovements(partMovement, origin))
             return movements;
-        origin = doubleSquareDirection(origin);
+        origin = partMovement;
 
-        if (moveRule.goesOutOfBounds(doubleSquareDirection, origin))
+        partMovement = moveRule.getNextSquare(origin, doubleSquareDirection);
+        if(isInvalidPartMovements(partMovement, origin))
             return movements;
-        origin = doubleSquareDirection(origin);
+        origin = partMovement;
 
         if (moveRule.isEmptyCoordinate(origin) || moveRule.isOpposingColor(origin))
                 movements.push(origin);
         return movements;
+    }
+
+    function isInvalidPartMovements(origin, destination){
+        return origin === destination;
     }
 
     return {

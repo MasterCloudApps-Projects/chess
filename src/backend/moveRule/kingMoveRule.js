@@ -1,26 +1,27 @@
 import { createPieceMoveRule } from "./pieceMoveRule.js";
+import { DirectionEnum } from "./directionEnum.js"
 
 function getKingMoveRule() {
     let moveRule = createPieceMoveRule();
 
     function getPossibleMovements () {
         let possibleMovements = [];
-        possibleMovements.push(...getMovements('getNextSquareNorth'));
-        possibleMovements.push(...getMovements('getNextSquareSouth'));
-        possibleMovements.push(...getMovements('getNextSquareEast'));
-        possibleMovements.push(...getMovements('getNextSquareWest'));
+        possibleMovements.push(...getMovements(DirectionEnum.north));
+        possibleMovements.push(...getMovements(DirectionEnum.south));
+        possibleMovements.push(...getMovements(DirectionEnum.east));
+        possibleMovements.push(...getMovements(DirectionEnum.west));
 
-        possibleMovements.push(...getMovements('getNextNorthEastDiagonal'));
-        possibleMovements.push(...getMovements('getNextSouthEastDiagonal'));
-        possibleMovements.push(...getMovements('getNextNorthWestDiagonal'));
-        possibleMovements.push(...getMovements('getNextSouthWestDiagonal'));
+        possibleMovements.push(...getMovements(DirectionEnum.northEast));
+        possibleMovements.push(...getMovements(DirectionEnum.southEast));
+        possibleMovements.push(...getMovements(DirectionEnum.northWest));
+        possibleMovements.push(...getMovements(DirectionEnum.southWest));
         return possibleMovements;
     }
 
     function getMovements(nextCoordinate) {
         let movements = [];
         let origin = moveRule.getCurrentPosition();
-        let nextSquare = moveRule[nextCoordinate](origin);
+        let nextSquare = moveRule.getNextSquare(origin, nextCoordinate);
         if(moveRule.isEmptyCoordinate(nextSquare) || moveRule.isOpposingColor(nextSquare))
             movements.push(nextSquare)
         return movements;
