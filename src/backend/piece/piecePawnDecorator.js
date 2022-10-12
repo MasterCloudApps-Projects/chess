@@ -11,10 +11,11 @@ function createDecoratedPawnPiece(color, position) {
         position,
         moveRuleMap.pawn(
             position.includes(pawnFirstPositions[color.getAbbreviation()]), !color.isWhite()));
+    piece.isQueen = false;
 
     function isPossibleMove(destination, pieces) {
         let isItPossible = piece.isPossibleMove(destination, pieces);
-        if (isItPossible)
+        if (isItPossible && !piece.isQueen)
             doAfterMovement(destination);
         return isItPossible;
     }
@@ -29,6 +30,7 @@ function createDecoratedPawnPiece(color, position) {
         piece.setMovementRule(moveRuleMap.queen());
         piece.setFullName(piece.getFullName().replace('pawn', 'queen'));
         piece.setAbbreviation(piece.getAbbreviation().replace('P', 'Q'));
+        piece.isQueen = true;
     }
 
     return {

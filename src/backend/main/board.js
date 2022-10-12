@@ -1,6 +1,6 @@
 import { PieceColorEnum } from "../piece/pieceColorEnum.js";
 import { PieceAbbreviationEnum } from "../piece/pieceAbbreviationEnum.js";
-import { createPieceFactory } from "../piece/pieceFactory.js";
+import { PieceCreatorEnum } from "../piece/pieceCreatorEnum.js";
 
 function createBoard() {
     let pieces = {};
@@ -126,19 +126,12 @@ function createBoard() {
     }
 
     function setMemento(memento) {
-        const pieceFactory = createPieceFactory();
         memento = memento.split("-");
         let stringCounter = 0;
         for (let i = 1; i <= 8; i++)
             for (let letter = 0; letter < "abcdefgh".length; letter++) {
-                let pieceAbbreviation = PieceAbbreviationEnum[memento[stringCounter].trim()];
-                let position = "abcdefgh"[letter] + i.toString();
-                let piece = pieceFactory.getPiece(
-                    pieceAbbreviation.getAbbreviation(),
-                    pieceAbbreviation.getColor(),
-                    position,
-                    pieceAbbreviation.getPieceName());
-
+                let position = "abcdefgh"[letter]+i.toString();
+                let piece = PieceCreatorEnum[memento[stringCounter].trim()](position);
                 pieces[position] = piece;
                 stringCounter++;
             }
@@ -182,11 +175,7 @@ function createBoard() {
     }
 
     function createEmptyTile(coordinate) {
-        pieces[coordinate] = createPieceFactory().getPiece(
-            PieceAbbreviationEnum._.getAbbreviation(),
-            PieceColorEnum.Empty,
-            coordinate,
-            PieceAbbreviationEnum._.getPieceName());
+        pieces[coordinate] = PieceCreatorEnum._(coordinate);
     }
 
     function getInvalidMovementError(pieceFullName) {

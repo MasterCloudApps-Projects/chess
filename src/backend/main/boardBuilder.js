@@ -1,25 +1,16 @@
 import { createBoard } from './board.js';
-import { PieceAbbreviationEnum } from '../piece/pieceAbbreviationEnum.js';
-import { createPieceFactory } from '../piece/pieceFactory.js';
+import { PieceCreatorEnum } from '../piece/pieceCreatorEnum.js';
 
 function boardBuilder() {
     let board = createBoard();
 
     function fromPieceLayoutString(pieceStringLayout) {
-        let pieceFactory = createPieceFactory();
         pieceStringLayout = pieceStringLayout.trim().split('\n').join('-').split('-');
-        let stringCounter = 0, pieceAbbreviation;
+        let stringCounter = 0;
         for (let i=8; i>0; i--)
             for (let letter = 0; letter < "abcdefgh".length; letter++) {
-                pieceAbbreviation = PieceAbbreviationEnum[pieceStringLayout[stringCounter].trim()];
                 let position = "abcdefgh"[letter]+i.toString();
-
-                let piece = pieceFactory.getPiece(
-                    pieceAbbreviation.getAbbreviation(),
-                    pieceAbbreviation.getColor(),
-                    position,
-                    pieceAbbreviation.getPieceName());
-
+                let piece = PieceCreatorEnum[pieceStringLayout[stringCounter].trim()](position);
                 board.getPieces()[position] = piece;
                 stringCounter++;
             }
