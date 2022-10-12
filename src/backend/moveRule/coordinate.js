@@ -1,41 +1,57 @@
-const columns = "abcdefgh";
-const rows = "12345678";
+function createCoordinate(){
 
-function getRow(coordinate) {
-    return coordinate.slice(1, 2);
-}
+    let columns = "abcdefgh";
+    let rows = "12345678";
+    let position;
 
-function getColumn(coordinate) {
-    return coordinate.slice(0, 1);
-}
+    function setPosition(newPosition) {
+        position = newPosition;
+    }
 
-function incrementRow(coordinate) {
-    if (getRow(coordinate) >= rows.length) return coordinate;
-    return getColumn(coordinate) + (parseInt(getRow(coordinate)) + 1);
-}
+    function getPosition() {
+        return position;
+    }
 
-function incrementColumn(coordinate) {
-    if (columns.indexOf(getColumn(coordinate)) >= columns.length-1) return coordinate;
-    return columns[columns.indexOf(getColumn(coordinate)) + 1] + getRow(coordinate).toString();
-}
+    function getColumn(coordinate) {
+        return coordinate.slice(0, 1);
+    }
 
-function decreaseRow(coordinate) {
-    if (getRow(coordinate) <= 1) return coordinate;
-    return getColumn(coordinate) + (parseInt(getRow(coordinate)) - 1);
-}
+    function getRow(coordinate) {
+        return coordinate.slice(1, 2);
+    }
 
-function decreaseColumn(coordinate) {
-    if (columns.indexOf(getColumn(coordinate)) <= 0) return coordinate;
-    return columns[columns.indexOf(getColumn(coordinate)) - 1] + getRow(coordinate).toString();
+    function incrementRow(coordinate) {
+        if (getRow(coordinate) >= rows.length) return coordinate;
+        return getColumn(coordinate) + (parseInt(getRow(coordinate)) + 1);
+    }
+
+    function incrementColumn(coordinate) {
+        if (columns.indexOf(getColumn(coordinate)) >= columns.length-1) return coordinate;
+        return columns[columns.indexOf(getColumn(coordinate)) + 1] + getRow(coordinate).toString();
+    }
+
+    function decreaseRow(coordinate) {
+        if (getRow(coordinate) <= 1) return coordinate;
+        return getColumn(coordinate) + (parseInt(getRow(coordinate)) - 1);
+    }
+
+    function decreaseColumn(coordinate) {
+        if (columns.indexOf(getColumn(coordinate)) <= 0) return coordinate;
+        return columns[columns.indexOf(getColumn(coordinate)) - 1] + getRow(coordinate).toString();
+    }
+
+    return {
+        setPosition,
+        getPosition,
+        getRow,
+        getColumn,
+        incrementColumn,
+        incrementRow,
+        decreaseColumn,
+        decreaseRow
+    }
 }
 
 export {
-    columns,
-    rows,
-    getRow,
-    getColumn,
-    incrementColumn,
-    incrementRow,
-    decreaseColumn,
-    decreaseRow
+    createCoordinate
 }
