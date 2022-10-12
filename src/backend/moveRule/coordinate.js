@@ -20,35 +20,31 @@ function createCoordinate(){
         return coordinate.slice(1, 2);
     }
 
-    function incrementRow(coordinate) {
-        if (getRow(coordinate) >= rows.length) return coordinate;
-        return getColumn(coordinate) + (parseInt(getRow(coordinate)) + 1);
+    function nextRow(coordinate, direction){
+        let index = parseInt(getRow(coordinate)) + direction;
+        return (index > 0  && index <= rows.length) ? getColumn(coordinate) + index : coordinate;
     }
 
-    function incrementColumn(coordinate) {
-        if (columns.indexOf(getColumn(coordinate)) >= columns.length-1) return coordinate;
-        return columns[columns.indexOf(getColumn(coordinate)) + 1] + getRow(coordinate).toString();
+    function nextColumn(coordinate, direction){
+        let index = columns.indexOf(getColumn(coordinate)) + direction;
+        return (index >= 0 && index < columns.length) ? columns[index] + getRow(coordinate) : coordinate;
     }
 
-    function decreaseRow(coordinate) {
-        if (getRow(coordinate) <= 1) return coordinate;
-        return getColumn(coordinate) + (parseInt(getRow(coordinate)) - 1);
+    function nextDiagonal(coordinate, rowDirection, columnDirection) {
+        return validDiagonal(coordinate, nextRow(coordinate, + rowDirection), nextColumn(coordinate, + columnDirection));
     }
 
-    function decreaseColumn(coordinate) {
-        if (columns.indexOf(getColumn(coordinate)) <= 0) return coordinate;
-        return columns[columns.indexOf(getColumn(coordinate)) - 1] + getRow(coordinate).toString();
+    function validDiagonal(coordinate, newRow, newColumn) {
+        return (coordinate === newRow || coordinate === newColumn) ? coordinate : getColumn(newColumn) + getRow(newRow);
     }
 
     return {
         setPosition,
         getPosition,
         getRow,
-        getColumn,
-        incrementColumn,
-        incrementRow,
-        decreaseColumn,
-        decreaseRow
+        nextRow,
+        nextColumn,
+        nextDiagonal
     }
 }
 

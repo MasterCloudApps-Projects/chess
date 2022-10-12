@@ -5,11 +5,6 @@ function createAbstractMoveRule() {
     let currentPosition = createCoordinate();
     let boardPieces;
 
-    function checkDiagonal(origin, verticalDirection, horizontalDirection) {
-        if ((verticalDirection(origin) === origin) || (horizontalDirection(origin) === origin)) return origin;
-        return verticalDirection(horizontalDirection(origin));
-    }
-
     function updateCurrentPosition(currentPos, boardPieceList) {
         currentPosition.setPosition(currentPos);
         boardPieces = boardPieceList;
@@ -28,35 +23,35 @@ function createAbstractMoveRule() {
     }
 
     function getNextSquareNorth(origin) {
-        return currentPosition.incrementRow(origin);
+        return currentPosition.nextRow(origin, +1);
     }
 
     function getNextSquareSouth(origin)  {
-        return currentPosition.decreaseRow(origin);
+        return currentPosition.nextRow(origin, -1);
     }
 
     function getNextSquareEast(origin) {
-        return currentPosition.incrementColumn(origin);
+        return currentPosition.nextColumn(origin, +1);
     }
 
     function getNextSquareWest(origin) {
-        return currentPosition.decreaseColumn(origin);
+        return currentPosition.nextColumn(origin, -1);
     }
 
     function getNextNorthEastDiagonal(origin) {
-        return checkDiagonal(origin, getNextSquareNorth, getNextSquareEast);
+        return currentPosition.nextDiagonal(origin, +1, +1);
     }
 
     function getNextNorthWestDiagonal(origin) {
-            return checkDiagonal(origin, getNextSquareNorth, getNextSquareWest);
+        return currentPosition.nextDiagonal(origin, +1, -1);
     }
 
     function getNextSouthEastDiagonal(origin) {
-            return checkDiagonal(origin, getNextSquareSouth, getNextSquareEast);
+        return currentPosition.nextDiagonal(origin, -1, +1);
     }
 
     function getNextSouthWestDiagonal(origin) {
-            return checkDiagonal(origin, getNextSquareSouth, getNextSquareWest);
+        return currentPosition.nextDiagonal(origin, -1, -1);
     }
 
     function goesOutOfBounds(directionFunction, origin) {
