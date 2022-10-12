@@ -1,56 +1,57 @@
-import {incrementColumn, incrementRow, decreaseColumn, decreaseRow} from './coordinate.js';
+import {createCoordinate} from './coordinate.js';
 
 function createAbstractMoveRule() {
 
-    let currentPosition, boardPieces;
+    let currentPosition = createCoordinate();
+    let boardPieces;
 
-    function checkDiagonal (origin, verticalDirection, horizontalDirection) {
+    function checkDiagonal(origin, verticalDirection, horizontalDirection) {
         if ((verticalDirection(origin) === origin) || (horizontalDirection(origin) === origin)) return origin;
         return verticalDirection(horizontalDirection(origin));
     }
 
     function updateCurrentPosition(currentPos, boardPieceList) {
-        currentPosition = currentPos;
+        currentPosition.setPosition(currentPos);
         boardPieces = boardPieceList;
     }
 
     function setCurrentPosition(newPosition) {
-        currentPosition = newPosition;
+        currentPosition.setPosition(newPosition);
     }
 
     function getCurrentPosition() {
-        return currentPosition;
+        return currentPosition.getPosition();
     }
 
     function getBoardPieces() {
         return boardPieces;
     }
 
-    function getNextSquareNorth (origin) {
-        return incrementRow(origin);
+    function getNextSquareNorth(origin) {
+        return currentPosition.incrementRow(origin);
     }
 
     function getNextSquareSouth(origin)  {
-        return decreaseRow(origin);
+        return currentPosition.decreaseRow(origin);
     }
 
-    function getNextSquareEast (origin) {
-        return incrementColumn(origin);
+    function getNextSquareEast(origin) {
+        return currentPosition.incrementColumn(origin);
     }
 
-    function getNextSquareWest (origin) {
-        return decreaseColumn(origin);
+    function getNextSquareWest(origin) {
+        return currentPosition.decreaseColumn(origin);
     }
 
     function getNextNorthEastDiagonal(origin) {
         return checkDiagonal(origin, getNextSquareNorth, getNextSquareEast);
     }
 
-    function getNextNorthWestDiagonal (origin) {
+    function getNextNorthWestDiagonal(origin) {
             return checkDiagonal(origin, getNextSquareNorth, getNextSquareWest);
     }
 
-    function getNextSouthEastDiagonal (origin) {
+    function getNextSouthEastDiagonal(origin) {
             return checkDiagonal(origin, getNextSquareSouth, getNextSquareEast);
     }
 
@@ -66,8 +67,8 @@ function createAbstractMoveRule() {
             return boardPieces[destination].isEmpty();
     }
 
-    function isOpposingColor (destination) {
-            return boardPieces[currentPosition].isOpposingColor(boardPieces[destination]);
+    function isOpposingColor(destination) {
+            return boardPieces[currentPosition.getPosition()].isOpposingColor(boardPieces[destination]);
     }
 
     return {

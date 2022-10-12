@@ -1,5 +1,5 @@
 import { createPieceMoveRule } from "./pieceMoveRule.js";
-import { getRow } from "./coordinate.js";
+import { createCoordinate } from "./coordinate.js";
 
 function getPawnMoveRule(isFirstMovementP, isFromNorthSideP) {
     let moveRule = createPieceMoveRule();
@@ -19,9 +19,11 @@ function getPawnMoveRule(isFirstMovementP, isFromNorthSideP) {
     }
 
     function shouldTurnToQueen () {
-        if (isFromNorthSide && getRow(moveRule.getCurrentPosition()) <= 1)
+        //TODO: review
+        let coordinate = createCoordinate();
+        if (isFromNorthSide && coordinate.getRow(moveRule.getCurrentPosition()) <= 1)
             return true;
-        if (!isFromNorthSide && getRow(moveRule.getCurrentPosition()) >= 8)
+        if (!isFromNorthSide && coordinate.getRow(moveRule.getCurrentPosition()) >= 8)
             return true;
         return false;
     }
