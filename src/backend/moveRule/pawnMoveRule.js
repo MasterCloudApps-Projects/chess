@@ -27,8 +27,8 @@ function getPawnMoveRule(isFirstMovementP, isFromNorthSideP) {
         return false;
     }
 
-    function getAttackMovements (origin, pieces) {
-        moveRule.updateCurrentPosition(origin, pieces);
+    function getAttackMovements (position, pieces) {
+        moveRule.updateCurrentPosition(position, pieces);
         return getEatingMovements().map(mv => mv.getPosition());
     }
 

@@ -37,8 +37,8 @@ function createPiece(pieceAbbreviation, pieceFullName, pieceColor, piecePosition
         position = positionPiece;
     }
 
-    function updateCurrentPosition(origin, pieces) {
-        movement.updateCurrentPosition(origin, pieces);
+    function updateCurrentPosition(position, pieces) {
+        movement.updateCurrentPosition(position, pieces);
     }
 
     function isPossibleMove(destination, pieces) {
