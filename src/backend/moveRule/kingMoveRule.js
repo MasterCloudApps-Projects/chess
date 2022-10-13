@@ -20,7 +20,7 @@ function getKingMoveRule() {
 
     function getMovements(direction) {
         let movements = [];
-        let nextSquare = moveRule.getCurrentPosition().getNextCoordinate(direction);
+        let nextSquare = moveRule.getCurrentCoordinate().getNextCoordinate(direction);
         if(moveRule.isEmptyCoordinate(nextSquare) || moveRule.isOpposingColor(nextSquare))
             movements.push(nextSquare)
         return movements;

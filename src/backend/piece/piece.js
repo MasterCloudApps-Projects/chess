@@ -46,7 +46,7 @@ function createPiece(pieceAbbreviation, pieceFullName, pieceColor, piecePosition
     }
 
     function getPossibleMovements(pieces) {
-        return movement.getPossibleMovements(position, pieces);
+        return movement.getPossibleMovements(position, pieces).map(mv => mv.getPosition());
     }
 
     function getAttackPositions(pieces) {

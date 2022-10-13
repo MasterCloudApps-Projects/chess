@@ -6,12 +6,12 @@ function createPieceMoveRule(){
     // Function overriden on lower child level requires 'this', otherwise calls local empty implementation
     function isPossibleMove (origin, destination, pieces) {
         absMovement.updateCurrentPosition(origin, pieces);
-        return (this.getPossibleMovements().includes(destination));
+        return (this.getPossibleMovements().map(mv => mv.getPosition()).includes(destination));
     };
 
     function getAttackMovements (origin, pieces) {
         absMovement.updateCurrentPosition(origin, pieces);
-        return this.getPossibleMovements();
+        return this.getPossibleMovements().map(mv => mv.getPosition());
     }
 
     function getPossibleMovements () {};

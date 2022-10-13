@@ -1,5 +1,4 @@
 import { createPieceMoveRule } from "./pieceMoveRule.js";
-import { createCoordinate } from "./coordinate.js";
 import { DirectionEnum } from "./directionEnum.js"
 
 function getPawnMoveRule(isFirstMovementP, isFromNorthSideP) {
@@ -15,13 +14,12 @@ function getPawnMoveRule(isFirstMovementP, isFromNorthSideP) {
     }
 
     function doAfterMovement (currentPosition) {
-        moveRule.setCurrentPosition(currentPosition);
+        moveRule.updateCurrentPosition(currentPosition);
         isFirstMovement = false;
     }
 
     function shouldTurnToQueen () {
-        let coordinate = createCoordinate();
-        coordinate.setPosition(moveRule.getCurrentPosition());
+        let coordinate = moveRule.getCurrentCoordinate();
         if (isFromNorthSide && coordinate.getRow() <= 1)
             return true;
         if (!isFromNorthSide && coordinate.getRow() >= 8)
@@ -36,7 +34,7 @@ function getPawnMoveRule(isFirstMovementP, isFromNorthSideP) {
 
     function getForwardMovements() {
         let movements = [];
-        let nextSquare = getForwardSquare(moveRule.getCurrentPosition());
+        let nextSquare = getForwardSquare(moveRule.getCurrentCoordinate());
         if (moveRule.isEmptyCoordinate(nextSquare)) {
             movements.push(nextSquare);
             if (isFirstMovement && moveRule.isEmptyCoordinate(getForwardSquare(nextSquare)))
@@ -47,8 +45,8 @@ function getPawnMoveRule(isFirstMovementP, isFromNorthSideP) {
 
     function getEatingMovements() {
         let movements = [];
-        let rightDiagonal = getDiagonalRightSquare(moveRule.getCurrentPosition());
-        let leftDiagonal = getDiagonalLeftSquare(moveRule.getCurrentPosition());
+        let rightDiagonal = getDiagonalRightSquare(moveRule.getCurrentCoordinate());
+        let leftDiagonal = getDiagonalLeftSquare(moveRule.getCurrentCoordinate());
         if (moveRule.isOpposingColor(rightDiagonal))
             movements.push(rightDiagonal);
         if (moveRule.isOpposingColor(leftDiagonal))
@@ -58,8 +56,6 @@ function getPawnMoveRule(isFirstMovementP, isFromNorthSideP) {
     }
 
     function getForwardSquare(originCoordinate) {
-
-        console.log(isFromNorthSide+ ' ' + originCoordinate.getPosition());
         if (isFromNorthSide)
             return originCoordinate.getNextCoordinate(DirectionEnum.SOUTH);
         else

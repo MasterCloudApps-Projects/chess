@@ -1,7 +1,7 @@
 function createCoordinate(rowIndex, columnIndex) {
 
     let columns = "abcdefgh";
-    let position = columns[columnIndex] +''+ rowIndex;
+    let position = columns[columnIndex-1] +''+ rowIndex;
 
     function setPosition(newPosition) {
         position = newPosition;

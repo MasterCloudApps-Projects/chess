@@ -28,7 +28,7 @@ function getHorseMoveRule() {
     //TODO: refactor duplicate code
     function getLShapeMovement(singleSquareDirection, doubleSquareDirection) {
         let movements = [];
-        let origin = moveRule.getCurrentPosition();
+        let origin = moveRule.getCurrentCoordinate();
 
         let partMovement = origin.getNextCoordinate(singleSquareDirection);
         if(isInvalidPartMovements(partMovement, origin))

@@ -2,24 +2,20 @@ import {createCoordinate} from './coordinate.js';
 
 function createAbstractMoveRule() {
 
-    let currentPosition = createCoordinate();
+    let currentCoordinate = createCoordinate();
     let boardPieces;
 
     function updateCurrentPosition(currentPos, boardPieceList) {
-        currentPosition.setPosition(currentPos);
+        currentCoordinate.setPosition(currentPos);
         boardPieces = boardPieceList;
     }
 
-    function setCurrentPosition(newPosition) {
-        currentPosition.setPosition(newPosition);
+    function getCurrentCoordinatePosition() {
+        return currentCoordinate.getPosition();
     }
 
-    function getCurrentPositionString() {
-        return currentPosition.getPosition();
-    }
-
-    function getCurrentPosition() {
-        return currentPosition;
+    function getCurrentCoordinate() {
+        return currentCoordinate;
     }
 
     function getBoardPieces() {
@@ -31,7 +27,7 @@ function createAbstractMoveRule() {
     }
 
     function isOpposingColor(destination) {
-        return boardPieces[currentPosition.getPosition()]
+        return boardPieces[currentCoordinate.getPosition()]
             .isOpposingColor(boardPieces[destination.getPosition()]);
     }
 
@@ -39,9 +35,8 @@ function createAbstractMoveRule() {
         updateCurrentPosition,
         isEmptyCoordinate,
         isOpposingColor,
-        getCurrentPosition,
-        getCurrentPositionString,
-        setCurrentPosition,
+        getCurrentCoordinate,
+        getCurrentCoordinatePosition,
         getBoardPieces
     }
 }
