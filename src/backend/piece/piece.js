@@ -37,8 +37,8 @@ function createPiece(pieceAbbreviation, pieceFullName, pieceColor, piecePosition
         position = positionPiece;
     }
 
-    function updateCurrentPosition(origin, pieces) {
-        movement.updateCurrentPosition(origin, pieces);
+    function updateCurrentPosition(position, pieces) {
+        movement.updateCurrentPosition(position, pieces);
     }
 
     function isPossibleMove(destination, pieces) {
@@ -46,7 +46,7 @@ function createPiece(pieceAbbreviation, pieceFullName, pieceColor, piecePosition
     }
 
     function getPossibleMovements(pieces) {
-        return movement.getPossibleMovements(position, pieces);
+        return movement.getPossibleMovements(position, pieces).map(mv => mv.getPosition());
     }
 
     function getAttackPositions(pieces) {

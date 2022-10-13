@@ -8,8 +8,8 @@ function getQueenMoveRule() {
     let diagonalMovement = getBishopMoveRule();
 
     function getPossibleMovements () {
-        straightMovement.updateCurrentPosition(moveRule.getCurrentPosition(), moveRule.getBoardPieces());
-        diagonalMovement.updateCurrentPosition(moveRule.getCurrentPosition(), moveRule.getBoardPieces());
+        straightMovement.updateCurrentPosition(moveRule.getCurrentCoordinate().getPosition(), moveRule.getBoardPieces());
+        diagonalMovement.updateCurrentPosition(moveRule.getCurrentCoordinate().getPosition(), moveRule.getBoardPieces());
         let movements = straightMovement.getPossibleMovements();
         movements.push(...diagonalMovement.getPossibleMovements());
         return movements;

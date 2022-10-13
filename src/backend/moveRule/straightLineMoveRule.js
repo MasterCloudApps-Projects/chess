@@ -10,18 +10,18 @@ function createStraightLineMoveRule(motionCoordinates) {
         return possibleMovements;
     }
 
-    function getMovements(nextCoordinate) {
+    function getMovements(direction) {
         let movements = [];
-        let origin = moveRule.getCurrentPosition();
-        let nextSquare = moveRule.getNextSquare(origin, nextCoordinate);
+        let origin = moveRule.getCurrentCoordinate();
+        let nextSquare = origin.getNextCoordinate(direction);
         let possible = moveRule.isEmptyCoordinate(nextSquare) || moveRule.isOpposingColor(nextSquare);
 
-        while(possible && !movements.includes(nextSquare)) {
+        while(possible && !movements.map(mv=>mv.getPosition()).includes(nextSquare.getPosition())) {
             movements.push(nextSquare);
             if (moveRule.isOpposingColor(nextSquare))
                 return movements;
 
-            nextSquare = moveRule.getNextSquare(nextSquare, nextCoordinate);
+            nextSquare = nextSquare.getNextCoordinate(direction);
             possible = moveRule.isEmptyCoordinate(nextSquare) || moveRule.isOpposingColor(nextSquare);
         }
         return movements;

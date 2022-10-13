@@ -16,16 +16,11 @@ function createBoard() {
     function tryMove(movementOrigin, movementDestination, playerColor) {
         errorMessage = undefined;
         if (!pieces[movementOrigin].isOfColor(playerColor)) {
-            errorMessage =
-                "Invalid move: Attempting to move a wrong color piece.";
+            errorMessage = "Invalid move: Attempting to move a wrong color piece.";
             return;
         }
-        if (
-            !pieces[movementOrigin].isPossibleMove(movementDestination, pieces)
-        ) {
-            errorMessage = getInvalidMovementError(
-                pieces[movementOrigin].getFullName()
-            );
+        if (!pieces[movementOrigin].isPossibleMove(movementDestination, pieces)) {
+            errorMessage = getInvalidMovementError(pieces[movementOrigin].getFullName());
             return;
         }
         let stateBeforeMoving = createMemento();
@@ -47,10 +42,7 @@ function createBoard() {
         }
         if (isColorOnCheck(playerColor.getOppositeColor())) {
             console.log("possible checkmate");
-            console.log(
-                "is checkmate: " +
-                    isColorOnCheckMate(playerColor.getOppositeColor())
-            );
+            console.log("is checkmate: " + isColorOnCheckMate(playerColor.getOppositeColor()));
             if (isColorOnCheckMate(playerColor.getOppositeColor()))
                 checkmate = true;
         }
@@ -151,10 +143,9 @@ function createBoard() {
         if (color.isEmpty()) return [];
         const coordinatesUnderAttack = [];
         let colorPieces = getAllPiecesByColor(color);
-        for (let i in colorPieces)
-            coordinatesUnderAttack.push(
-                ...colorPieces[i].getAttackPositions(pieces)
-            );
+        for (let i in colorPieces) {
+            coordinatesUnderAttack.push(...colorPieces[i].getAttackPositions(pieces));
+        }
         return [...new Set(coordinatesUnderAttack)];
     }
 

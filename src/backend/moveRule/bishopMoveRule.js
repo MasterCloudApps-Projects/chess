@@ -3,10 +3,10 @@ import { DirectionEnum } from "./directionEnum.js";
 
 function getBishopMoveRule() {
     let motionCoordinates = [
-        DirectionEnum.northEast,
-        DirectionEnum.northWest,
-        DirectionEnum.southEast,
-        DirectionEnum.southWest
+        DirectionEnum.NORTHEAST_DIAGONAL,
+        DirectionEnum.NORTHWEST_DIAGONAL,
+        DirectionEnum.SOUTHEAST_DIAGONAL,
+        DirectionEnum.SOUTHWEST_DIAGONAL
     ];
 
     return {

@@ -8,17 +8,21 @@ function createColor(abbreviation, literal) {
     }
 
     function getOppositeColor() {
-        if (this.isWhite())
+        if (isWhite())
             return PieceColorEnum.Black;
         return PieceColorEnum.White;
     }
 
     function isWhite() {
-        return this === PieceColorEnum.White;
+        return isSameColor(PieceColorEnum.White);
     }
 
     function isEmpty() {
-        return this === PieceColorEnum.Empty;
+        return isSameColor(PieceColorEnum.Empty);
+    }
+
+    function isSameColor(color) {
+        return literal === color.getLiteral();
     }
 
     return {

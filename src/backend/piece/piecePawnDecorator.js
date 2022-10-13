@@ -16,12 +16,12 @@ function createDecoratedPawnPiece(color, position) {
     function isPossibleMove(destination, pieces) {
         let isItPossible = piece.isPossibleMove(destination, pieces);
         if (isItPossible && !piece.isQueen)
-            doAfterMovement(destination);
+            doAfterMovement(destination, pieces);
         return isItPossible;
     }
 
-    function doAfterMovement(newPosition) {
-        piece.getMovementRule().doAfterMovement(newPosition);
+    function doAfterMovement(newPosition, pieces) {
+        piece.getMovementRule().doAfterMovement(newPosition, pieces);
         if(piece.getMovementRule().shouldTurnToQueen())
             transformToQueen();
     }
