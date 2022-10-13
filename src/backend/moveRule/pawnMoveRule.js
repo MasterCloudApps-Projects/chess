@@ -13,8 +13,8 @@ function getPawnMoveRule(isFirstMovementP, isFromNorthSideP) {
         return possibleMovements;
     }
 
-    function doAfterMovement (currentPosition) {
-        moveRule.updateCurrentPosition(currentPosition);
+    function doAfterMovement (currentPosition, pieces) {
+        moveRule.updateCurrentPosition(currentPosition, pieces);
         isFirstMovement = false;
     }
 
@@ -29,7 +29,7 @@ function getPawnMoveRule(isFirstMovementP, isFromNorthSideP) {
 
     function getAttackMovements (origin, pieces) {
         moveRule.updateCurrentPosition(origin, pieces);
-        return getEatingMovements();
+        return getEatingMovements().map(mv => mv.getPosition());
     }
 
     function getForwardMovements() {
@@ -51,7 +51,6 @@ function getPawnMoveRule(isFirstMovementP, isFromNorthSideP) {
             movements.push(rightDiagonal);
         if (moveRule.isOpposingColor(leftDiagonal))
             movements.push(leftDiagonal);
-
         return movements;
     }
 
