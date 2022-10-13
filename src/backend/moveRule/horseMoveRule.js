@@ -51,7 +51,7 @@ function getHorseMoveRule() {
     }
 
     function isInvalidPartMovements(origin, destination){
-        return origin === destination;
+        return origin.getPosition() === destination.getPosition();
     }
 
     return {

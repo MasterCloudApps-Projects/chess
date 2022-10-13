@@ -35,22 +35,17 @@ function createBoard() {
     }
 
     function updateCheckStatus(playerColor, previousState) {
-        console.log("Checking check");
         if (isColorOnCheck(playerColor)) {
             errorMessage = "Invalid move: cannot end turn on check";
             setMemento(previousState);
             return;
         }
-
-        console.log("checking checkmate");
         if (isColorOnCheck(playerColor.getOppositeColor())) {
             console.log("possible checkmate");
             console.log("is checkmate: " + isColorOnCheckMate(playerColor.getOppositeColor()));
             if (isColorOnCheckMate(playerColor.getOppositeColor()))
                 checkmate = true;
         }
-
-        console.log("checks done");
     }
 
     function isColorOnCheck(color) {
