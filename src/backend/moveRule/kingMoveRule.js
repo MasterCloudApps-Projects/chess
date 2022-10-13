@@ -6,22 +6,21 @@ function getKingMoveRule() {
 
     function getPossibleMovements () {
         let possibleMovements = [];
-        possibleMovements.push(...getMovements(DirectionEnum.north));
-        possibleMovements.push(...getMovements(DirectionEnum.south));
-        possibleMovements.push(...getMovements(DirectionEnum.east));
-        possibleMovements.push(...getMovements(DirectionEnum.west));
+        possibleMovements.push(...getMovements(DirectionEnum.NORTH));
+        possibleMovements.push(...getMovements(DirectionEnum.SOUTH));
+        possibleMovements.push(...getMovements(DirectionEnum.EAST));
+        possibleMovements.push(...getMovements(DirectionEnum.WEST));
 
-        possibleMovements.push(...getMovements(DirectionEnum.northEast));
-        possibleMovements.push(...getMovements(DirectionEnum.southEast));
-        possibleMovements.push(...getMovements(DirectionEnum.northWest));
-        possibleMovements.push(...getMovements(DirectionEnum.southWest));
+        possibleMovements.push(...getMovements(DirectionEnum.NORTHEAST_DIAGONAL));
+        possibleMovements.push(...getMovements(DirectionEnum.SOUTHEAST_DIAGONAL));
+        possibleMovements.push(...getMovements(DirectionEnum.NORTHWEST_DIAGONAL));
+        possibleMovements.push(...getMovements(DirectionEnum.SOUTHWEST_DIAGONAL));
         return possibleMovements;
     }
 
-    function getMovements(nextCoordinate) {
+    function getMovements(direction) {
         let movements = [];
-        let origin = moveRule.getCurrentPosition();
-        let nextSquare = moveRule.getNextSquare(origin, nextCoordinate);
+        let nextSquare = moveRule.getCurrentPosition().getNextCoordinate(direction);
         if(moveRule.isEmptyCoordinate(nextSquare) || moveRule.isOpposingColor(nextSquare))
             movements.push(nextSquare)
         return movements;

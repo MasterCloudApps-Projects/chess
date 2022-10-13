@@ -11,17 +11,17 @@ function getHorseMoveRule() {
 
     function getLShapes () {
         let movements = [];
-        movements.push(...getLShapeMovement(DirectionEnum.north, DirectionEnum.east));
-        movements.push(...getLShapeMovement(DirectionEnum.north, DirectionEnum.west));
+        movements.push(...getLShapeMovement(DirectionEnum.NORTH, DirectionEnum.EAST));
+        movements.push(...getLShapeMovement(DirectionEnum.NORTH, DirectionEnum.WEST));
 
-        movements.push(...getLShapeMovement(DirectionEnum.south, DirectionEnum.east));
-        movements.push(...getLShapeMovement(DirectionEnum.south, DirectionEnum.west));
+        movements.push(...getLShapeMovement(DirectionEnum.SOUTH, DirectionEnum.EAST));
+        movements.push(...getLShapeMovement(DirectionEnum.SOUTH, DirectionEnum.WEST));
 
-        movements.push(...getLShapeMovement(DirectionEnum.east, DirectionEnum.north));
-        movements.push(...getLShapeMovement(DirectionEnum.east, DirectionEnum.south));
+        movements.push(...getLShapeMovement(DirectionEnum.EAST, DirectionEnum.NORTH));
+        movements.push(...getLShapeMovement(DirectionEnum.EAST, DirectionEnum.SOUTH));
 
-        movements.push(...getLShapeMovement(DirectionEnum.west, DirectionEnum.north));
-        movements.push(...getLShapeMovement(DirectionEnum.west, DirectionEnum.south));
+        movements.push(...getLShapeMovement(DirectionEnum.WEST, DirectionEnum.NORTH));
+        movements.push(...getLShapeMovement(DirectionEnum.WEST, DirectionEnum.SOUTH));
         return movements;
     }
 
@@ -30,17 +30,17 @@ function getHorseMoveRule() {
         let movements = [];
         let origin = moveRule.getCurrentPosition();
 
-        let partMovement = moveRule.getNextSquare(origin, singleSquareDirection);
+        let partMovement = origin.getNextCoordinate(singleSquareDirection);
         if(isInvalidPartMovements(partMovement, origin))
             return movements;
         origin = partMovement;
 
-        partMovement = moveRule.getNextSquare(origin, doubleSquareDirection);
+        partMovement = origin.getNextCoordinate(doubleSquareDirection);
         if(isInvalidPartMovements(partMovement, origin))
             return movements;
         origin = partMovement;
 
-        partMovement = moveRule.getNextSquare(origin, doubleSquareDirection);
+        partMovement = origin.getNextCoordinate(doubleSquareDirection);
         if(isInvalidPartMovements(partMovement, origin))
             return movements;
         origin = partMovement;

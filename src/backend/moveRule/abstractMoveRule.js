@@ -1,5 +1,4 @@
 import {createCoordinate} from './coordinate.js';
-import { DirectionEnum } from './directionEnum.js';
 
 function createAbstractMoveRule() {
 
@@ -15,32 +14,33 @@ function createAbstractMoveRule() {
         currentPosition.setPosition(newPosition);
     }
 
-    function getCurrentPosition() {
+    function getCurrentPositionString() {
         return currentPosition.getPosition();
+    }
+
+    function getCurrentPosition() {
+        return currentPosition;
     }
 
     function getBoardPieces() {
         return boardPieces;
     }
 
-    function getNextSquare(origin, direction){
-        return currentPosition.nextSquare(origin, direction);
-    }
-
-    function isEmptyCoordinate(destination) {
-            return boardPieces[destination].isEmpty();
+    function isEmptyCoordinate(coordinate) {
+        return boardPieces[coordinate.getPosition()].isEmpty();
     }
 
     function isOpposingColor(destination) {
-            return boardPieces[currentPosition.getPosition()].isOpposingColor(boardPieces[destination]);
+        return boardPieces[currentPosition.getPosition()]
+            .isOpposingColor(boardPieces[destination.getPosition()]);
     }
 
     return {
         updateCurrentPosition,
-        getNextSquare,
         isEmptyCoordinate,
         isOpposingColor,
         getCurrentPosition,
+        getCurrentPositionString,
         setCurrentPosition,
         getBoardPieces
     }

@@ -1,6 +1,6 @@
 import { createPieceMoveRule } from "./pieceMoveRule.js";
 import { createCoordinate } from "./coordinate.js";
-import { DirectionEnum} from "./directionEnum.js"
+import { DirectionEnum } from "./directionEnum.js"
 
 function getPawnMoveRule(isFirstMovementP, isFromNorthSideP) {
     let moveRule = createPieceMoveRule();
@@ -21,9 +21,10 @@ function getPawnMoveRule(isFirstMovementP, isFromNorthSideP) {
 
     function shouldTurnToQueen () {
         let coordinate = createCoordinate();
-        if (isFromNorthSide && coordinate.getRow(moveRule.getCurrentPosition()) <= 1)
+        coordinate.setPosition(moveRule.getCurrentPosition());
+        if (isFromNorthSide && coordinate.getRow() <= 1)
             return true;
-        if (!isFromNorthSide && coordinate.getRow(moveRule.getCurrentPosition()) >= 8)
+        if (!isFromNorthSide && coordinate.getRow() >= 8)
             return true;
         return false;
     }
@@ -56,25 +57,27 @@ function getPawnMoveRule(isFirstMovementP, isFromNorthSideP) {
         return movements;
     }
 
-    function getForwardSquare(origin) {
+    function getForwardSquare(originCoordinate) {
+
+        console.log(isFromNorthSide+ ' ' + originCoordinate.getPosition());
         if (isFromNorthSide)
-            return moveRule.getNextSquare(origin, DirectionEnum.south);
+            return originCoordinate.getNextCoordinate(DirectionEnum.SOUTH);
         else
-            return moveRule.getNextSquare(origin, DirectionEnum.north);
+            return originCoordinate.getNextCoordinate(DirectionEnum.NORTH);
     }
 
     function getDiagonalRightSquare(origin) {
         if (isFromNorthSide)
-            return moveRule.getNextSquare(origin, DirectionEnum.southEast);
+            return origin.getNextCoordinate(DirectionEnum.SOUTHEAST_DIAGONAL);
         else
-            return moveRule.getNextSquare(origin, DirectionEnum.northEast);
+            return origin.getNextCoordinate(DirectionEnum.NORTHEAST_DIAGONAL);
     }
 
     function getDiagonalLeftSquare(origin) {
         if (isFromNorthSide)
-            return moveRule.getNextSquare(origin, DirectionEnum.southEast);
+            return origin.getNextCoordinate(DirectionEnum.SOUTHWEST_DIAGONAL);
         else
-            return moveRule.getNextSquare(origin, DirectionEnum.northWest);
+            return origin.getNextCoordinate(DirectionEnum.NORTHWEST_DIAGONAL);
     }
 
     return {

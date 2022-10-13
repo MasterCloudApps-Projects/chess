@@ -1,8 +1,7 @@
-function createCoordinate(){
+function createCoordinate(rowIndex, columnIndex) {
 
     let columns = "abcdefgh";
-    let rows = "12345678";
-    let position;
+    let position = columns[columnIndex] +''+ rowIndex;
 
     function setPosition(newPosition) {
         position = newPosition;
@@ -12,43 +11,36 @@ function createCoordinate(){
         return position;
     }
 
-    function getColumn(coordinate) {
-        return coordinate.slice(0, 1);
+    function getColumn() {
+        return columns.indexOf(getColumnLetter()) + 1;
     }
 
-    function getRow(coordinate) {
-        return coordinate.slice(1, 2);
+    function getRow() {
+        return position.slice(1, 2);
     }
 
-    function nextSquare(origin, direction){
-        if(direction.isDiagonal())
-            return nextDiagonal(origin, direction);
-        return nextHorizontal(origin, direction.getRow(), direction.getColumn())
+    function getColumnLetter() {
+        return position.slice(0, 1);
     }
 
-    function nextHorizontal(origin, directionRow, directionColumn){
-        let newRow = parseInt(getRow(origin)) + directionRow;
-        let newColumn = columns.indexOf(getColumn(origin)) + directionColumn;
-        if((newRow > 0  && newRow <= rows.length) && (newColumn >= 0 && newColumn < columns.length))
-            return columns[newColumn] + newRow;
-        return origin;
+    function getNextCoordinate(direction) {
+        let originCoordinate = createCoordinate();
+        originCoordinate.setPosition(getPosition());
+        return direction.getNextCoordinate(originCoordinate);
     }
 
-    function nextDiagonal(origin, direction) {
-        let nextRow = nextHorizontal(origin, direction.getRow(), 0);
-        let nextColumn = nextHorizontal(origin, 0, direction.getColumn());
-        return getValidDiagonal(origin, nextRow, nextColumn);
-    }
-
-    function getValidDiagonal(origin, newRow, newColumn) {
-        return (origin === newRow || origin === newColumn) ? origin : getColumn(newColumn) + getRow(newRow);
+    function isValid() {
+        return (getRow() >= 1 && getRow() <= 8 && getColumn() >= 1 && getColumn() <= 8);
     }
 
     return {
         setPosition,
         getPosition,
+        getColumn,
+        getColumnLetter,
         getRow,
-        nextSquare
+        getNextCoordinate,
+        isValid
     }
 }
 

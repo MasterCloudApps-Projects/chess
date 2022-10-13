@@ -1,6 +1,6 @@
-function createOrginalPoint(rowP, columnP) {
-    let row = rowP;
-    let column = columnP;
+import { createCoordinate } from "./coordinate.js";
+
+function createDirection(row, column) {
 
     function getRow() {
         return row;
@@ -10,30 +10,30 @@ function createOrginalPoint(rowP, columnP) {
         return column;
     }
 
-    function isDiagonal(){
-        return row != 0 && column !=0;
+    function getNextCoordinate(originCoordinate) {
+        let newRow = parseInt(originCoordinate.getRow()) + parseInt(row);
+        let newColumn = parseInt(originCoordinate.getColumn()) + parseInt(column);
+        let newCoordinate = createCoordinate( newRow, newColumn );
+        console.log(newCoordinate.isValid() + ' ' + newCoordinate.getPosition());
+        return newCoordinate.isValid() ? newCoordinate : originCoordinate;
     }
 
-    function isColumn(){
-        return column != 0;
-    }
     return {
         getRow,
         getColumn,
-        isDiagonal,
-        isColumn
+        getNextCoordinate
     };
 }
 
 const DirectionEnum = Object.freeze({
-    north: createOrginalPoint(+1, 0),
-    south: createOrginalPoint(-1, 0),
-    east: createOrginalPoint(0, +1),
-    west: createOrginalPoint(0, -1),
-    northEast: createOrginalPoint(+1, +1),
-    northWest: createOrginalPoint(+1, -1),
-    southEast: createOrginalPoint(-1, +1),
-    southWest: createOrginalPoint(-1, -1)
+    NORTH : createDirection(1, 0),
+    SOUTH : createDirection(-1, 0),
+    EAST : createDirection(0, 1),
+    WEST : createDirection(0, -1),
+    NORTHEAST_DIAGONAL: createDirection(1, 1),
+    NORTHWEST_DIAGONAL: createDirection(1, -1),
+    SOUTHEAST_DIAGONAL: createDirection(-1, 1),
+    SOUTHWEST_DIAGONAL: createDirection(-1, -1),
 });
 
 export { DirectionEnum };

@@ -3,10 +3,10 @@ import { DirectionEnum } from "./directionEnum.js";
 
 function getRookMoveRule() {
     let motionCoordinates = [
-        DirectionEnum.north,
-        DirectionEnum.south,
-        DirectionEnum.east,
-        DirectionEnum.west
+        DirectionEnum.NORTH,
+        DirectionEnum.SOUTH,
+        DirectionEnum.EAST,
+        DirectionEnum.WEST
     ];
 
     return {
