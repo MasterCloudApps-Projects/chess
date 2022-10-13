@@ -1,6 +1,5 @@
 import { PieceColorEnum } from "../piece/pieceColorEnum.js";
 import { PieceAbbreviationEnum } from "../piece/pieceAbbreviationEnum.js";
-import { PieceCreatorEnum } from "../piece/pieceCreatorEnum.js";
 
 function createBoard() {
     let pieces = {};
@@ -131,7 +130,8 @@ function createBoard() {
         for (let i = 1; i <= 8; i++)
             for (let letter = 0; letter < "abcdefgh".length; letter++) {
                 let position = "abcdefgh"[letter]+i.toString();
-                let piece = PieceCreatorEnum[memento[stringCounter].trim()](position);
+                let stringAbbreviation = memento[stringCounter].trim();
+                let piece = PieceAbbreviationEnum[stringAbbreviation].buildPiece(position);
                 pieces[position] = piece;
                 stringCounter++;
             }
@@ -175,7 +175,7 @@ function createBoard() {
     }
 
     function createEmptyTile(coordinate) {
-        pieces[coordinate] = PieceCreatorEnum._(coordinate);
+        pieces[coordinate] = PieceAbbreviationEnum._.buildPiece(coordinate);
     }
 
     function getInvalidMovementError(pieceFullName) {
