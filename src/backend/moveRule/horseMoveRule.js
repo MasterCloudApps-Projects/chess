@@ -25,25 +25,18 @@ function getHorseMoveRule() {
         return movements;
     }
 
-    //TODO: refactor duplicate code
     function getLShapeMovement(singleSquareDirection, doubleSquareDirection) {
         let movements = [];
         let origin = moveRule.getCurrentCoordinate();
 
-        let partMovement = origin.getNextCoordinate(singleSquareDirection);
-        if(isInvalidPartMovements(partMovement, origin))
-            return movements;
-        origin = partMovement;
+        let directions = [singleSquareDirection, doubleSquareDirection, doubleSquareDirection];
 
-        partMovement = origin.getNextCoordinate(doubleSquareDirection);
-        if(isInvalidPartMovements(partMovement, origin))
-            return movements;
-        origin = partMovement;
-
-        partMovement = origin.getNextCoordinate(doubleSquareDirection);
-        if(isInvalidPartMovements(partMovement, origin))
-            return movements;
-        origin = partMovement;
+        for(let direction of directions) {                
+            let partMovement = origin.getNextCoordinate(direction);
+            if(isInvalidPartMovements(partMovement, origin))
+                return movements;
+            origin = partMovement;
+        }
 
         if (moveRule.isEmptyCoordinate(origin) || moveRule.isOpposingColor(origin))
                 movements.push(origin);
