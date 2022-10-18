@@ -1,5 +1,6 @@
 import { PieceColorEnum } from "../piece/pieceColorEnum.js";
 import { PieceAbbreviationEnum } from "../piece/pieceAbbreviationEnum.js";
+import { piecesBuilder } from "./piecesBuilder.js";
 
 function createBoard() {
     let pieces = {};
@@ -8,6 +9,10 @@ function createBoard() {
 
     function getPieces() {
         return pieces;
+    }
+
+    function setPieces(piecesParam) {
+        pieces = piecesParam;
     }
 
     function isCheckMate() {
@@ -108,7 +113,7 @@ function createBoard() {
     function createMemento() {
         let boardString = "";
         const boardNames = getBoardPieceNames();
-        for (let i = 1; i <= 8; i++)
+        for (let i=8; i>0; i--)
             for (let letter = 0; letter < "abcdefgh".length; letter++) {
                 let currentID = "abcdefgh"[letter] + i.toString();
                 boardString += boardNames[currentID] + "-";
@@ -117,16 +122,7 @@ function createBoard() {
     }
 
     function setMemento(memento) {
-        memento = memento.split("-");
-        let stringCounter = 0;
-        for (let i = 1; i <= 8; i++)
-            for (let letter = 0; letter < "abcdefgh".length; letter++) {
-                let position = "abcdefgh"[letter]+i.toString();
-                let stringAbbreviation = memento[stringCounter].trim();
-                let piece = PieceAbbreviationEnum[stringAbbreviation].buildPiece(position);
-                pieces[position] = piece;
-                stringCounter++;
-            }
+        setPieces(piecesBuilder(memento.split("-")).build());
     }
 
     function getErrorMessage() {
@@ -187,6 +183,7 @@ function createBoard() {
         getErrorMessage,
         hasError,
         getPieces,
+        setPieces,
         isCheckMate,
     };
 }
