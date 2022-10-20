@@ -1,6 +1,5 @@
 import express from 'express';
 import { createGame } from '../main/game.js';
-import { randomPlayer } from '../main/randomPlayer.js';
 import { gameHistory } from '../main/gameHistory.js';
 import { PieceColorEnum } from '../piece/pieceColorEnum.js';
 
@@ -21,8 +20,13 @@ gameRouter.post('/move', (req, res) => {
         return res.status(400).send(movementMsg);
     if (game.isGameFinished())
         return res.status(200).send(game.getBoardResponse());
-    randomPlayer().performRandomMovement(game);
     res.status(200).send(game.getBoardResponse());
+});
+
+gameRouter.post('/random/movement', (req, res) => {
+    let game = gameHistory.findById(req.body.gameUUID);
+    let randomMovement = game.getRandomMovement();
+    res.status(200).send(randomMovement);
 });
 
 export {

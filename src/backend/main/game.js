@@ -2,7 +2,8 @@ import { boardBuilder } from './boardBuilder.js';
 import { createRegistry } from './registry.js';
 import { messageManager } from './message.js';
 import { PieceColorEnum } from '../piece/pieceColorEnum.js';
-import { GameStatusEnum } from './gameStatusEnum.js'
+import { GameStatusEnum } from './gameStatusEnum.js';
+import { randomPlayer } from './randomPlayer.js';
 
 function createGame(uuidGame) {
     let uuid = uuidGame;
@@ -26,6 +27,10 @@ function createGame(uuidGame) {
 
     function redo() {
         registry.redo();
+    }
+
+    function getRandomMovement() {
+        return messageManager.createMessage(randomPlayer.getMovement(board));
     }
 
     function play(movementOrigin, movementDestination, playerColor) {
@@ -82,6 +87,7 @@ function createGame(uuidGame) {
         undoableRedoable,
         getBoard,
         getUuid,
+        getRandomMovement,
         undo,
         redo
     }

@@ -1,26 +1,22 @@
 import { PieceColorEnum } from '../piece/pieceColorEnum.js';
 
-function randomPlayer() {
+const randomPlayer = createRandomPlayer();
 
-    function performRandomMovement(game) {
-        console.log("CPU performing movement...");
-        let movement, result;
-        do {
-            movement = getMovement(game.getBoard());
-            result = game.play(movement.origin, movement.destination, PieceColorEnum.Black);
-        } while (result.error);
-    }
+function createRandomPlayer() {
 
     function getMovement(board) {
-        let origins;
-        let destinations;
+        let origins, origin, destinations;
 
         if (board.isColorOnCheck(PieceColorEnum.Black))
             return board.getValidMovementWhileColorIsOnCheck(PieceColorEnum.Black);
 
         origins = board.getAllSquaresOfBlackPieces();
-        let origin = generateRandomMovement(origins);
-        destinations = board.movementsFromTheCoordinate(origin)
+
+        do {
+            origin = generateRandomMovement(origins);
+            destinations = board.movementsFromTheCoordinate(origin);
+        } while(destinations.length === 0);
+
 
         return {
             origin: origin,
@@ -33,7 +29,7 @@ function randomPlayer() {
     }
 
     return  {
-        performRandomMovement
+        getMovement
     }
 }
 
