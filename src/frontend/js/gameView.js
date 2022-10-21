@@ -38,7 +38,8 @@ function createGameView() {
         const resMsg = await http('/move', 'POST', {
             gameUUID: gameUUID,
             movementOrigin: movementOriginTemp,
-            movementDestination: positionId
+            movementDestination: positionId,
+            color: turn.get()
         });
         if(resMsg.error){
             console.log(resMsg.errorMessage);

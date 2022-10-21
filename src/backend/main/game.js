@@ -51,7 +51,9 @@ function createGame(uuidGame) {
         if(board.hasError())
             return messageManager.createErrorMessage(board.getErrorMessage());
 
-        registry.register();
+        if(turn.isWhite()) {
+            registry.register();
+        }
         advanceTurn();
         if (board.isCheckMate()) endGame();
         return messageManager.createMessage();

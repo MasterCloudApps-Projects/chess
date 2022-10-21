@@ -15,7 +15,7 @@ gameRouter.post('/game', (req, res) => {
 gameRouter.post('/move', (req, res) => {
     console.log(req.body);
     let game = gameHistory.findById(req.body.gameUUID);
-    let movementMsg = game.play(req.body.movementOrigin, req.body.movementDestination, PieceColorEnum.White);
+    let movementMsg = game.play(req.body.movementOrigin, req.body.movementDestination, PieceColorEnum[req.body.color]);
     if (movementMsg.error)
         return res.status(400).send(movementMsg);
     if (game.isGameFinished())

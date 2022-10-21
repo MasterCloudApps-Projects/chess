@@ -26,7 +26,7 @@ function createPlayerView(gameViewParam) {
                 await gameView.selectPositionForMovement(coordinates.origin);
                 error = await gameView.selectPositionForMovement(coordinates.destination);
             }
-        } while (error !== undefined);
+        } while (turn.get() === "Black");
     }
 
     return {
