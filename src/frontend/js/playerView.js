@@ -1,5 +1,5 @@
 import { turn } from './turn.js';
-import { http } from './restClient.js';
+import { restClient } from './restClient.js';
 
 function createPlayerView(gameViewParam) {
     let gameView = gameViewParam;
@@ -20,7 +20,7 @@ function createPlayerView(gameViewParam) {
         console.log("CPU performing movement...");
         let resRandomMovement, error;
         do {
-            resRandomMovement = await http('/random/movement', 'POST', { gameUUID : gameView.getGameUUID() });
+            resRandomMovement = await restClient.http('/random/movement', 'POST', { gameUUID : gameView.getGameUUID() });
             if(!resRandomMovement.error) {
                 let coordinates = resRandomMovement.data;
                 await gameView.selectPositionForMovement(coordinates.origin);

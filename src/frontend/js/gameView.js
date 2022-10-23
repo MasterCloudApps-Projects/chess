@@ -1,6 +1,6 @@
 import { boardView } from './boardView.js';
 import { turn } from './turn.js';
-import { http } from './restClient.js';
+import { restClient } from './restClient.js';
 
 function createGameView() {
     let movementOriginTemp;
@@ -9,7 +9,7 @@ function createGameView() {
 
     async function initializeGame() {
         gameUUID = crypto.randomUUID();
-        const resMsg = await http('/game', 'POST', {gameUUID: gameUUID});
+        const resMsg = await restClient.http('/game', 'POST', {gameUUID: gameUUID});
         if(resMsg.error){
             console.log('Error initializing game, trying again...');
             gameUUID = undefined;
@@ -35,7 +35,7 @@ function createGameView() {
             return;
         }
         boardView.removeBoardTilePaint(movementOriginTemp);
-        const resMsg = await http('/move', 'POST', {
+        const resMsg = await restClient.http('/move', 'POST', {
             gameUUID: gameUUID,
             movementOrigin: movementOriginTemp,
             movementDestination: positionId,
@@ -58,7 +58,7 @@ function createGameView() {
     async function undo(){
         if (gameUUID === undefined)
             return;
-        const resMsg = await http('/undo', 'POST', {
+        const resMsg = await restClient.http('/undo', 'POST', {
             gameUUID: gameUUID
         });
         if(resMsg.error){
@@ -75,7 +75,7 @@ function createGameView() {
     async function redo(){
         if (gameUUID === undefined)
             return;
-        const resMsg = await http('/redo', 'POST', {
+        const resMsg = await restClient.http('/redo', 'POST', {
             gameUUID: gameUUID
         });
         if(resMsg.error){
@@ -92,7 +92,7 @@ function createGameView() {
     async function updateUndoRedo(){
         if (gameUUID === undefined)
             return;
-        const resMsg = await http('/undoableRedoable', 'POST', {
+        const resMsg = await restClient.http('/undoableRedoable', 'POST', {
             gameUUID: gameUUID
         });
         if(resMsg.error){
