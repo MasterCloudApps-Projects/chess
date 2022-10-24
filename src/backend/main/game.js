@@ -51,7 +51,7 @@ function createGame(uuidGame) {
         if(board.hasError())
             return messageManager.createErrorMessage(board.getErrorMessage());
 
-        if(turn.isWhite()) {
+        if(!turn.isWhite()) {
             registry.register();
         }
         advanceTurn();
