@@ -1,6 +1,19 @@
 # Patterned NodeJS
 **Software Design Patterns implemented on JavaScript using NodeJS.**
 
+# Launch chess app
+It is possible to execute the app for development purposes or to just run the app. So, there are two scripts for that: start and dev.
+
+Normal execution
+```
+npm start
+```
+
+Nodemon execution
+```
+npm run dev
+```
+
 # Technical Documentation
 This work serves as a study of several well-known software design patterns implemented on the JavaScript language (by using the NodeJS framework), all applied in the context of a simple chess game.
 
