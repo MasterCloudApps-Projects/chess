@@ -190,6 +190,7 @@ TBD
 - [Memento](#memento)
 ### Structural patterns
 - [Composite](#composite)
+- [Decorator](#decorator)
 
 #### Builder
 Board creation and initialization is done via a builder pattern, which accepts custom board layouts as strings and features default ones.
@@ -224,4 +225,11 @@ The Queen movement strategy is implemented via a composite movement of both Rook
 
 <p align="center">
     <img src=".readme/queenCompositePatternDiagram.png" />
+</p>
+
+#### Decorator
+The decorator pattern allows to easily implement functionality for the pawn to transform into a queen when making it to the end of the board. The decorator object inherits from a normal piece, implements new methods and overrides others to check and swap its piece name and movement strategy for those of a queen when conditions are met.
+
+<p align="center">
+    <img src=".readme/pawnDecoratorPatternDiagram.png" />
 </p>
