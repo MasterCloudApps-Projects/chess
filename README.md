@@ -186,7 +186,7 @@ TBD
 - [Builder](#builder)
 ### Behavioral patterns
 - [Strategy](#strategy-pattern)
-- [Template Method](#template-metod)
+- [Template Method](#template-method)
 - [Memento](#memento)
 ### Structural patterns
 - [Composite](#composite)
