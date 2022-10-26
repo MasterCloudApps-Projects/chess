@@ -1,5 +1,5 @@
 import { createPieceMoveRule } from "./pieceMoveRule.js";
-import { getRow } from "./coordinate.js";
+import { DirectionEnum } from "./directionEnum.js"
 
 function getPawnMoveRule(isFirstMovementP, isFromNorthSideP) {
     let moveRule = createPieceMoveRule();
@@ -13,27 +13,28 @@ function getPawnMoveRule(isFirstMovementP, isFromNorthSideP) {
         return possibleMovements;
     }
 
-    function doAfterMovement (currentPosition) {
-        moveRule.setCurrentPosition(currentPosition);
+    function doAfterMovement (currentPosition, pieces) {
+        moveRule.updateCurrentPosition(currentPosition, pieces);
         isFirstMovement = false;
     }
 
     function shouldTurnToQueen () {
-        if (isFromNorthSide && getRow(moveRule.getCurrentPosition()) <= 1)
+        let coordinate = moveRule.getCurrentCoordinate();
+        if (isFromNorthSide && coordinate.getRow() <= 1)
             return true;
-        if (!isFromNorthSide && getRow(moveRule.getCurrentPosition()) >= 8)
+        if (!isFromNorthSide && coordinate.getRow() >= 8)
             return true;
         return false;
     }
 
-    function getAttackMovements (origin, pieces) {
-        moveRule.updateCurrentPosition(origin, pieces);
-        return getEatingMovements();
+    function getAttackMovements (position, pieces) {
+        moveRule.updateCurrentPosition(position, pieces);
+        return getEatingMovements().map(mv => mv.getPosition());
     }
 
     function getForwardMovements() {
         let movements = [];
-        let nextSquare = getForwardSquare(moveRule.getCurrentPosition());
+        let nextSquare = getForwardSquare(moveRule.getCurrentCoordinate());
         if (moveRule.isEmptyCoordinate(nextSquare)) {
             movements.push(nextSquare);
             if (isFirstMovement && moveRule.isEmptyCoordinate(getForwardSquare(nextSquare)))
@@ -44,35 +45,34 @@ function getPawnMoveRule(isFirstMovementP, isFromNorthSideP) {
 
     function getEatingMovements() {
         let movements = [];
-        let rightDiagonal = getDiagonalRightSquare(moveRule.getCurrentPosition());
-        let leftDiagonal = getDiagonalLeftSquare(moveRule.getCurrentPosition());
+        let rightDiagonal = getDiagonalRightSquare(moveRule.getCurrentCoordinate());
+        let leftDiagonal = getDiagonalLeftSquare(moveRule.getCurrentCoordinate());
         if (moveRule.isOpposingColor(rightDiagonal))
             movements.push(rightDiagonal);
         if (moveRule.isOpposingColor(leftDiagonal))
             movements.push(leftDiagonal);
-
         return movements;
     }
 
-    function getForwardSquare(origin) {
+    function getForwardSquare(originCoordinate) {
         if (isFromNorthSide)
-            return moveRule.getNextSquareSouth(origin);
+            return originCoordinate.getNextCoordinate(DirectionEnum.SOUTH);
         else
-            return moveRule.getNextSquareNorth(origin);
+            return originCoordinate.getNextCoordinate(DirectionEnum.NORTH);
     }
 
     function getDiagonalRightSquare(origin) {
         if (isFromNorthSide)
-            return moveRule.getNextSouthEastDiagonal(origin);
+            return origin.getNextCoordinate(DirectionEnum.SOUTHEAST_DIAGONAL);
         else
-            return moveRule.getNextNorthEastDiagonal(origin);
+            return origin.getNextCoordinate(DirectionEnum.NORTHEAST_DIAGONAL);
     }
 
     function getDiagonalLeftSquare(origin) {
         if (isFromNorthSide)
-            return moveRule.getNextSouthWestDiagonal(origin);
+            return origin.getNextCoordinate(DirectionEnum.SOUTHWEST_DIAGONAL);
         else
-            return moveRule.getNextNorthWestDiagonal(origin);
+            return origin.getNextCoordinate(DirectionEnum.NORTHWEST_DIAGONAL);
     }
 
     return {

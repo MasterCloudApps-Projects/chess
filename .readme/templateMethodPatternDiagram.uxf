@@ -1,0 +1,21 @@
+<diagram program="umletino" version="15.0.0"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>210</x><y>270</y><w>330</w><h>70</h></coordinates><panel_attributes>pieceMoveRule.js
+bg=green
+--
++ isPossibleMove (origin, destination, pieces)
++ getPossibleMovements ()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>140</x><y>400</y><w>160</w><h>50</h></coordinates><panel_attributes>straightLineMoveRule.js
+bg=orange
+--
++ getPossibleMovements()</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>220</x><y>330</y><w>180</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>160;10;160;40;10;40;10;70</additional_attributes></element><element><id>UMLClass</id><coordinates><x>370</x><y>400</y><w>160</w><h>50</h></coordinates><panel_attributes>pawnMoveRule.js
+bg=orange
+--
++ getPossibleMovements()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>540</x><y>400</y><w>160</w><h>50</h></coordinates><panel_attributes>horseMoveRule.js
+bg=orange
+--
++ getPossibleMovements()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>370</x><y>460</y><w>160</w><h>50</h></coordinates><panel_attributes>queenMoveRule.js
+bg=orange
+--
++ getPossibleMovements()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>540</x><y>460</y><w>160</w><h>50</h></coordinates><panel_attributes>kingMoveRule.js
+bg=orange
+--
++ getPossibleMovements()</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>370</x><y>330</y><w>180</w><h>60</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;40;160;40</additional_attributes></element><element><id>Relation</id><coordinates><x>450</x><y>360</y><w>100</w><h>60</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>80;10;80;30;10;30;10;40</additional_attributes></element><element><id>Relation</id><coordinates><x>520</x><y>380</y><w>100</w><h>40</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;10;80;10;80;20</additional_attributes></element><element><id>UMLNote</id><coordinates><x>140</x><y>230</y><w>470</w><h>30</h></coordinates><panel_attributes>Piece Movemement Rule - Template Method Pattern ES6 Module Structure
+bg=cyan</panel_attributes><additional_attributes></additional_attributes></element></diagram>

@@ -6,16 +6,17 @@ import { getHorseMoveRule } from "./horseMoveRule.js";
 import { getQueenMoveRule } from "./queenMoveRule.js";
 import { getKingMoveRule } from "./kingMoveRule.js";
 
-let moveRules = {
-    getPawnMoveRule: getPawnMoveRule,
-    getBishopMoveRule: getBishopMoveRule,
-    getRookMoveRule: getRookMoveRule,
-    getHorseMoveRule: getHorseMoveRule,
-    getQueenMoveRule: getQueenMoveRule,
-    getKingMoveRule: getKingMoveRule
+let moveRuleMap = {
+    pawn: getPawnMoveRule,
+    bishop: getBishopMoveRule,
+    rook: getRookMoveRule,
+    horse: getHorseMoveRule,
+    queen: getQueenMoveRule,
+    king: getKingMoveRule,
+    empty: undefined
 }
 
 export {
-    moveRules
+    moveRuleMap
 }
 

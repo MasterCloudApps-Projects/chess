@@ -1,13 +1,14 @@
 import { boardBuilder } from './boardBuilder.js';
 import { createRegistry } from './registry.js';
 import { messageManager } from './message.js';
-import { PieceTypeEnum } from '../piece/pieceTypeEnum.js';
-import { GameStatusEnum } from './gameStatusEnum.js'
+import { PieceColorEnum } from '../piece/pieceColorEnum.js';
+import { GameStatusEnum } from './gameStatusEnum.js';
+import { randomPlayer } from './randomPlayer.js';
 
 function createGame(uuidGame) {
     let uuid = uuidGame;
     let gameStatus = GameStatusEnum.ongoing;
-    let turn = PieceTypeEnum.White;
+    let turn = PieceColorEnum.White;
     let board = boardBuilder().usingInitialPieceDisposition().build();
     let registry = createRegistry(board);
     let status;
@@ -28,6 +29,10 @@ function createGame(uuidGame) {
         registry.redo();
     }
 
+    function getRandomMovement() {
+        return messageManager.createMessage(randomPlayer.getMovement(board));
+    }
+
     function play(movementOrigin, movementDestination, playerColor) {
         if (gameStatus === GameStatusEnum.finished)
             return messageManager.createMessage('Game finished.');
@@ -46,7 +51,9 @@ function createGame(uuidGame) {
         if(board.hasError())
             return messageManager.createErrorMessage(board.getErrorMessage());
 
-        registry.register();
+        if(!turn.isWhite()) {
+            registry.register();
+        }
         advanceTurn();
         if (board.isCheckMate()) endGame();
         return messageManager.createMessage();
@@ -82,6 +89,7 @@ function createGame(uuidGame) {
         undoableRedoable,
         getBoard,
         getUuid,
+        getRandomMovement,
         undo,
         redo
     }

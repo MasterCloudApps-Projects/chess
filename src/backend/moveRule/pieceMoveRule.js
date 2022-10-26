@@ -1,30 +1,53 @@
-import { createAbstractMoveRule } from "./abstractMoveRule.js";
+import {createCoordinate} from './coordinate.js';
 
 function createPieceMoveRule(){
-    let absMovement = createAbstractMoveRule();
+    let currentCoordinate = createCoordinate();
+    let boardPieces;
+
+    function updateCurrentPosition(currentPosition, boardPieceList) {
+        currentCoordinate.setPosition(currentPosition);
+        boardPieces = boardPieceList;
+    }
+
+    function getCurrentCoordinate() {
+        return currentCoordinate;
+    }
+
+    function getBoardPieces() {
+        return boardPieces;
+    }
+
+    function isEmptyCoordinate(coordinate) {
+        return boardPieces[coordinate.getPosition()].isEmpty();
+    }
+
+    function isOpposingColor(coordinate) {
+        return boardPieces[currentCoordinate.getPosition()]
+            .isOpposingColor(boardPieces[coordinate.getPosition()]);
+    }
 
     // Function overriden on lower child level requires 'this', otherwise calls local empty implementation
     function isPossibleMove (origin, destination, pieces) {
-        absMovement.updateCurrentPosition(origin, pieces);
-        return (this.getPossibleMovements().includes(destination));
+        updateCurrentPosition(origin, pieces);
+        return (this.getPossibleMovements().map(mv => mv.getPosition()).includes(destination));
     };
 
     function getAttackMovements (origin, pieces) {
-        absMovement.updateCurrentPosition(origin, pieces);
-        return this.getPossibleMovements();
+        updateCurrentPosition(origin, pieces);
+        return this.getPossibleMovements().map(mv => mv.getPosition());
     }
 
     function getPossibleMovements () {};
-    function doAfterMovement () {};
 
     return {
-        ...absMovement,
-        ...{
-            isPossibleMove,
-            getAttackMovements,
-            getPossibleMovements,
-            doAfterMovement
-        }
+        updateCurrentPosition,
+        getCurrentCoordinate,
+        getBoardPieces,
+        isEmptyCoordinate,
+        isOpposingColor,
+        isPossibleMove,
+        getAttackMovements,
+        getPossibleMovements,
     }
 }
 

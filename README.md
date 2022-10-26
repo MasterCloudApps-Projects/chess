@@ -1,6 +1,19 @@
 # Patterned NodeJS
 **Software Design Patterns implemented on JavaScript using NodeJS.**
 
+# Launch chess app
+It is possible to execute the app for development purposes or to just run the app. So, there are two scripts for that: start and dev.
+
+Normal execution
+```
+npm start
+```
+
+Nodemon execution
+```
+npm run dev
+```
+
 # Technical Documentation
 This work serves as a study of several well-known software design patterns implemented on the JavaScript language (by using the NodeJS framework), all applied in the context of a simple chess game.
 
@@ -172,11 +185,12 @@ TBD
 ### Creational patterns
 - [Builder](#builder)
 ### Behavioral patterns
-- [Template Method](#template-metod)
 - [Strategy](#strategy-pattern)
+- [Template Method](#template-method)
 - [Memento](#memento)
 ### Structural patterns
 - [Composite](#composite)
+- [Decorator](#decorator)
 
 #### Builder
 Board creation and initialization is done via a builder pattern, which accepts custom board layouts as strings and features default ones.
@@ -185,14 +199,18 @@ Board creation and initialization is done via a builder pattern, which accepts c
     <img src=".readme/boardBuilderPatternDiagram.png" />
 </p>
 
-#### Template Method
-TBD
-
 #### Strategy pattern
-Used to manage how pieces move across the board. As so, several movement strategies exist to implement each kind of piece, which can also be swapped during execution. This is the case of the pawn piece turning into a queen when reaching the end of the board, which was solved smoothly by using this pattern.
+Used to manage how pieces move across the board. As so, several movement strategies exist to implement each kind of piece, which can also be swapped during execution. This is the case of the pawn piece turning into a queen when reaching the end of the board, which was solved smoothly by using this pattern to switch its movement behaviour.
 
 <p align="center">
     <img src=".readme/movementStrategyPatternDiagram.png" />
+</p>
+
+#### Template Method
+Within Movement Rule strategies, the main parent class pieceMoveRule.js implements the method isPossibleMove(), which retrieves a list of movements by calling getPossibleMovements(). The list of movements varies between pieces, so each child has its own implementation, showcasing the template method pattern.
+
+<p align="center">
+    <img src=".readme/templateMethodPatternDiagram.png" />
 </p>
 
 #### Memento
@@ -207,4 +225,11 @@ The Queen movement strategy is implemented via a composite movement of both Rook
 
 <p align="center">
     <img src=".readme/queenCompositePatternDiagram.png" />
+</p>
+
+#### Decorator
+The decorator pattern allows to easily implement functionality for the pawn to transform into a queen when making it to the end of the board. The decorator object inherits from a normal piece, implements new methods and overrides others to check and swap its piece name and movement strategy for those of a queen when conditions are met.
+
+<p align="center">
+    <img src=".readme/pawnDecoratorPatternDiagram.png" />
 </p>

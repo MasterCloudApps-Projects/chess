@@ -1,41 +1,49 @@
-const columns = "abcdefgh";
-const rows = "12345678";
+function createCoordinate(rowIndex, columnIndex) {
 
-function getRow(coordinate) {
-    return coordinate.slice(1, 2);
-}
+    let columns = "abcdefgh";
+    let position = columns[columnIndex-1] +''+ rowIndex;
 
-function getColumn(coordinate) {
-    return coordinate.slice(0, 1);
-}
+    function setPosition(newPosition) {
+        position = newPosition;
+    }
 
-function incrementRow(coordinate) {
-    if (getRow(coordinate) >= rows.length) return coordinate;
-    return getColumn(coordinate) + (parseInt(getRow(coordinate)) + 1);
-}
+    function getPosition() {
+        return position;
+    }
 
-function incrementColumn(coordinate) {
-    if (columns.indexOf(getColumn(coordinate)) >= columns.length-1) return coordinate;
-    return columns[columns.indexOf(getColumn(coordinate)) + 1] + getRow(coordinate).toString();
-}
+    function getColumn() {
+        return columns.indexOf(getColumnLetter()) + 1;
+    }
 
-function decreaseRow(coordinate) {
-    if (getRow(coordinate) <= 1) return coordinate;
-    return getColumn(coordinate) + (parseInt(getRow(coordinate)) - 1);
-}
+    function getRow() {
+        return position.slice(1, 2);
+    }
 
-function decreaseColumn(coordinate) {
-    if (columns.indexOf(getColumn(coordinate)) <= 0) return coordinate;
-    return columns[columns.indexOf(getColumn(coordinate)) - 1] + getRow(coordinate).toString();
+    function getColumnLetter() {
+        return position.slice(0, 1);
+    }
+
+    function getNextCoordinate(direction) {
+        let originCoordinate = createCoordinate();
+        originCoordinate.setPosition(getPosition());
+        return direction.getNextCoordinate(originCoordinate);
+    }
+
+    function isValid() {
+        return (getRow() >= 1 && getRow() <= 8 && getColumn() >= 1 && getColumn() <= 8);
+    }
+
+    return {
+        setPosition,
+        getPosition,
+        getColumn,
+        getColumnLetter,
+        getRow,
+        getNextCoordinate,
+        isValid
+    }
 }
 
 export {
-    columns,
-    rows,
-    getRow,
-    getColumn,
-    incrementColumn,
-    incrementRow,
-    decreaseColumn,
-    decreaseRow
+    createCoordinate
 }

@@ -2,6 +2,10 @@
     "name": "patterned-nodeJS",
     "version": "1.0.0",
     "type": "module",
+    "scripts": {
+        "dev": "nodemon src/app.js",
+        "start": "node src/app.js"
+    },
     "dependencies": {
         "axios": "^0.27.2",
         "cors": "^2.8.5",

@@ -1,0 +1,18 @@
+<diagram program="umletino" version="15.0.0"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>270</x><y>180</y><w>240</w><h>70</h></coordinates><panel_attributes>piece.js
+bg=green
+--
+- movement : MoveRule
+--
++ isPossibleMove (destination, pieces)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>220</x><y>120</y><w>330</w><h>30</h></coordinates><panel_attributes>Pawn Piece - Decorator Pattern ES6 Module Structure
+bg=cyan</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>260</x><y>280</y><w>260</w><h>100</h></coordinates><panel_attributes>piecePawnDecorator.js
+bg=orange
+--
+- movement : MoveRule
+--
++ isPossibleMove (destination, pieces)
++ doAfterMovement (newPosition, pieces)
++ transformToQueen</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>380</x><y>240</y><w>30</w><h>60</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;40</additional_attributes></element><element><id>UMLClass</id><coordinates><x>30</x><y>230</y><w>180</w><h>50</h></coordinates><panel_attributes>pieceAbbreviationEnum.js
+--
++ buildPiece (position)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>210</x><y>200</y><w>80</w><h>80</h></coordinates><panel_attributes>lt=&lt;-
+</panel_attributes><additional_attributes>60;10;20;10;20;60;10;60</additional_attributes></element><element><id>Relation</id><coordinates><x>200</x><y>250</y><w>80</w><h>80</h></coordinates><panel_attributes>lt=&lt;-
+</panel_attributes><additional_attributes>60;60;30;60;30;10;10;10</additional_attributes></element></diagram>

@@ -1,32 +1,44 @@
-import { PieceTypeEnum } from './pieceTypeEnum.js';
-import { moveRules } from '../moveRule/moveRules.js';
-
-function createPiece(pieceName, pieceFullName, pieceColor, piecePosition, pieceMovement) {
-    let name = pieceName;
+function createPiece(pieceAbbreviation, pieceFullName, pieceColor, piecePosition, pieceMovementRule) {
+    let abbreviation = pieceAbbreviation;
     let fullName = pieceFullName;
     let color = pieceColor;
     let position = piecePosition;
-    let movement = pieceMovement;
+    let movement = pieceMovementRule;
 
-    function getName() {
-        return name;
+    function getAbbreviation() {
+        return abbreviation;
+    }
+
+    function setAbbreviation(newAbbreviation) {
+        abbreviation = newAbbreviation;
     }
 
     function getFullName() {
         return fullName;
     }
 
+    function setFullName(newFullName) {
+        fullName = newFullName
+    }
+
     function getPosition() {
         return position;
+    }
+
+    function getMovementRule() {
+        return movement;
+    }
+
+    function setMovementRule(newMovementRule) {
+        movement = newMovementRule;
     }
 
     function setPosition(positionPiece) {
         position = positionPiece;
     }
 
-
-    function updateCurrentPosition(origin, pieces) {
-        movement.updateCurrentPosition(origin, pieces);
+    function updateCurrentPosition(position, pieces) {
+        movement.updateCurrentPosition(position, pieces);
     }
 
     function isPossibleMove(destination, pieces) {
@@ -34,20 +46,7 @@ function createPiece(pieceName, pieceFullName, pieceColor, piecePosition, pieceM
     }
 
     function getPossibleMovements(pieces) {
-        return movement.getPossibleMovements(position, pieces);
-    }
-
-    function doAfterMovement() {
-        movement.doAfterMovement(position);
-        if(name.includes('P') && movement.shouldTurnToQueen()){
-            transformToQueen();
-        }
-    }
-
-    function transformToQueen() {
-        movement = moveRules.getQueenMoveRule();
-        fullName = fullName.replace('pawn', 'queen');
-        name = name.replace('P', 'Q');
+        return movement.getPossibleMovements(position, pieces).map(mv => mv.getPosition());
     }
 
     function getAttackPositions(pieces) {
@@ -55,7 +54,7 @@ function createPiece(pieceName, pieceFullName, pieceColor, piecePosition, pieceM
     }
 
     function isWhite() {
-        return color === PieceTypeEnum.White;
+        return color.isWhite();
     }
 
     function isOpposingColor(piece) {
@@ -67,7 +66,7 @@ function createPiece(pieceName, pieceFullName, pieceColor, piecePosition, pieceM
     }
 
     function isEmpty() {
-        return color === PieceTypeEnum.Empty;
+        return color.isEmpty();
     }
 
     function getMovementError() {
@@ -75,13 +74,16 @@ function createPiece(pieceName, pieceFullName, pieceColor, piecePosition, pieceM
     }
 
     return {
-        getName,
+        getAbbreviation,
+        setAbbreviation,
         getFullName,
+        setFullName,
+        getMovementRule,
+        setMovementRule,
         getPosition,
         setPosition,
         isPossibleMove,
         getPossibleMovements,
-        doAfterMovement,
         getAttackPositions,
         isWhite,
         isOpposingColor,

@@ -1,8 +1,6 @@
-import { PieceTypeEnum } from "../piece/pieceTypeEnum.js";
-import { PieceNameEnum } from "../piece/pieceNameEnum.js";
-import { createBlackFactory } from "../piece/blackPieceFactory.js";
-import { createWhiteFactory } from "../piece/whitePieceFactory.js";
-import { createFactory } from "../piece/pieceFactory.js";
+import { PieceColorEnum } from "../piece/pieceColorEnum.js";
+import { PieceAbbreviationEnum } from "../piece/pieceAbbreviationEnum.js";
+import { piecesBuilder } from "./piecesBuilder.js";
 
 function createBoard() {
     let pieces = {};
@@ -13,22 +11,21 @@ function createBoard() {
         return pieces;
     }
 
+    function setPieces(piecesParam) {
+        pieces = piecesParam;
+    }
+
     function isCheckMate() {
         return checkmate;
     }
     function tryMove(movementOrigin, movementDestination, playerColor) {
         errorMessage = undefined;
         if (!pieces[movementOrigin].isOfColor(playerColor)) {
-            errorMessage =
-                "Invalid move: Attempting to move a wrong color piece.";
+            errorMessage = "Invalid move: Attempting to move a wrong color piece.";
             return;
         }
-        if (
-            !pieces[movementOrigin].isPossibleMove(movementDestination, pieces)
-        ) {
-            errorMessage = getInvalidMovementError(
-                pieces[movementOrigin].fullName
-            );
+        if (!pieces[movementOrigin].isPossibleMove(movementDestination, pieces)) {
+            errorMessage = getInvalidMovementError(pieces[movementOrigin].getFullName());
             return;
         }
         let stateBeforeMoving = createMemento();
@@ -40,7 +37,6 @@ function createBoard() {
         pieces[movementDestination] = pieces[movementOrigin];
         pieces[movementDestination].setPosition(movementDestination);
         createEmptyTile(movementOrigin);
-        pieces[movementDestination].doAfterMovement();
     }
 
     function updateCheckStatus(playerColor, previousState) {
@@ -51,10 +47,7 @@ function createBoard() {
         }
         if (isColorOnCheck(playerColor.getOppositeColor())) {
             console.log("possible checkmate");
-            console.log(
-                "is checkmate: " +
-                    isColorOnCheckMate(playerColor.getOppositeColor())
-            );
+            console.log("is checkmate: " + isColorOnCheckMate(playerColor.getOppositeColor()));
             if (isColorOnCheckMate(playerColor.getOppositeColor()))
                 checkmate = true;
         }
@@ -96,17 +89,17 @@ function createBoard() {
 
     function getBoardPieceNames() {
         let result = {};
-        for (let key in pieces) result[key] = pieces[key].getName();
+        for (let key in pieces) result[key] = pieces[key].getAbbreviation();
 
         return result;
     }
 
     function getAllSquaresOfBlackPieces() {
-        return getAllCoordinatesByColor(PieceTypeEnum.Black);
+        return getAllCoordinatesByColor(PieceColorEnum.Black);
     }
 
     function getAllEmptySquares() {
-        return getAllCoordinatesByColor(PieceTypeEnum.Empty);
+        return getAllCoordinatesByColor(PieceColorEnum.Empty);
     }
 
     function getAllCoordinatesByColor(color) {
@@ -120,7 +113,7 @@ function createBoard() {
     function createMemento() {
         let boardString = "";
         const boardNames = getBoardPieceNames();
-        for (let i = 1; i <= 8; i++)
+        for (let i=8; i>0; i--)
             for (let letter = 0; letter < "abcdefgh".length; letter++) {
                 let currentID = "abcdefgh"[letter] + i.toString();
                 boardString += boardNames[currentID] + "-";
@@ -129,23 +122,7 @@ function createBoard() {
     }
 
     function setMemento(memento) {
-        const blackPieceFactory = createBlackFactory();
-        const whitePieceFactory = createWhiteFactory();
-        memento = memento.split("-");
-        let stringCounter = 0;
-        for (let i = 1; i <= 8; i++)
-            for (let letter = 0; letter < "abcdefgh".length; letter++) {
-                let pieceName = PieceNameEnum[memento[stringCounter].trim()];
-                let position = "abcdefgh"[letter] + i.toString();
-                let piece =
-                    blackPieceFactory[pieceName.getFactoryCall()](position);
-                if (pieceName.getColor() === PieceTypeEnum.White)
-                    piece =
-                        whitePieceFactory[pieceName.getFactoryCall()](position);
-
-                pieces[position] = piece;
-                stringCounter++;
-            }
+        setPieces(piecesBuilder(memento.split("-")).build());
     }
 
     function getErrorMessage() {
@@ -159,21 +136,20 @@ function createBoard() {
     }
 
     function getAllAttackPositionsByColor(color) {
-        if (color === PieceTypeEnum.Empty) return [];
+        if (color.isEmpty()) return [];
         const coordinatesUnderAttack = [];
         let colorPieces = getAllPiecesByColor(color);
-        for (let i in colorPieces)
-            coordinatesUnderAttack.push(
-                ...colorPieces[i].getAttackPositions(pieces)
-            );
+        for (let i in colorPieces) {
+            coordinatesUnderAttack.push(...colorPieces[i].getAttackPositions(pieces));
+        }
         return [...new Set(coordinatesUnderAttack)];
     }
 
     function getKingPositionByColor(color) {
         let king =
-            color === PieceTypeEnum.Black ? PieceNameEnum.BK : PieceNameEnum.WK;
+            color.isWhite() ? PieceAbbreviationEnum.WK : PieceAbbreviationEnum.BK;
         return getAllPiecesByColor(color)
-            .find((piece) => piece.getName() === king.getName())
+            .find((piece) => piece.getAbbreviation() === king.getAbbreviation())
             .getPosition();
     }
 
@@ -186,12 +162,11 @@ function createBoard() {
     }
 
     function createEmptyTile(coordinate) {
-        //TODO: refactor factory
-        pieces[coordinate] = createFactory().getEmptyPiece(coordinate);
+        pieces[coordinate] = PieceAbbreviationEnum._.buildPiece(coordinate);
     }
 
-    function getInvalidMovementError(piece) {
-        return "Invalid " + piece + " movement";
+    function getInvalidMovementError(pieceFullName) {
+        return "Invalid " + pieceFullName + " movement";
     }
 
     return {
@@ -208,6 +183,7 @@ function createBoard() {
         getErrorMessage,
         hasError,
         getPieces,
+        setPieces,
         isCheckMate,
     };
 }
