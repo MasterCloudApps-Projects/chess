@@ -139,8 +139,8 @@ function createBoard() {
         if (color.isEmpty()) return [];
         const coordinatesUnderAttack = [];
         let colorPieces = getAllPiecesByColor(color);
-        for (let i in colorPieces) {
-            coordinatesUnderAttack.push(...colorPieces[i].getAttackPositions(pieces));
+        for (let colorPiece of colorPieces) {
+            coordinatesUnderAttack.push(...colorPiece.getAttackPositions(pieces));
         }
         return [...new Set(coordinatesUnderAttack)];
     }
