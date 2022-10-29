@@ -15,7 +15,6 @@ function createPlayerView(gameViewParam) {
         }
     }
 
-    //TODO: Study if this responsability is ok
     async function performRandomMovement() {
         console.log("CPU performing movement...");
         let resRandomMovement, error;
