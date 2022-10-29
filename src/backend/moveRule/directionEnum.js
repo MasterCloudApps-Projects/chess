@@ -29,10 +29,10 @@ const DirectionEnum = Object.freeze({
     SOUTH : createDirection(-1, 0),
     EAST : createDirection(0, 1),
     WEST : createDirection(0, -1),
-    NORTHEAST_DIAGONAL: createDirection(1, 1),
-    NORTHWEST_DIAGONAL: createDirection(1, -1),
-    SOUTHEAST_DIAGONAL: createDirection(-1, 1),
-    SOUTHWEST_DIAGONAL: createDirection(-1, -1),
+    NORTHEAST: createDirection(1, 1),
+    NORTHWEST: createDirection(1, -1),
+    SOUTHEAST: createDirection(-1, 1),
+    SOUTHWEST: createDirection(-1, -1),
 });
 
 export { DirectionEnum };
