@@ -1,5 +1,5 @@
 import { PieceColorEnum } from "../piece/pieceColorEnum.js";
-import { PieceAbbreviationEnum } from "../piece/pieceAbbreviationEnum.js";
+import { PieceBuilderEnum } from "../piece/pieceBuilderEnum.js";
 import { piecesBuilder } from "./piecesBuilder.js";
 
 function createBoard() {
@@ -146,10 +146,8 @@ function createBoard() {
     }
 
     function getKingPositionByColor(color) {
-        let king =
-            color.isWhite() ? PieceAbbreviationEnum.WK : PieceAbbreviationEnum.BK;
         return getAllPiecesByColor(color)
-            .find((piece) => piece.getAbbreviation() === king.getAbbreviation())
+            .find((piece) => piece.getAbbreviation() === color.getAbbreviation() + 'K')
             .getPosition();
     }
 
@@ -162,7 +160,7 @@ function createBoard() {
     }
 
     function createEmptyTile(coordinate) {
-        pieces[coordinate] = PieceAbbreviationEnum._.buildPiece(coordinate);
+        pieces[coordinate] = PieceBuilderEnum._.buildPiece(coordinate);
     }
 
     function getInvalidMovementError(pieceFullName) {

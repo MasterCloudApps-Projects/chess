@@ -1,4 +1,4 @@
-import { PieceAbbreviationEnum } from '../piece/pieceAbbreviationEnum.js';
+import { PieceBuilderEnum } from '../piece/pieceBuilderEnum.js';
 
 function piecesBuilder(pieceStringLayout){
     let pieces = {};
@@ -9,7 +9,7 @@ function piecesBuilder(pieceStringLayout){
             for (let letter = 0; letter < "abcdefgh".length; letter++) {
                 let position = "abcdefgh"[letter]+i.toString();
                 let stringAbbreviation = pieceStringLayout[stringCounter].trim();
-                let piece = PieceAbbreviationEnum[stringAbbreviation].buildPiece(position);
+                let piece = PieceBuilderEnum[stringAbbreviation].buildPiece(position);
                 pieces[position] = piece;
                 stringCounter++;
             }
