@@ -183,6 +183,7 @@ TBD
 
 ## Design Pattern Implementation
 ### Creational patterns
+- [Singleton](#singleton)
 - [Builder](#builder)
 ### Behavioral patterns
 - [Strategy](#strategy-pattern)
@@ -191,6 +192,58 @@ TBD
 ### Structural patterns
 - [Composite](#composite)
 - [Decorator](#decorator)
+
+#### Singleton
+This pattern has been used to build the following objects:
+- turn (frontend)
+- boardView
+- restClient
+- messageManager
+- randomPlayer
+
+It has not been implemented in the same way as in other languages like Java. Commonly, a public static method will be defined and the constructor will be private. So, the static method will know if the instance has been created or not and return the instance of the type. 
+
+```
+public Class() {
+    private Class instance;
+
+    private Class() {
+        // Private constructor
+    }
+
+    public static Class getInstance() {
+        if(instance == null) {
+            instance = new Class();
+        }
+        return instance;
+    }
+}
+```
+
+Nevertheless, here a constant variable has been assign to the instance of the type and it is exported. As a consequence, no one can invoke the constructor from outside because only the object is exported instead of the factory function.
+
+```
+const singleInstance = constructor();
+
+function constructor() {
+    function publicMethod1(){
+        // method 1
+    }
+    
+    function publicMethod2(errorMessage){
+        // method 2
+    }
+
+    return {
+        publicMethod1,
+        publicMethod2
+    }
+}
+
+export {
+    singleInstance
+}
+```
 
 #### Builder
 Board creation and initialization is done via a builder pattern, which accepts custom board layouts as strings and features default ones.
