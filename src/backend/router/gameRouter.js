@@ -29,6 +29,11 @@ gameRouter.post('/random/movement', (req, res) => {
     res.status(200).send(randomMovement);
 });
 
+gameRouter.post('/status', (req, res) => {
+    let game = gameHistory.findById(req.body.gameUUID);
+    res.status(200).send(game.getStatus());
+})
+
 export {
     gameRouter
 }

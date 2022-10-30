@@ -55,7 +55,7 @@ function createGame(uuidGame) {
             registry.register();
         }
         advanceTurn();
-        if (board.isCheckMate()) endGame();
+        updateStatus();
         return messageManager.createMessage();
     }
 
@@ -63,12 +63,23 @@ function createGame(uuidGame) {
         turn = turn.getOppositeColor();
     }
 
+    function updateStatus() {
+        if(board.isCheckMate() || board.isStalemate(turn)) {
+            endGame();
+        }
+    }
+
     function endGame() {
+        console.log("End game");
         status = GameStatusEnum.finished;
     }
 
     function isGameFinished() {
         return status === GameStatusEnum.finished;
+    }
+
+    function getStatus() {
+        return messageManager.createMessage({status: status});
     }
 
     function getBoardResponse() {
@@ -85,6 +96,7 @@ function createGame(uuidGame) {
     return{
         play,
         isGameFinished,
+        getStatus,
         getBoardResponse,
         undoableRedoable,
         getBoard,

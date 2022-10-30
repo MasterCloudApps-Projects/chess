@@ -25,6 +25,10 @@ function createBoardView() {
     function removeBoardTilePaint(tileID) {
         document.getElementById(tileID).style = '';
     }
+
+    function paintFinishedStatus() {
+        paintErrorsOnHTML(["Game finished"]);
+    }
     
     function paintErrorsOnHTML(errorArray) {
         let errorHTML = '';
@@ -45,7 +49,8 @@ function createBoardView() {
         paintSelectedBoardTile,
         removeBoardTilePaint,
         paintErrorsOnHTML,
-        updateUndoRedoDisplay
+        updateUndoRedoDisplay,
+        paintFinishedStatus
     }
 }
 

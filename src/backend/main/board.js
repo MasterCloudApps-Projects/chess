@@ -15,9 +15,39 @@ function createBoard() {
         pieces = piecesParam;
     }
 
+    function isStalemate(turnColor) {
+        const origins = getAllCoordinatesByColor(turnColor);
+        for(const origin of origins) {
+            const destinations = movementsFromTheCoordinate(origin);
+            if(destinations.length > 0) {
+                const piece = pieces[origin];
+                if(pieceIsKing(piece)) {
+                    const previousState = createMemento();
+                    for(const destination of destinations) {
+                        move(origin, destination);
+                        const checkValue = isColorOnCheck(turnColor);
+                        setMemento(previousState);
+                        if (!checkValue) {
+                            return false;
+                        }
+                    }
+                    continue;
+                }
+                return false;
+            }
+        }
+        console.log("Stalemate");
+        return true;
+    }
+
+    function pieceIsKing(piece) {
+        return piece.getAbbreviation().includes('K');
+    }
+
     function isCheckMate() {
         return checkmate;
     }
+
     function tryMove(movementOrigin, movementDestination, playerColor) {
         errorMessage = undefined;
         if (!pieces[movementOrigin].isOfColor(playerColor)) {
@@ -183,6 +213,7 @@ function createBoard() {
         getPieces,
         setPieces,
         isCheckMate,
+        isStalemate
     };
 }
 

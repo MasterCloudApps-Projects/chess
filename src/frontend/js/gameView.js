@@ -35,25 +35,44 @@ function createGameView() {
             return;
         }
         boardView.removeBoardTilePaint(movementOriginTemp);
+        const error = await move(movementOriginTemp, positionId);
+        movementOriginTemp = undefined;
+        if(error !== undefined) {
+            return;
+        }
+        const status = await getCurrentStatus();
+        console.log(status);
+        if(status === "finished") {
+            console.log("End game");
+            boardView.paintFinishedStatus();
+            return;
+        }
+        updateUndoRedo();
+        turn.next();
+    };
+
+    async function move(origin, destination) {
         const resMsg = await restClient.http('/move', 'POST', {
             gameUUID: gameUUID,
-            movementOrigin: movementOriginTemp,
-            movementDestination: positionId,
+            movementOrigin: origin,
+            movementDestination: destination,
             color: turn.get()
         });
         if(resMsg.error){
             console.log(resMsg.errorMessage);
             boardView.paintErrorsOnHTML([resMsg.errorMessage]);
+            return resMsg.error;
         }
-        else{
-            boardView.setPieces(resMsg.data);
-            boardView.paintErrorsOnHTML([]);
-            turn.next();
-        }
-        movementOriginTemp = undefined;
-        updateUndoRedo();
-        return resMsg.error;
-    };
+        boardView.setPieces(resMsg.data);
+        boardView.paintErrorsOnHTML([]);
+    }
+
+    async function getCurrentStatus() {
+        const res = await restClient.http('/status', 'POST', {
+            gameUUID: gameUUID
+        });
+        return res.data.status;
+    }
 
     async function undo(){
         if (gameUUID === undefined)

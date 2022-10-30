@@ -25,7 +25,7 @@ function createRandomPlayer() {
     }
 
     function generateRandomMovement(squares){
-        return squares[Math.floor(Math.random()*(squares.length - 1))];
+        return squares[Math.floor(Math.random()*(squares.length))];
     }
 
     return  {
