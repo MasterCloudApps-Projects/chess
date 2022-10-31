@@ -15,32 +15,7 @@ function createBoard() {
     }
 
     function isStalemate(turnColor) {
-        const origins = getAllCoordinatesByColor(turnColor);
-        for(const origin of origins) {
-            const destinations = movementsFromTheCoordinate(origin);
-            if(destinations.length > 0) {
-                const piece = pieces[origin];
-                if(pieceIsKing(piece)) {
-                    const previousState = createMemento();
-                    for(const destination of destinations) {
-                        move(origin, destination);
-                        const checkValue = isColorOnCheck(turnColor);
-                        setMemento(previousState);
-                        if (!checkValue) {
-                            return false;
-                        }
-                    }
-                    continue;
-                }
-                return false;
-            }
-        }
-        console.log("Stalemate");
-        return true;
-    }
-
-    function pieceIsKing(piece) {
-        return piece.getAbbreviation().includes('K');
+        return getValidMovementNotCausingCheck(turnColor) === undefined;
     }
 
     function isCheckMate() {

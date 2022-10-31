@@ -45,7 +45,6 @@ function createGameView() {
         if(status === "finished") {
             console.log("End game");
             boardView.paintFinishedStatus();
-            return;
         }
         updateUndoRedo();
         turn.next();
@@ -127,6 +126,7 @@ function createGameView() {
         initializeGame,
         getGameUUID,
         selectPositionForMovement,
+        getCurrentStatus,
         undo,
         redo
     };

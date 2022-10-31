@@ -10,7 +10,7 @@ function createPlayerView(gameViewParam) {
             await gameView.selectPositionForMovement(id);
         }
         console.log({turn: turn.get()});
-        if(turn.get() === "Black") {
+        if(await gameView.getCurrentStatus() !== "finished" && turn.get() === "Black") {
             performRandomMovement();
         }
     }

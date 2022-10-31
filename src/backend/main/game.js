@@ -7,11 +7,10 @@ import { randomPlayer } from './randomPlayer.js';
 
 function createGame(uuidGame) {
     let uuid = uuidGame;
-    let gameStatus = GameStatusEnum.ongoing;
     let turn = PieceColorEnum.White;
     let board = boardBuilder().usingInitialPieceDisposition().build();
     let registry = createRegistry(board);
-    let status;
+    let status = GameStatusEnum.ongoing;
 
     function getBoard() {
         return board;
@@ -34,7 +33,7 @@ function createGame(uuidGame) {
     }
 
     function play(movementOrigin, movementDestination, playerColor) {
-        if (gameStatus === GameStatusEnum.finished)
+        if (status === GameStatusEnum.finished)
             return messageManager.createMessage('Game finished.');
         if (playerColor != turn)
             return messageManager.createErrorMessage('Not ' + playerColor.getLiteral() + "'s turn to play.");
