@@ -97,9 +97,7 @@ function createBoard() {
     function getValidMovementNotCausingCheck(color) {
         const previousState = createMemento();
         for (let coord of getAllCoordinatesByColor(color)) {
-            for (let mov of movementsFromTheCoordinate(
-                pieces[coord].getPosition()
-            )) {
+            for (let mov of movementsFromTheCoordinate(pieces[coord].getPosition())) {
                 move(pieces[coord].getPosition(), mov);
                 if (!isColorOnCheck(color)) {
                     setMemento(previousState);
@@ -183,8 +181,8 @@ function createBoard() {
     function getAllPiecesByColor(color) {
         const coloredPieces = [];
         let allColorCoordinates = getAllCoordinatesByColor(color);
-        for (let i in allColorCoordinates)
-            coloredPieces.push(pieces[allColorCoordinates[i]]);
+        for (let coloredCoordinate of allColorCoordinates)
+            coloredPieces.push(pieces[coloredCoordinate]);
         return coloredPieces;
     }
 
