@@ -37,7 +37,7 @@ function createGame(uuidGame) {
         if (gameStatus === GameStatusEnum.finished)
             return messageManager.createMessage('Game finished.');
         if (playerColor != turn)
-            return messageManager.createErrorMessage('Not ' + playerColor.name + "'s turn to play.");
+            return messageManager.createErrorMessage('Not ' + playerColor.getLiteral() + "'s turn to play.");
         if (board.getAllCoordinatesByColor(turn).length == 0){
             endGame();
             return messageManager.createMessage(playerColor.name + 's win.');

@@ -5,14 +5,16 @@ const randomPlayer = createRandomPlayer();
 function createRandomPlayer() {
 
     function getMovement(board) {
-        let origins, origin, destinations;
+        console.log("TODO: RANDOMPLAYER.JS DELETE THIS LOG");
+        //TODO: A lot of the base logic seems to be redundant if we just directly ask the board for a non-check inducing move
+        //let origins, origin, destinations;
 
-        if (board.isColorOnCheck(PieceColorEnum.Black))
-            return board.getValidMovementWhileColorIsOnCheck(PieceColorEnum.Black);
+        //if (board.isColorOnCheck(PieceColorEnum.Black))
+        return board.getValidMovementNotCausingCheck(PieceColorEnum.Black);
 
-        origins = board.getAllSquaresOfBlackPieces();
+        //origins = board.getAllSquaresOfBlackPieces();
 
-        do {
+        /*do {
             origin = generateRandomMovement(origins);
             destinations = board.movementsFromTheCoordinate(origin);
         } while(destinations.length === 0);
@@ -21,7 +23,7 @@ function createRandomPlayer() {
         return {
             origin: origin,
             destination: generateRandomMovement(destinations)
-        };
+        };*/
     }
 
     function generateRandomMovement(squares){

@@ -1,5 +1,5 @@
 import { createBoard } from './board.js';
-import { piecesBuilder } from './piecesBuilder.js';
+import { piecesBuilder } from '../piece/piecesBuilder.js';
 
 function boardBuilder() {
     let board = createBoard();

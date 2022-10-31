@@ -1,7 +1,7 @@
-import { createPiece } from '../piece/piece.js';
+import { createPiece } from './piece.js';
 import { moveRuleMap } from "../moveRule/moveRuleMap.js";
-import { createDecoratedPawnPiece } from "../piece/piecePawnDecorator.js";
-import { PieceNameMap } from "../piece/pieceNameMap.js";
+import { createDecoratedPawnPiece } from "./piecePawnDecorator.js";
+import { PieceNameMap } from "./pieceNameMap.js";
 
 function piecesBuilder(pieceStringLayout){
     let pieces = {};

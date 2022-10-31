@@ -1,5 +1,5 @@
 import { PieceColorEnum } from "../piece/pieceColorEnum.js";
-import { getPiece, piecesBuilder } from "./piecesBuilder.js";
+import { getPiece, piecesBuilder } from "../piece/piecesBuilder.js";
 
 function createBoard() {
     let pieces = {};
@@ -91,10 +91,10 @@ function createBoard() {
     function isColorOnCheckMate(color) {
         if (!isColorOnCheck(color)) return false;
 
-        return getValidMovementWhileColorIsOnCheck(color) == undefined;
+        return getValidMovementNotCausingCheck(color) == undefined;
     }
 
-    function getValidMovementWhileColorIsOnCheck(color) {
+    function getValidMovementNotCausingCheck(color) {
         const previousState = createMemento();
         for (let coord of getAllCoordinatesByColor(color)) {
             for (let mov of movementsFromTheCoordinate(
@@ -199,7 +199,7 @@ function createBoard() {
     return {
         tryMove,
         isColorOnCheck,
-        getValidMovementWhileColorIsOnCheck,
+        getValidMovementNotCausingCheck,
         movementsFromTheCoordinate,
         getBoardPieceNames,
         getAllSquaresOfBlackPieces,
