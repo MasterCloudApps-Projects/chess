@@ -1,6 +1,5 @@
 import { PieceColorEnum } from "../piece/pieceColorEnum.js";
-import { PieceBuilderEnum } from "../piece/pieceBuilderEnum.js";
-import { piecesBuilder } from "./piecesBuilder.js";
+import { getPiece, piecesBuilder } from "./piecesBuilder.js";
 
 function createBoard() {
     let pieces = {};
@@ -152,7 +151,7 @@ function createBoard() {
     }
 
     function setMemento(memento) {
-        setPieces(piecesBuilder(memento.split("-")).build());
+        setPieces(piecesBuilder(memento.split("-")).buildFromLayout());
     }
 
     function getErrorMessage() {
@@ -190,7 +189,7 @@ function createBoard() {
     }
 
     function createEmptyTile(coordinate) {
-        pieces[coordinate] = PieceBuilderEnum._.buildPiece(coordinate);
+        pieces[coordinate] = getPiece('_', coordinate);
     }
 
     function getInvalidMovementError(pieceFullName) {

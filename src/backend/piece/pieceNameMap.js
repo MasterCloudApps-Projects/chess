@@ -1,4 +1,4 @@
-const PieceNameEnum = Object.freeze({
+const PieceNameMap = Object.freeze({
     _ : "empty",
     R : "rook",
     H : "horse",
@@ -9,5 +9,5 @@ const PieceNameEnum = Object.freeze({
 });
 
 export {
-    PieceNameEnum
+    PieceNameMap
 }
