@@ -46,10 +46,9 @@ function createGame(uuidGame) {
     }
 
     function performTurn (movementOrigin, movementDestination) {
-        board.tryMove(movementOrigin, movementDestination, turn);
-        if(board.hasError())
-            return messageManager.createErrorMessage(board.getErrorMessage());
-
+        let error = board.tryMove(movementOrigin, movementDestination, turn);
+        if(error != undefined)
+            return messageManager.createErrorMessage(error);
         if(!turn.isWhite()) {
             registry.register();
         }

@@ -3,7 +3,6 @@ import { getPiece, piecesBuilder } from "../piece/piecesBuilder.js";
 
 function createBoard() {
     let pieces = {};
-    let errorMessage;
 
     function getPieces() {
         return pieces;
@@ -14,20 +13,17 @@ function createBoard() {
     }
 
     function tryMove(movementOrigin, movementDestination, playerColor) {
-        errorMessage = undefined;
         if (!pieces[movementOrigin].isOfColor(playerColor)) {
-            errorMessage = "Invalid move: Attempting to move a wrong color piece.";
-            return;
+            return "Invalid move: Attempting to move a wrong color piece.";
         }
         if (!pieces[movementOrigin].isPossibleMove(movementDestination, pieces)) {
-            errorMessage = getInvalidMovementError(pieces[movementOrigin].getFullName());
-            return;
+            return getInvalidMovementError(pieces[movementOrigin].getFullName());
         }
         let stateBeforeMoving = createMemento();
         move(movementOrigin, movementDestination);
         if (isColorOnCheck(playerColor)) {
-            errorMessage = "Invalid move: cannot end turn on check";
             setMemento(stateBeforeMoving);
+            return "Invalid move: cannot end turn on check";
         }
     }
 
@@ -121,16 +117,6 @@ function createBoard() {
         setPieces(piecesBuilder(memento.split("-")).buildFromLayout());
     }
 
-    function getErrorMessage() {
-        let result = errorMessage;
-        errorMessage = undefined;
-        return result;
-    }
-
-    function hasError() {
-        return errorMessage !== undefined;
-    }
-
     function getAllAttackPositionsByColor(color) {
         const coordinatesUnderAttack = new Set();
         if (color.isEmpty()) return coordinatesUnderAttack;
@@ -175,8 +161,6 @@ function createBoard() {
         getAllCoordinatesByColor,
         createMemento,
         setMemento,
-        getErrorMessage,
-        hasError,
         getPieces,
         setPieces,
         isOnCheckMate,
