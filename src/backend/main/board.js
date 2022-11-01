@@ -60,7 +60,7 @@ function createBoard() {
     function isColorOnCheck(color) {
         let attackpos = getAllAttackPositionsByColor(color.getOppositeColor());
         let kingpos = getKingPositionByColor(color);
-        return attackpos.includes(kingpos);
+        return attackpos.has(kingpos);
     }
 
     function isColorOnCheckMate(color) {
@@ -138,13 +138,14 @@ function createBoard() {
     }
 
     function getAllAttackPositionsByColor(color) {
-        if (color.isEmpty()) return [];
-        const coordinatesUnderAttack = [];
+        const coordinatesUnderAttack = new Set();
+        if (color.isEmpty()) return coordinatesUnderAttack;
         let colorPieces = getAllPiecesByColor(color);
         for (let colorPiece of colorPieces) {
-            coordinatesUnderAttack.push(...colorPiece.getAttackPositions(pieces));
+            colorPiece.getAttackPositions(pieces)
+                .forEach(coordinate => coordinatesUnderAttack.add(coordinate));
         }
-        return [...new Set(coordinatesUnderAttack)];
+        return coordinatesUnderAttack;
     }
 
     function getKingPositionByColor(color) {
