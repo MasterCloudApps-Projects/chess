@@ -82,4 +82,25 @@ test('testGetNextCoordinateSouthWest', () => {
     expect(nextCoordinate.getColumn()).toBe(3);
 });
 
+test('testIsNotValidCoordinateInvalidRow', () => {
+    let lower = createCoordinate(0, 2);
+    let higher = createCoordinate(9, 2);
+    expect(lower.isValid()).toBeFalsy();
+    expect(higher.isValid()).toBeFalsy();
+});
+
+test('testIsNotValidCoordinateInvalidColumn', () => {
+    let lower = createCoordinate(1, 0);
+    let higher = createCoordinate(1, 9);
+    expect(lower.isValid()).toBeFalsy();
+    expect(higher.isValid()).toBeFalsy();
+});
+
+test('testIsValidCoordinate', () => {
+    let lower = createCoordinate(1, 8);
+    let middle = createCoordinate(4, 4);
+    let higher = createCoordinate(8, 1);
+    expect([lower.isValid(), middle.isValid(), higher.isValid()]).toEqual([true, true, true]);
+});
+
 
