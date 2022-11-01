@@ -9,6 +9,11 @@ function boardBuilder(initialDispositionParam, dimensionParam, letterParam) {
 
     function fromPieceLayoutString() {
         initialDisposition = initialDisposition.trim().split('\n').join('-').split('-');
+        board.setPieces(buildPieces());
+        return this;
+    }
+
+    function buildPieces(){
         let pieces = {};
         let stringCounter = 0;
         for (let i=dimension; i>0; i--){
