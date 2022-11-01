@@ -54,28 +54,28 @@ test('testGetNextCoordinateWest', () => {
     expect(nextCoordinate.getColumn()).toBe(3);
 });
 
-test('testGetNextCoordinateNorthEast', () => {
+test('testGetNextCoordinateNortheast', () => {
     let nextCoordinate = coordinate.getNextCoordinate(DirectionEnum.NORTHEAST);
     expect(nextCoordinate.getPosition()).toBe('e6');
     expect(nextCoordinate.getRow()).toBe('6');
     expect(nextCoordinate.getColumn()).toBe(5);
 });
 
-test('testGetNextCoordinateNorthWest', () => {
+test('testGetNextCoordinateNorthwest', () => {
     let nextCoordinate = coordinate.getNextCoordinate(DirectionEnum.NORTHWEST);
     expect(nextCoordinate.getPosition()).toBe('c6');
     expect(nextCoordinate.getRow()).toBe('6');
     expect(nextCoordinate.getColumn()).toBe(3);
 });
 
-test('testGetNextCoordinateSouthEast', () => {
+test('testGetNextCoordinateSoutheast', () => {
     let nextCoordinate = coordinate.getNextCoordinate(DirectionEnum.SOUTHEAST);
     expect(nextCoordinate.getPosition()).toBe('e4');
     expect(nextCoordinate.getRow()).toBe('4');
     expect(nextCoordinate.getColumn()).toBe(5);
 });
 
-test('testGetNextCoordinateSouthWest', () => {
+test('testGetNextCoordinateSouthwest', () => {
     let nextCoordinate = coordinate.getNextCoordinate(DirectionEnum.SOUTHWEST);
     expect(nextCoordinate.getPosition()).toBe('c4');
     expect(nextCoordinate.getRow()).toBe('4');
