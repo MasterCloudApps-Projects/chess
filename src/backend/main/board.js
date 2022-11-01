@@ -3,7 +3,6 @@ import { getPiece, piecesBuilder } from "../piece/piecesBuilder.js";
 
 function createBoard() {
     let pieces = {};
-    let checkmate = false;
     let errorMessage;
 
     function getPieces() {
@@ -12,14 +11,6 @@ function createBoard() {
 
     function setPieces(piecesParam) {
         pieces = piecesParam;
-    }
-
-    function isStalemate(turnColor) {
-        return getValidMovementNotCausingCheck(turnColor) === undefined;
-    }
-
-    function isCheckMate() {
-        return checkmate;
     }
 
     function tryMove(movementOrigin, movementDestination, playerColor) {
@@ -34,7 +25,10 @@ function createBoard() {
         }
         let stateBeforeMoving = createMemento();
         move(movementOrigin, movementDestination);
-        updateCheckStatus(playerColor, stateBeforeMoving);
+        if (isColorOnCheck(playerColor)) {
+            errorMessage = "Invalid move: cannot end turn on check";
+            setMemento(stateBeforeMoving);
+        }
     }
 
     function move(movementOrigin, movementDestination) {
@@ -43,18 +37,18 @@ function createBoard() {
         createEmptyTile(movementOrigin);
     }
 
-    function updateCheckStatus(playerColor, previousState) {
+    function isStalemate(turnColor) {
+        return getValidMovementNotCausingCheck(turnColor) === undefined;
+    }
+
+    function isOnCheckMate(playerColor) {
         if (isColorOnCheck(playerColor)) {
-            errorMessage = "Invalid move: cannot end turn on check";
-            setMemento(previousState);
-            return;
-        }
-        if (isColorOnCheck(playerColor.getOppositeColor())) {
             console.log("possible checkmate");
-            console.log("is checkmate: " + isColorOnCheckMate(playerColor.getOppositeColor()));
-            if (isColorOnCheckMate(playerColor.getOppositeColor()))
-                checkmate = true;
+            console.log("is checkmate: " + isColorOnCheckMate(playerColor));
+            if (isColorOnCheckMate(playerColor))
+                return true;
         }
+        return false;
     }
 
     function isColorOnCheck(color) {
@@ -184,7 +178,7 @@ function createBoard() {
         hasError,
         getPieces,
         setPieces,
-        isCheckMate,
+        isOnCheckMate,
         isStalemate
     };
 }

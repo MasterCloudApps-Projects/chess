@@ -63,7 +63,7 @@ function createGame(uuidGame) {
     }
 
     function updateStatus() {
-        if(board.isCheckMate() || board.isStalemate(turn)) {
+        if(board.isOnCheckMate(turn) || board.isStalemate(turn)) {
             endGame();
         }
     }
