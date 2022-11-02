@@ -220,7 +220,7 @@ public Class() {
 }
 ```
 
-Nevertheless, here a constant variable has been assign to the instance of the type and it is exported. As a consequence, no one can invoke the constructor from outside because only the object is exported instead of the factory function.
+Nevertheless, in our case a constant variable has been assigned to the singleton instance, which is exported afterwards. As a consequence, no one can invoke the constructor from outside since only the object is exported, instead of the factory function.
 
 ```
 const singleInstance = constructor();
