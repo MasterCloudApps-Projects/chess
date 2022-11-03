@@ -1,8 +1,8 @@
 # Patterned NodeJS
-**Software Design Patterns implemented on JavaScript using NodeJS.**
+**Software Design Patterns using JavaScript, on a NodeJS chess engine.**
 
-# Launch chess app
-It is possible to execute the app for development purposes or to just run the app. So, there are two scripts for that: start and dev.
+# Launching the chess engine
+It is possible to execute the application for development purposes (with enabled auto-reload), or to just normally run it. As such, there are two scripts for these scenarios: *start* and *dev*.
 
 Normal execution
 ```
@@ -15,7 +15,7 @@ npm run dev
 ```
 
 # Technical Documentation
-This work serves as a study of several well-known software design patterns implemented on the JavaScript language (by using the NodeJS framework), all applied in the context of a simple chess game.
+This work serves as a study of several well-known software design patterns implemented on the JavaScript language (by using the NodeJS platform), all applied in the context of a simple chess engine.
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -24,7 +24,13 @@ This work serves as a study of several well-known software design patterns imple
 - [Design Pattern Implementation](#design-pattern-implementation)
 
 ## Introduction
-TBD
+Given JavaScript's approach to OOP and the liberty it lends to the programmer, it's no surprise a plethora of different approaches exist when it comes to software design on said language.
+
+In this work, comparative samples of different coding styles have been compiled (mainly **Classes**, **Closures**, **Factory functions** and **Constructor functions**) which can be found within the [*/codingStyles/*](https://github.com/MasterCloudApps-Projects/chess/tree/main/codingStyles) directory, together with alternatives to achieve inheritance without making use of JS' classes.
+
+These served both as a small design study, and to decide on the coding approach to follow during development of the main software piece in this repository: A *REST API* **chess engine** running on Node.js, and implementing a number of **classic software design patterns**, which in themselves complement the coding style patterns previously mentioned as a general analysis of software design when using JavaScript.
+
+A frontend web graphic interface has also been developed and included in this project, being accesible upon launch on *localhost:3000*.
 
 ## Style Guide
 Due to the inherent nature and versatility of implementation of design patterns, as well as the multitude of alternatives when using JavaScript, a decision was made to define a coding style guide to embrace consistency across the whole project.
@@ -63,9 +69,9 @@ import { function1, function2 } from ‘./ExampleModule.js’;
 The usage of **require() is to be avoided**.
 
 ### Using classes, OOP, and other tools:
-ES6 classes should be avoided and JS modules are a natural alternative. [Stop using javascript classes](https://medium.com/giant-machines/stop-using-javascript-classes-d0b6890ef097) explains why classes are not necessary and how to implement the alternative.
+ES6 classes should be avoided in this project and JS modules are a natural alternative. [Stop using javascript classes](https://medium.com/giant-machines/stop-using-javascript-classes-d0b6890ef097) explains why classes are not necessary and how to implement said alternative.
 ### Encapsulation:
-Encapsulation can be dealt with by making use of **closures**.
+Encapsulation will be dealt with by making use of **closures**.
 ```
 function createCounter () {
   let counter;
@@ -82,7 +88,7 @@ function createCounter () {
 }
 ```
 ### Inheritance
-Using the [spread operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax), it is possible to return a object that augmentates (or extends) another object. As a consequence, inheritance is approached this way in the project:
+Using the [spread operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax), it is possible to return an object that augmentates (or extends) another object via composition. As a consequence, inheritance is approached this way in this project:
 
 ```
 function createObjectA(parameter) {
@@ -143,7 +149,7 @@ function createObjectB(parameter1, parameter2) {
 }
 ```
 
-An ObjectB instance will have the ObjectA extended funtionality:
+Full code can be consulted on [/codingStyles/styleProposal/](https://github.com/MasterCloudApps-Projects/chess/tree/main/codingStyles/styleProposal). In this way, an ObjectB instance will have the ObjectA extended funtionality:
 
 ```
 let test = createObjectB(5, 6);
@@ -154,10 +160,10 @@ test.exclusiveMethod(); // Exclusive method: 6
 test.parentExclusiveMethod(); // PARENT EXCLUSIVE: privateAttributeX: 7
 ```
 
-The drawback of this approach is that it is not possible to access to any parent's variable from the daughter class. Nevertheless, getters and setters will be used to deal with that.
+The drawback of this approach is that it is not possible to access to any parent's variable from the child class, since they all can be considered private. Nevertheless, getters and setters will be used to work around this limitation.
 
 ### Enums
-Enums are also coded with closures and take advantage of [Object.freeze()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze), which makes impossible to extend or configure an object.
+Enums can also coded with closures and take advantage of [Object.freeze()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze), which makes impossible to extend or configure an object.
 
 ```
 const SeasonEnum = Object.freeze({
@@ -182,6 +188,8 @@ function createSeason(season){
 TBD
 
 ## Design Pattern Implementation
+Next up is a list of all the design patterns applied on the chess engine, each one along with a short description of its role within the project and its participants, followed by small UML diagram of the achieved implementation.
+
 ### Creational patterns
 - [Singleton](#singleton)
 - [Builder](#builder)
@@ -194,14 +202,14 @@ TBD
 - [Decorator](#decorator)
 
 #### Singleton
-This pattern has been used to build the following objects:
+This pattern has been used at several points to build the following objects:
 - turn (frontend)
-- boardView
-- restClient
+- boardView (frontend)
+- restClient (frontend)
 - messageManager
 - randomPlayer
 
-It has not been implemented in the same way as in other languages like Java. Commonly, a public static method will be defined and the constructor will be private. So, the static method will know if the instance has been created or not and return the instance of the type. 
+It has not been implemented in the classic way, as in other languages like Java. Commonly, a public static method will be defined and the constructor will be private. So, the static method will know if the instance has been created or not and return the instance of the type.
 
 ```
 public Class() {
@@ -229,7 +237,7 @@ function constructor() {
     function publicMethod1(){
         // method 1
     }
-    
+
     function publicMethod2(errorMessage){
         // method 2
     }
