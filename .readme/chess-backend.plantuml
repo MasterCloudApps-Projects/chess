@@ -1,0 +1,42 @@
+'''plantuml
+@startuml Chess
+title Backend
+top to bottom direction
+
+View .down.> Router
+Router .down.> Game
+Router .down.> GameHistory
+GameHistory .down.> Game
+
+Game *-down-> BoardBuilder
+
+Game .down.> RandomPlayer
+
+Board .down.> Piece
+
+BoardBuilder .down.> PieceBuilder
+BoardBuilder *-down-> Board
+PieceBuilder *-down-> Piece
+PieceBuilder *-down-> Decorator
+Decorator *-down-> Piece
+
+Piece *-down-> ColorPiece
+Piece *-down-> MoveRule
+MoveRule *-down-> Coordinate
+Coordinate *-down-> Direction
+
+MoveRule --|> Horse
+MoveRule --|> King
+MoveRule --|> Pawn
+MoveRule --|> Queen
+MoveRule --|> Rook
+
+RandomPlayer .down.> Board
+
+Game *-down-> Registry
+Registry *-down-> Board
+
+Game .down.>  MessageManager
+
+@enduml
+'''
