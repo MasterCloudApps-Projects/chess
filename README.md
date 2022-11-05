@@ -185,33 +185,38 @@ function createSeason(season){
 ```
 
 ## Project Structure
-The chess software is developed under the Model-View-Controller pattern. Decoupling, on the one hand, the model (with the domain's own classes) and the controllers ([*/Router/*](https://github.com/MasterCloudApps-Projects/chess/tree/main/src/backend/router)) remaining in the backend component on the server side and executed with Node.js, and on the other hand, there is the independent view that composes the fronted component.
+The ajadrez architecture follows the Model-View-Controller. On the one hand the backend is decoupled with the domain model and the controllers ([*/Router/*](https://github.com/MasterCloudApps-Projects/chess/tree/main/src/backend/router)) and the frontend with the views have been decoupled on the one hand.
 
 ### Backend
-The backend will be invoked from the view, through the exposed REST operations of the routes.
+The backend is invoked from the view, using the exposed REST operations of the routes.
 
-In the model, the *Game* stands out, in charge of directing the flow of the game through its interaction with the rest of the models. This component, together with the *GameHistory*, in charge of storing the game history, maintains a relationship of use from the Routes. So, from the routes through the *Game*, the functionality of the domain will be exposed.
+The *Game* stands out in the model. The *Game* directs the flow of the game by interacting with the rest of the models. This component in addition to the
+*GameHistory* are the models used from the routes. Thus the routes redirect the actions of the server to the model itself.
 
-A more detailed diagram of the domain model is shown below:
+A detailed diagram of the relationships between the modules that form the backend is shown.
 
 <p align="center">
     <img src=".readme/chessBackendDiagram.png" />
 </p>
 
 ### Frontend
-The frontend is composed of the views with which the user interacts (identified as Player).
+The frontend is formed by the views with which the user interacts (identified as Player).
 
-The *main* module is in charge of relating the DOM classes, with which the player interacts during the game progress with the corresponding view.
+The *main* module is in charge of relating the DOM classes, with which the player interacts during the game progress, with the corresponding view.
 
-The Client is used from *GameView* and *PlayerView*. This module invokes the chess backend through http requests.
+The REST client is used from *GameView* and *PlayerView*. This module invokes the chess backend through http requests.
 
-The following diagram shows the relationship between the different view modules:
+The following diagram shows the relationship between the different view modules.
 
 <p align="center">
     <img src=".readme/chessFrontendDiagram.png" />
 </p>
 
-A priori, it may be a bit confusing that the interaction between the views and the backend is not done from a main view (such as the *GameView*). This decision was motivated by the possibility of decoupling and scalability that we wanted to provide to the RandomPlayer. In this first version, it allows the participation of a single player, but when interacting the *RandomPlayer* from the view, this could easily evolve to the participation of a second player.
+A priori, it is confusing that the interaction between the frontend and the backend is not done from a single main view (such as *GameView*).
+
+A priori, it is confusing that the interaction between the frontend and the backend is not done from a single main view (such as *GameView*).
+
+This was done for a reason. Chess was initially developed for a single user, the other player being the *RandomPlayer*. The CPU player is used from the view as well as the user, which allows in future versions to easily separate this functionality for a second player. When generating the *RandomPlayer* interaction it was decided to do it from an own *PlayerView* view.
 ## Design Pattern Implementation
 Next up is a list of all the design patterns applied on the chess engine, each one along with a short description of its role within the project and its participants, followed by small UML diagram of the achieved implementation.
 
