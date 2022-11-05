@@ -33,6 +33,7 @@ function createGame(uuidGame) {
     }
 
     function play(movementOrigin, movementDestination, playerColor) {
+        console.log("eoasdf " + board.getAllCoordinatesByColor(turn));
         if (status === GameStatusEnum.finished)
             return messageManager.createMessage('Game finished.');
         if (playerColor != turn)
