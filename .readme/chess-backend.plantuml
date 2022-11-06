@@ -8,35 +8,34 @@ Router .down.> Game
 Router .down.> GameHistory
 GameHistory .down.> Game
 
-Game *-down-> BoardBuilder
+Game .down.> BoardBuilder
+Game *-down-> Board
+MessageManager <. Game
+Game .> RandomPlayer
 
-Game .down.> RandomPlayer
-
-Board .down.> Piece
+Board o--> Piece
 
 BoardBuilder .down.> PieceBuilder
 BoardBuilder *-down-> Board
-PieceBuilder *-down-> Piece
-PieceBuilder *-down-> Decorator
-Decorator *-down-> Piece
+PieceBuilder .down.> Piece
+PieceBuilder -down.> PawnDecorator
+PawnDecorator -down-|> Piece
 
-Piece *-down-> ColorPiece
+Piece *-> Color
 Piece *-down-> MoveRule
-MoveRule *-down-> Coordinate
-Coordinate *-down-> Direction
+MoveRule *-> Coordinate
+Coordinate .down.> Direction
 
-MoveRule --|> Horse
-MoveRule --|> King
-MoveRule --|> Pawn
-MoveRule --|> Queen
-MoveRule --|> Rook
+MoveRule <|-- Horse
+MoveRule <|-- King
+MoveRule <|-- Pawn
+MoveRule <|-- Queen
+MoveRule <|-- Rook
 
 RandomPlayer .down.> Board
 
 Game *-down-> Registry
 Registry *-down-> Board
-
-Game .down.>  MessageManager
 
 @enduml
 '''
