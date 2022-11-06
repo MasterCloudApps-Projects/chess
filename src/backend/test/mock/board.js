@@ -1,7 +1,11 @@
-export function createBoard () {
+function createBoard () {
     function getAllCoordinatesByColor() {}
 
     return {
         getAllCoordinatesByColor
     }
+}
+
+export {
+    createBoard
 }
