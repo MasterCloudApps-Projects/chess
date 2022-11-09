@@ -1,8 +1,31 @@
 function createBoard () {
-    function getAllCoordinatesByColor() {}
+
+    function getAllCoordinatesByColor() {
+
+    }
+
+    function tryMove() {
+
+    }
+
+    function isOnCheckMate() {
+
+    }
+
+    function isStalemate() {
+
+    }
+
+    function getBoardPieceNames() {
+
+    }
 
     return {
-        getAllCoordinatesByColor
+        getAllCoordinatesByColor,
+        tryMove,
+        isOnCheckMate,
+        isStalemate,
+        getBoardPieceNames
     }
 }
 
