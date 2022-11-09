@@ -4,32 +4,38 @@ import { restClient } from './restClient.js';
 function createPlayerView(gameViewParam) {
     let gameView = gameViewParam;
 
-    async function move(id) {
-        console.log({turn: turn.get()});
+    async function whitePlay(id) {
+        if(gameView.getCurrentStatus() === "finished") {
+            return;
+        }
         if(turn.get() === "White") {
             await gameView.selectPositionForMovement(id);
         }
-        console.log({turn: turn.get()});
-        if(await gameView.getCurrentStatus() !== "finished" && turn.get() === "Black") {
-            performRandomMovement();
+        blackPlay();
+    }
+
+    async function blackPlay() {
+        if(gameView.getCurrentStatus() === "finished" || turn.get() === "White") {
+            return;
         }
+        performRandomMovement();
     }
 
     async function performRandomMovement() {
         console.log("CPU performing movement...");
-        let resRandomMovement, error;
+        let resRandomMovement;
         do {
             resRandomMovement = await restClient.http('/random/movement', 'POST', { gameUUID : gameView.getGameUUID() });
             if(!resRandomMovement.error) {
                 let coordinates = resRandomMovement.data;
                 await gameView.selectPositionForMovement(coordinates.origin);
-                error = await gameView.selectPositionForMovement(coordinates.destination);
+                await gameView.selectPositionForMovement(coordinates.destination);
             }
         } while (turn.get() === "Black");
     }
 
     return {
-        move
+        whitePlay
     }
 }
 

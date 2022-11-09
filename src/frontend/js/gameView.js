@@ -6,6 +6,7 @@ function createGameView() {
     let movementOriginTemp;
     let gameUUID;
     let temporalSelectionColor = '#CDFAFA';
+    let status;
 
     async function initializeGame() {
         gameUUID = crypto.randomUUID();
@@ -40,12 +41,7 @@ function createGameView() {
         if(error !== undefined) {
             return;
         }
-        const status = await getCurrentStatus();
-        console.log(status);
-        if(status === "finished") {
-            console.log("End game");
-            boardView.paintFinishedStatus();
-        }
+        await updateStatus();
         updateUndoRedo();
         turn.next();
     };
@@ -66,11 +62,19 @@ function createGameView() {
         boardView.paintErrorsOnHTML([]);
     }
 
-    async function getCurrentStatus() {
+    async function updateStatus() {
         const res = await restClient.http('/status', 'POST', {
             gameUUID: gameUUID
         });
-        return res.data.status;
+        status = res.data.status;
+        if (status === "finished") {
+            console.log("End game");
+            boardView.paintFinishedStatus();
+        }
+    }
+
+    function getCurrentStatus() {
+        return status;
     }
 
     async function undo(){

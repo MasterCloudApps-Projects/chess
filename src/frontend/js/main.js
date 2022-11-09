@@ -7,7 +7,7 @@ const playerView = createPlayerView(gameView);
 
 $('.cell').each(function(i, cell) {
     cell.onclick = function() {
-        playerView.move(cell.id)
+        playerView.whitePlay(cell.id)
     };
 });
 $('.undo').each(function(i, btn){
