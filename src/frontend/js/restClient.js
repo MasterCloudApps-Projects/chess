@@ -2,6 +2,7 @@ const restClient = createRestClient();
 
 function createRestClient() {
     const baseUrl = 'http://localhost:3000';
+    const baseEndpoint = '/game';
 
     async function http(endpoint = '', method = 'POST', data = {}){
         try{
@@ -23,7 +24,7 @@ function createRestClient() {
     }
     
     function getBackendURL(endpoint = '') {
-        return baseUrl + endpoint;
+        return baseUrl + baseEndpoint + endpoint;
     }
 
     return {

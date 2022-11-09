@@ -10,7 +10,7 @@ function createGameView() {
 
     async function initializeGame() {
         gameUUID = crypto.randomUUID();
-        const resMsg = await restClient.http('/game', 'POST', {gameUUID: gameUUID});
+        const resMsg = await restClient.http('', 'POST', {gameUUID: gameUUID});
         if(resMsg.error){
             console.log('Error initializing game, trying again...');
             gameUUID = undefined;
@@ -47,8 +47,7 @@ function createGameView() {
     };
 
     async function move(origin, destination) {
-        const resMsg = await restClient.http('/move', 'POST', {
-            gameUUID: gameUUID,
+        const resMsg = await restClient.http(`/${gameUUID}/move`, 'POST', {
             movementOrigin: origin,
             movementDestination: destination,
             color: turn.get()
@@ -63,9 +62,7 @@ function createGameView() {
     }
 
     async function updateStatus() {
-        const res = await restClient.http('/status', 'POST', {
-            gameUUID: gameUUID
-        });
+        const res = await restClient.http(`/${gameUUID}/status`, 'GET');
         status = res.data.status;
         if (status === "finished") {
             console.log("End game");
@@ -80,9 +77,7 @@ function createGameView() {
     async function undo(){
         if (gameUUID === undefined)
             return;
-        const resMsg = await restClient.http('/undo', 'POST', {
-            gameUUID: gameUUID
-        });
+        const resMsg = await restClient.http(`/${gameUUID}/undo`, 'POST');
         if(resMsg.error){
                 console.log(resMsg.errorMessage);
                 boardView.paintErrorsOnHTML([resMsg.errorMessage]);
@@ -97,9 +92,7 @@ function createGameView() {
     async function redo(){
         if (gameUUID === undefined)
             return;
-        const resMsg = await restClient.http('/redo', 'POST', {
-            gameUUID: gameUUID
-        });
+        const resMsg = await restClient.http(`/${gameUUID}/redo`, 'POST');
         if(resMsg.error){
                 console.log(resMsg.errorMessage);
                 boardView.paintErrorsOnHTML([resMsg.errorMessage]);
@@ -114,9 +107,7 @@ function createGameView() {
     async function updateUndoRedo(){
         if (gameUUID === undefined)
             return;
-        const resMsg = await restClient.http('/undoableRedoable', 'POST', {
-            gameUUID: gameUUID
-        });
+        const resMsg = await restClient.http(`/${gameUUID}/undoableRedoable`, 'GET');
         if(resMsg.error){
                 console.log(resMsg.errorMessage);
                 boardView.paintErrorsOnHTML([resMsg.errorMessage]);

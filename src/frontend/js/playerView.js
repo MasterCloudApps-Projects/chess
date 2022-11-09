@@ -24,8 +24,9 @@ function createPlayerView(gameViewParam) {
     async function performRandomMovement() {
         console.log("CPU performing movement...");
         let resRandomMovement;
+        let gameUUID = gameView.getGameUUID();
         do {
-            resRandomMovement = await restClient.http('/random/movement', 'POST', { gameUUID : gameView.getGameUUID() });
+            resRandomMovement = await restClient.http(`/${gameUUID}/random/movement`, 'GET');
             if(!resRandomMovement.error) {
                 let coordinates = resRandomMovement.data;
                 await gameView.selectPositionForMovement(coordinates.origin);
