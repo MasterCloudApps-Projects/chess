@@ -6,24 +6,20 @@ function getKingMoveRule() {
 
     function getPossibleMovements () {
         let possibleMovements = [];
-        possibleMovements.push(...getMovements(DirectionEnum.NORTH));
-        possibleMovements.push(...getMovements(DirectionEnum.SOUTH));
-        possibleMovements.push(...getMovements(DirectionEnum.EAST));
-        possibleMovements.push(...getMovements(DirectionEnum.WEST));
-
-        possibleMovements.push(...getMovements(DirectionEnum.NORTHEAST_DIAGONAL));
-        possibleMovements.push(...getMovements(DirectionEnum.SOUTHEAST_DIAGONAL));
-        possibleMovements.push(...getMovements(DirectionEnum.NORTHWEST_DIAGONAL));
-        possibleMovements.push(...getMovements(DirectionEnum.SOUTHWEST_DIAGONAL));
+        for(let prop in DirectionEnum) {
+            let movement = getMovement(DirectionEnum[prop]);
+            if(movement !== undefined) {
+                possibleMovements.push(movement);
+            }
+        }
         return possibleMovements;
     }
 
-    function getMovements(direction) {
-        let movements = [];
+    function getMovement(direction) {
         let nextSquare = moveRule.getCurrentCoordinate().getNextCoordinate(direction);
         if(moveRule.isEmptyCoordinate(nextSquare) || moveRule.isOpposingColor(nextSquare))
-            movements.push(nextSquare)
-        return movements;
+            return nextSquare;
+        return undefined;
     }
 
     return {

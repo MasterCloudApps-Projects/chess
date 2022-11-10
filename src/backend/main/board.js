@@ -1,11 +1,8 @@
 import { PieceColorEnum } from "../piece/pieceColorEnum.js";
-import { PieceAbbreviationEnum } from "../piece/pieceAbbreviationEnum.js";
-import { piecesBuilder } from "./piecesBuilder.js";
+import { getPiece, piecesBuilder } from "../piece/piecesBuilder.js";
 
 function createBoard() {
     let pieces = {};
-    let checkmate = false;
-    let errorMessage;
 
     function getPieces() {
         return pieces;
@@ -15,22 +12,19 @@ function createBoard() {
         pieces = piecesParam;
     }
 
-    function isCheckMate() {
-        return checkmate;
-    }
     function tryMove(movementOrigin, movementDestination, playerColor) {
-        errorMessage = undefined;
         if (!pieces[movementOrigin].isOfColor(playerColor)) {
-            errorMessage = "Invalid move: Attempting to move a wrong color piece.";
-            return;
+            return "Invalid move: Attempting to move a wrong color piece.";
         }
         if (!pieces[movementOrigin].isPossibleMove(movementDestination, pieces)) {
-            errorMessage = getInvalidMovementError(pieces[movementOrigin].getFullName());
-            return;
+            return getInvalidMovementError(pieces[movementOrigin].getFullName());
         }
         let stateBeforeMoving = createMemento();
         move(movementOrigin, movementDestination);
-        updateCheckStatus(playerColor, stateBeforeMoving);
+        if (isColorOnCheck(playerColor)) {
+            setMemento(stateBeforeMoving);
+            return "Invalid move: cannot end turn on check";
+        }
     }
 
     function move(movementOrigin, movementDestination) {
@@ -39,38 +33,36 @@ function createBoard() {
         createEmptyTile(movementOrigin);
     }
 
-    function updateCheckStatus(playerColor, previousState) {
+    function isStalemate(turnColor) {
+        return getValidMovementNotCausingCheck(turnColor) === undefined;
+    }
+
+    function isOnCheckMate(playerColor) {
         if (isColorOnCheck(playerColor)) {
-            errorMessage = "Invalid move: cannot end turn on check";
-            setMemento(previousState);
-            return;
-        }
-        if (isColorOnCheck(playerColor.getOppositeColor())) {
             console.log("possible checkmate");
-            console.log("is checkmate: " + isColorOnCheckMate(playerColor.getOppositeColor()));
-            if (isColorOnCheckMate(playerColor.getOppositeColor()))
-                checkmate = true;
+            console.log("is checkmate: " + isColorOnCheckMate(playerColor));
+            if (isColorOnCheckMate(playerColor))
+                return true;
         }
+        return false;
     }
 
     function isColorOnCheck(color) {
         let attackpos = getAllAttackPositionsByColor(color.getOppositeColor());
         let kingpos = getKingPositionByColor(color);
-        return attackpos.includes(kingpos);
+        return attackpos.has(kingpos);
     }
 
     function isColorOnCheckMate(color) {
         if (!isColorOnCheck(color)) return false;
 
-        return getValidMovementWhileColorIsOnCheck(color) == undefined;
+        return getValidMovementNotCausingCheck(color) == undefined;
     }
 
-    function getValidMovementWhileColorIsOnCheck(color) {
+    function getValidMovementNotCausingCheck(color) {
         const previousState = createMemento();
         for (let coord of getAllCoordinatesByColor(color)) {
-            for (let mov of movementsFromTheCoordinate(
-                pieces[coord].getPosition()
-            )) {
+            for (let mov of movementsFromTheCoordinate(pieces[coord].getPosition())) {
                 move(pieces[coord].getPosition(), mov);
                 if (!isColorOnCheck(color)) {
                     setMemento(previousState);
@@ -122,47 +114,36 @@ function createBoard() {
     }
 
     function setMemento(memento) {
-        setPieces(piecesBuilder(memento.split("-")).build());
-    }
-
-    function getErrorMessage() {
-        let result = errorMessage;
-        errorMessage = undefined;
-        return result;
-    }
-
-    function hasError() {
-        return errorMessage !== undefined;
+        setPieces(piecesBuilder(memento.split("-")).buildFromLayout());
     }
 
     function getAllAttackPositionsByColor(color) {
-        if (color.isEmpty()) return [];
-        const coordinatesUnderAttack = [];
+        const coordinatesUnderAttack = new Set();
+        if (color.isEmpty()) return coordinatesUnderAttack;
         let colorPieces = getAllPiecesByColor(color);
-        for (let i in colorPieces) {
-            coordinatesUnderAttack.push(...colorPieces[i].getAttackPositions(pieces));
+        for (let colorPiece of colorPieces) {
+            colorPiece.getAttackPositions(pieces)
+                .forEach(coordinate => coordinatesUnderAttack.add(coordinate));
         }
-        return [...new Set(coordinatesUnderAttack)];
+        return coordinatesUnderAttack;
     }
 
     function getKingPositionByColor(color) {
-        let king =
-            color.isWhite() ? PieceAbbreviationEnum.WK : PieceAbbreviationEnum.BK;
         return getAllPiecesByColor(color)
-            .find((piece) => piece.getAbbreviation() === king.getAbbreviation())
+            .find((piece) => piece.getAbbreviation() === color.getAbbreviation() + 'K')
             .getPosition();
     }
 
     function getAllPiecesByColor(color) {
         const coloredPieces = [];
         let allColorCoordinates = getAllCoordinatesByColor(color);
-        for (let i in allColorCoordinates)
-            coloredPieces.push(pieces[allColorCoordinates[i]]);
+        for (let coloredCoordinate of allColorCoordinates)
+            coloredPieces.push(pieces[coloredCoordinate]);
         return coloredPieces;
     }
 
     function createEmptyTile(coordinate) {
-        pieces[coordinate] = PieceAbbreviationEnum._.buildPiece(coordinate);
+        pieces[coordinate] = getPiece('_', coordinate);
     }
 
     function getInvalidMovementError(pieceFullName) {
@@ -172,7 +153,7 @@ function createBoard() {
     return {
         tryMove,
         isColorOnCheck,
-        getValidMovementWhileColorIsOnCheck,
+        getValidMovementNotCausingCheck,
         movementsFromTheCoordinate,
         getBoardPieceNames,
         getAllSquaresOfBlackPieces,
@@ -180,11 +161,10 @@ function createBoard() {
         getAllCoordinatesByColor,
         createMemento,
         setMemento,
-        getErrorMessage,
-        hasError,
         getPieces,
         setPieces,
-        isCheckMate,
+        isOnCheckMate,
+        isStalemate
     };
 }
 

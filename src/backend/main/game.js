@@ -7,11 +7,10 @@ import { randomPlayer } from './randomPlayer.js';
 
 function createGame(uuidGame) {
     let uuid = uuidGame;
-    let gameStatus = GameStatusEnum.ongoing;
     let turn = PieceColorEnum.White;
     let board = boardBuilder().usingInitialPieceDisposition().build();
     let registry = createRegistry(board);
-    let status;
+    let status = GameStatusEnum.ongoing;
 
     function getBoard() {
         return board;
@@ -34,10 +33,10 @@ function createGame(uuidGame) {
     }
 
     function play(movementOrigin, movementDestination, playerColor) {
-        if (gameStatus === GameStatusEnum.finished)
+        if (status === GameStatusEnum.finished)
             return messageManager.createMessage('Game finished.');
         if (playerColor != turn)
-            return messageManager.createErrorMessage('Not ' + playerColor.name + "'s turn to play.");
+            return messageManager.createErrorMessage('Not ' + playerColor.getLiteral() + "'s turn to play.");
         if (board.getAllCoordinatesByColor(turn).length == 0){
             endGame();
             return messageManager.createMessage(playerColor.name + 's win.');
@@ -47,15 +46,14 @@ function createGame(uuidGame) {
     }
 
     function performTurn (movementOrigin, movementDestination) {
-        board.tryMove(movementOrigin, movementDestination, turn);
-        if(board.hasError())
-            return messageManager.createErrorMessage(board.getErrorMessage());
-
+        let error = board.tryMove(movementOrigin, movementDestination, turn);
+        if(error != undefined)
+            return messageManager.createErrorMessage(error);
         if(!turn.isWhite()) {
             registry.register();
         }
         advanceTurn();
-        if (board.isCheckMate()) endGame();
+        updateStatus();
         return messageManager.createMessage();
     }
 
@@ -63,12 +61,23 @@ function createGame(uuidGame) {
         turn = turn.getOppositeColor();
     }
 
+    function updateStatus() {
+        if(board.isOnCheckMate(turn) || board.isStalemate(turn)) {
+            endGame();
+        }
+    }
+
     function endGame() {
+        console.log("End game");
         status = GameStatusEnum.finished;
     }
 
     function isGameFinished() {
         return status === GameStatusEnum.finished;
+    }
+
+    function getStatus() {
+        return messageManager.createMessage({status: status});
     }
 
     function getBoardResponse() {
@@ -85,6 +94,7 @@ function createGame(uuidGame) {
     return{
         play,
         isGameFinished,
+        getStatus,
         getBoardResponse,
         undoableRedoable,
         getBoard,

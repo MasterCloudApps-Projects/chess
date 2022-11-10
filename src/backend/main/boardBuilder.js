@@ -1,12 +1,12 @@
 import { createBoard } from './board.js';
-import { piecesBuilder } from './piecesBuilder.js';
+import { piecesBuilder } from '../piece/piecesBuilder.js';
 
 function boardBuilder() {
     let board = createBoard();
 
     function fromPieceLayoutString(pieceStringLayout) {
-        pieceStringLayout = pieceStringLayout.trim().split('\n').join('-').split('-');     
-        board.setPieces(piecesBuilder(pieceStringLayout).build());
+        pieceStringLayout = pieceStringLayout.trim().split('\n').join('-').split('-');
+        board.setPieces(piecesBuilder(pieceStringLayout).buildFromLayout());
         return this;
     }
 

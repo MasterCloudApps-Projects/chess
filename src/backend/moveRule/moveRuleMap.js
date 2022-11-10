@@ -13,7 +13,7 @@ let moveRuleMap = {
     horse: getHorseMoveRule,
     queen: getQueenMoveRule,
     king: getKingMoveRule,
-    empty: undefined
+    empty: () => undefined
 }
 
 export {

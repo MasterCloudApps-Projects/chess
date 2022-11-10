@@ -1,13 +1,13 @@
 import { createPiece } from './piece.js';
 import { moveRuleMap } from '../moveRule/moveRuleMap.js';
+import { PieceColorEnum } from "./pieceColorEnum.js";
 
-function createDecoratedPawnPiece(color, position) {
+function createDecoratedPawnPiece(abbreviation, position) {
     const pawnFirstPositions = { B : '7', W : '2' };
+    const color = abbreviation[0] === 'W' ? PieceColorEnum.White : PieceColorEnum.Black;
 
     let piece = createPiece(
-        color.getAbbreviation()+'P',
-        color.getLiteral()+' pawn',
-        color,
+        abbreviation,
         position,
         moveRuleMap.pawn(
             position.includes(pawnFirstPositions[color.getAbbreviation()]), !color.isWhite()));

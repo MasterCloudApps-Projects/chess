@@ -8,7 +8,7 @@ function createRandomPlayer() {
         let origins, origin, destinations;
 
         if (board.isColorOnCheck(PieceColorEnum.Black))
-            return board.getValidMovementWhileColorIsOnCheck(PieceColorEnum.Black);
+            return board.getValidMovementNotCausingCheck(PieceColorEnum.Black);
 
         origins = board.getAllSquaresOfBlackPieces();
 
@@ -25,7 +25,7 @@ function createRandomPlayer() {
     }
 
     function generateRandomMovement(squares){
-        return squares[Math.floor(Math.random()*(squares.length - 1))];
+        return squares[Math.floor(Math.random()*(squares.length))];
     }
 
     return  {

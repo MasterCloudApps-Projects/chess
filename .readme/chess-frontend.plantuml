@@ -1,0 +1,23 @@
+'''plantuml
+@startuml Chess
+title Frontend
+top to bottom direction
+
+Player .down.> main
+
+main *-down-> GameView
+main *-down-> PlayerView
+
+PlayerView .down.> "Random Player" Client
+PlayerView .-down-> GameView
+PlayerView .down.> Turn
+
+GameView .down.> BoardView
+GameView .down.> Turn
+GameView .down.> Client
+Client .down.> Backend
+BoardView .down.> Piece
+
+@enduml
+'''
+

@@ -11,17 +11,12 @@ function getHorseMoveRule() {
 
     function getLShapes () {
         let movements = [];
-        movements.push(...getLShapeMovement(DirectionEnum.NORTH, DirectionEnum.EAST));
-        movements.push(...getLShapeMovement(DirectionEnum.NORTH, DirectionEnum.WEST));
-
-        movements.push(...getLShapeMovement(DirectionEnum.SOUTH, DirectionEnum.EAST));
-        movements.push(...getLShapeMovement(DirectionEnum.SOUTH, DirectionEnum.WEST));
-
-        movements.push(...getLShapeMovement(DirectionEnum.EAST, DirectionEnum.NORTH));
-        movements.push(...getLShapeMovement(DirectionEnum.EAST, DirectionEnum.SOUTH));
-
-        movements.push(...getLShapeMovement(DirectionEnum.WEST, DirectionEnum.NORTH));
-        movements.push(...getLShapeMovement(DirectionEnum.WEST, DirectionEnum.SOUTH));
+        for(let vertical of [DirectionEnum.NORTH, DirectionEnum.SOUTH]){
+            for(let horizontal of [DirectionEnum.EAST, DirectionEnum.WEST]){
+                movements.push(...getLShapeMovement(vertical, horizontal));
+                movements.push(...getLShapeMovement(horizontal, vertical));
+            }
+        }
         return movements;
     }
 
@@ -31,7 +26,7 @@ function getHorseMoveRule() {
 
         let directions = [singleSquareDirection, doubleSquareDirection, doubleSquareDirection];
 
-        for(let direction of directions) {                
+        for(let direction of directions) {
             let partMovement = origin.getNextCoordinate(direction);
             if(isInvalidPartMovements(partMovement, origin))
                 return movements;

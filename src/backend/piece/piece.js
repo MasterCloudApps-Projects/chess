@@ -1,7 +1,11 @@
-function createPiece(pieceAbbreviation, pieceFullName, pieceColor, piecePosition, pieceMovementRule) {
+import { PieceColorEnum } from "./pieceColorEnum.js";
+import { PieceNameMap } from "./pieceNameMap.js";
+
+function createPiece(pieceAbbreviation, piecePosition, pieceMovementRule) {
+
     let abbreviation = pieceAbbreviation;
-    let fullName = pieceFullName;
-    let color = pieceColor;
+    const color = abbreviation === '_' ? PieceColorEnum.Empty : abbreviation[0] === 'W' ? PieceColorEnum.White : PieceColorEnum.Black;
+    let fullName = color === PieceColorEnum.Empty ? 'empty' : color.getLiteral() + ' ' + PieceNameMap[abbreviation[1]];
     let position = piecePosition;
     let movement = pieceMovementRule;
 
@@ -18,7 +22,7 @@ function createPiece(pieceAbbreviation, pieceFullName, pieceColor, piecePosition
     }
 
     function setFullName(newFullName) {
-        fullName = newFullName
+        fullName = newFullName;
     }
 
     function getPosition() {

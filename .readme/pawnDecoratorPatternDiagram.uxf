@@ -3,7 +3,7 @@ bg=green
 --
 - movement : MoveRule
 --
-+ isPossibleMove (destination, pieces)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>220</x><y>120</y><w>330</w><h>30</h></coordinates><panel_attributes>Pawn Piece - Decorator Pattern ES6 Module Structure
++ isPossibleMove (destination, pieces)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>120</x><y>120</y><w>330</w><h>30</h></coordinates><panel_attributes>Pawn Piece - Decorator Pattern ES6 Module Structure
 bg=cyan</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>260</x><y>280</y><w>260</w><h>100</h></coordinates><panel_attributes>piecePawnDecorator.js
 bg=orange
 --
@@ -11,8 +11,8 @@ bg=orange
 --
 + isPossibleMove (destination, pieces)
 + doAfterMovement (newPosition, pieces)
-+ transformToQueen</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>380</x><y>240</y><w>30</w><h>60</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;40</additional_attributes></element><element><id>UMLClass</id><coordinates><x>30</x><y>230</y><w>180</w><h>50</h></coordinates><panel_attributes>pieceAbbreviationEnum.js
++ transformToQueen</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>380</x><y>240</y><w>30</w><h>60</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;40</additional_attributes></element><element><id>UMLClass</id><coordinates><x>10</x><y>230</y><w>200</w><h>50</h></coordinates><panel_attributes>piecesBuilder.js
 --
-+ buildPiece (position)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>210</x><y>200</y><w>80</w><h>80</h></coordinates><panel_attributes>lt=&lt;-
++ getPiece (abbreviation, position)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>210</x><y>200</y><w>80</w><h>80</h></coordinates><panel_attributes>lt=&lt;-
 </panel_attributes><additional_attributes>60;10;20;10;20;60;10;60</additional_attributes></element><element><id>Relation</id><coordinates><x>200</x><y>250</y><w>80</w><h>80</h></coordinates><panel_attributes>lt=&lt;-
 </panel_attributes><additional_attributes>60;60;30;60;30;10;10;10</additional_attributes></element></diagram>

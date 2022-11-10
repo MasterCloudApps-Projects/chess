@@ -12,9 +12,9 @@ gameRouter.post('/game', (req, res) => {
     res.status(200).send(game.getBoardResponse());
 });
 
-gameRouter.post('/move', (req, res) => {
+gameRouter.post('/game/:id/move', (req, res) => {
     console.log(req.body);
-    let game = gameHistory.findById(req.body.gameUUID);
+    let game = gameHistory.findById(req.params.id);
     let movementMsg = game.play(req.body.movementOrigin, req.body.movementDestination, PieceColorEnum[req.body.color]);
     if (movementMsg.error)
         return res.status(400).send(movementMsg);
@@ -23,11 +23,16 @@ gameRouter.post('/move', (req, res) => {
     res.status(200).send(game.getBoardResponse());
 });
 
-gameRouter.post('/random/movement', (req, res) => {
-    let game = gameHistory.findById(req.body.gameUUID);
+gameRouter.get('/game/:id/random/movement', (req, res) => {
+    let game = gameHistory.findById(req.params.id);
     let randomMovement = game.getRandomMovement();
     res.status(200).send(randomMovement);
 });
+
+gameRouter.get('/game/:id/status', (req, res) => {
+    let game = gameHistory.findById(req.params.id);
+    res.status(200).send(game.getStatus());
+})
 
 export {
     gameRouter

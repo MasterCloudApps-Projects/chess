@@ -6,10 +6,11 @@ function createGameView() {
     let movementOriginTemp;
     let gameUUID;
     let temporalSelectionColor = '#CDFAFA';
+    let status;
 
     async function initializeGame() {
         gameUUID = crypto.randomUUID();
-        const resMsg = await restClient.http('/game', 'POST', {gameUUID: gameUUID});
+        const resMsg = await restClient.http('', 'POST', {gameUUID: gameUUID});
         if(resMsg.error){
             console.log('Error initializing game, trying again...');
             gameUUID = undefined;
@@ -35,32 +36,48 @@ function createGameView() {
             return;
         }
         boardView.removeBoardTilePaint(movementOriginTemp);
-        const resMsg = await restClient.http('/move', 'POST', {
-            gameUUID: gameUUID,
-            movementOrigin: movementOriginTemp,
-            movementDestination: positionId,
+        const error = await move(movementOriginTemp, positionId);
+        movementOriginTemp = undefined;
+        if(error !== undefined) {
+            return;
+        }
+        await updateStatus();
+        updateUndoRedo();
+        turn.next();
+    };
+
+    async function move(origin, destination) {
+        const resMsg = await restClient.http(`/${gameUUID}/move`, 'POST', {
+            movementOrigin: origin,
+            movementDestination: destination,
             color: turn.get()
         });
         if(resMsg.error){
             console.log(resMsg.errorMessage);
             boardView.paintErrorsOnHTML([resMsg.errorMessage]);
+            return resMsg.error;
         }
-        else{
-            boardView.setPieces(resMsg.data);
-            boardView.paintErrorsOnHTML([]);
-            turn.next();
+        boardView.setPieces(resMsg.data);
+        boardView.paintErrorsOnHTML([]);
+    }
+
+    async function updateStatus() {
+        const res = await restClient.http(`/${gameUUID}/status`, 'GET');
+        status = res.data.status;
+        if (status === "finished") {
+            console.log("End game");
+            boardView.paintFinishedStatus();
         }
-        movementOriginTemp = undefined;
-        updateUndoRedo();
-        return resMsg.error;
-    };
+    }
+
+    function getCurrentStatus() {
+        return status;
+    }
 
     async function undo(){
         if (gameUUID === undefined)
             return;
-        const resMsg = await restClient.http('/undo', 'POST', {
-            gameUUID: gameUUID
-        });
+        const resMsg = await restClient.http(`/${gameUUID}/undo`, 'POST');
         if(resMsg.error){
                 console.log(resMsg.errorMessage);
                 boardView.paintErrorsOnHTML([resMsg.errorMessage]);
@@ -75,9 +92,7 @@ function createGameView() {
     async function redo(){
         if (gameUUID === undefined)
             return;
-        const resMsg = await restClient.http('/redo', 'POST', {
-            gameUUID: gameUUID
-        });
+        const resMsg = await restClient.http(`/${gameUUID}/redo`, 'POST');
         if(resMsg.error){
                 console.log(resMsg.errorMessage);
                 boardView.paintErrorsOnHTML([resMsg.errorMessage]);
@@ -92,9 +107,7 @@ function createGameView() {
     async function updateUndoRedo(){
         if (gameUUID === undefined)
             return;
-        const resMsg = await restClient.http('/undoableRedoable', 'POST', {
-            gameUUID: gameUUID
-        });
+        const resMsg = await restClient.http(`/${gameUUID}/undoableRedoable`, 'GET');
         if(resMsg.error){
                 console.log(resMsg.errorMessage);
                 boardView.paintErrorsOnHTML([resMsg.errorMessage]);
@@ -108,6 +121,7 @@ function createGameView() {
         initializeGame,
         getGameUUID,
         selectPositionForMovement,
+        getCurrentStatus,
         undo,
         redo
     };

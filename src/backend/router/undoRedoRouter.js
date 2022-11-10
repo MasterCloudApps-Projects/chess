@@ -3,20 +3,20 @@ import { gameHistory } from '../main/gameHistory.js'
 
 const undoRedoRouter = express.Router();
 
-undoRedoRouter.post('/undo', (req, res) => {
-    let game = gameHistory.findById(req.body.gameUUID);
+undoRedoRouter.post('/game/:id/undo', (req, res) => {
+    let game = gameHistory.findById(req.params.id);
     game.undo();
     res.status(200).send(game.getBoardResponse());
 });
 
-undoRedoRouter.post('/redo', (req, res) => {
-    let game = gameHistory.findById(req.body.gameUUID);
+undoRedoRouter.post('/game/:id/redo', (req, res) => {
+    let game = gameHistory.findById(req.params.id);
     game.redo();
     res.status(200).send(game.getBoardResponse());
 });
 
-undoRedoRouter.post('/undoableRedoable', (req, res) => {
-    let game = gameHistory.findById(req.body.gameUUID);
+undoRedoRouter.get('/game/:id/undoableRedoable', (req, res) => {
+    let game = gameHistory.findById(req.params.id);
     res.status(200).send(game.undoableRedoable());
 });
 

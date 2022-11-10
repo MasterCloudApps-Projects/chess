@@ -63,16 +63,16 @@ function getPawnMoveRule(isFirstMovementP, isFromNorthSideP) {
 
     function getDiagonalRightSquare(origin) {
         if (isFromNorthSide)
-            return origin.getNextCoordinate(DirectionEnum.SOUTHEAST_DIAGONAL);
+            return origin.getNextCoordinate(DirectionEnum.SOUTHEAST);
         else
-            return origin.getNextCoordinate(DirectionEnum.NORTHEAST_DIAGONAL);
+            return origin.getNextCoordinate(DirectionEnum.NORTHEAST);
     }
 
     function getDiagonalLeftSquare(origin) {
         if (isFromNorthSide)
-            return origin.getNextCoordinate(DirectionEnum.SOUTHWEST_DIAGONAL);
+            return origin.getNextCoordinate(DirectionEnum.SOUTHWEST);
         else
-            return origin.getNextCoordinate(DirectionEnum.NORTHWEST_DIAGONAL);
+            return origin.getNextCoordinate(DirectionEnum.NORTHWEST);
     }
 
     return {
