@@ -13,10 +13,6 @@ function ClosureA() {
         privateFunction();
     }
 
-    function publicMethod2() {
-        console.log("This is another public method. ");
-    }
-
     function privateFunction() {
         console.log("This is a private function. ");
         console.log(privateAttribute);
@@ -24,16 +20,21 @@ function ClosureA() {
 
     return {
         publicMethod,
-        publicMethod2
+        publicMethod2: function() {
+            console.log("This is another public method. ");
+        }
     }
-
 }
+
+ClosureA.STATIC_FIELD = "This is a static field";
+console.log(ClosureA.STATIC_FIELD);
+
 ClosureA.publicStaticMethod = function() {
     console.log("This is a static method.");
 }
-ClosureA.STATIC_FIELD = "This is a static field";
 
-console.log(ClosureA.STATIC_FIELD);
 ClosureA.publicStaticMethod();
+
 let objA = ClosureA();
 objA.publicMethod();
+

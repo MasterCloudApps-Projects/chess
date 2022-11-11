@@ -8,8 +8,9 @@
 class ClassA {
 
     static STATIC_FIELD = "This is a static field";
+    static #PRIVATE_STATIC_FIELD = "This is a private static field.";
+
     #privateAttribute; // Private attributes must be defined prior to use
-    publicAttribute;
 
     constructor () {
         this.publicAttribute = "This is a public attribute.";
@@ -34,10 +35,14 @@ class ClassA {
         console.log("This is a static method.");
     }
 
+    static #privateStaticMethod(){
+        console.log("This is a private static method.")
+    }
 }
 
 console.log(ClassA.STATIC_FIELD);
 ClassA.publicStaticMethod();
+
 let objA = new ClassA();
 console.log(objA.publicAttribute);
 //console.log(objA.#privateAttribute); // Will print undefined
