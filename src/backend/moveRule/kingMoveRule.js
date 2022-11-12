@@ -15,10 +15,6 @@ function getKingMoveRule() {
         return possibleMovements;
     }
 
-    function nextMoveRule() {
-        return this;
-    }
-
     function getMovement(direction) {
         let nextSquare = moveRule.getCurrentCoordinate().getNextCoordinate(direction);
         if(moveRule.isEmptyCoordinate(nextSquare) || moveRule.isOpposingColor(nextSquare))
@@ -30,7 +26,6 @@ function getKingMoveRule() {
         ...moveRule,
         ...{
             getPossibleMovements,
-            nextMoveRule
         }
     }
 }

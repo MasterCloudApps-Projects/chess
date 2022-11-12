@@ -1,6 +1,6 @@
 import { createPiece } from './piece.js';
 import { moveRuleMap } from "../moveRule/moveRuleMap.js";
-import { createDecoratedPawnPiece } from "./piecePawnDecorator.js";
+import { PieceColorEnum } from "./pieceColorEnum.js";
 import { PieceNameMap } from "./pieceNameMap.js";
 
 function piecesBuilder(pieceStringLayout){
@@ -26,10 +26,15 @@ function piecesBuilder(pieceStringLayout){
 }
 
 function getPiece(abbreviation, position) {
-    if (abbreviation.includes('P'))
-        return createDecoratedPawnPiece(abbreviation, position);
-    return createPiece(abbreviation, position,
-        abbreviation == '_'? undefined : moveRuleMap[PieceNameMap[abbreviation[1]]]());
+    const pawnFirstPositions = { B : '7', W : '2' };
+    const color = abbreviation[0] === 'W' ? PieceColorEnum.White : PieceColorEnum.Black;
+    return createPiece(
+        abbreviation,
+        position,
+        abbreviation == '_'? undefined : moveRuleMap[PieceNameMap[abbreviation[1]]](
+            position.includes(pawnFirstPositions[color.getAbbreviation()]),
+            !color.isWhite()
+        ));
 }
 
 export {

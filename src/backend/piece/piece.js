@@ -42,18 +42,19 @@ function createPiece(pieceAbbreviation, piecePosition, pieceMovementRule) {
     }
 
     function updateCurrentPosition(position, pieces) {
-        //let nextMoveRule = movement.nextMoveRule();
         movement.updateCurrentPosition(position, pieces);
-        movement = movement.nextMoveRule();
-        /**if(nextMoveRule != movement){
-            fullName = fullName.replace('pawn', 'queen');
-            abbreviation = abbreviation.replace('P', 'Q')
-            movement = nextMoveRule;
-        }**/
     }
 
     function isPossibleMove(destination, pieces) {
-        return movement.isPossibleMove(position, destination, pieces);
+        let res = movement.isPossibleMove(position, destination, pieces);
+        if (res) {
+            updateCurrentPosition(destination, pieces);
+            let nextMoveRule = movement.getNextMoveRule(abbreviation[1]);
+            movement = nextMoveRule.moveRule;
+            abbreviation = abbreviation[0] + nextMoveRule.abbreviation;
+            fullName = color.getLiteral() + ' ' + PieceNameMap[abbreviation[1]]
+        }
+        return res;
     }
 
     function getPossibleMovements(pieces) {

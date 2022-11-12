@@ -39,7 +39,9 @@ function createPieceMoveRule(){
 
     function getPossibleMovements () {};
 
-    function nextMoveRule () {};
+    function getNextMoveRule(currentAbbreviation) {
+        return { moveRule: this, abbreviation: currentAbbreviation }
+    }
 
     return {
         updateCurrentPosition,
@@ -50,7 +52,7 @@ function createPieceMoveRule(){
         isPossibleMove,
         getAttackMovements,
         getPossibleMovements,
-        nextMoveRule
+        getNextMoveRule
     }
 }
 

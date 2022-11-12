@@ -15,15 +15,10 @@ function getQueenMoveRule() {
         return movements;
     }
 
-    function nextMoveRule() {
-        return this;
-    }
-
     return {
         ...moveRule,
         ...{
             getPossibleMovements,
-            nextMoveRule
         }
     }
 }
