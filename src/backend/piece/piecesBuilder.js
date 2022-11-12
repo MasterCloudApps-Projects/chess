@@ -31,7 +31,7 @@ function getPiece(abbreviation, position) {
     let moveRule;
     if (abbreviation.includes('P')){
         let color = abbreviation[0] === 'W' ? PieceColorEnum.White : PieceColorEnum.Black;
-        moveRule = moveRuleMap.pawn(position.includes(pawnFirstPositions[color.getAbbreviation()]), !color.isWhite());
+        moveRule = moveRuleMap.pawn(!color.isWhite());
     } else if (abbreviation != '_')
         moveRule = moveRuleMap[PieceNameMap[abbreviation[1]]]();
     return createPiece(abbreviation, position, moveRule);
