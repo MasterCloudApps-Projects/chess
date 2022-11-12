@@ -26,7 +26,7 @@ function getPawnMoveRule(isFirstMovementP, isFromNorthSideP) {
         let coordinate = moveRule.getCurrentCoordinate();
         if (isFromNorthSide && coordinate.getRow() <= 1)
             return true;
-        if (!isFromNorthSide && coordinate.getRow() >= 8)
+        if (!isFromNorthSide && isFromNorthSide === false && coordinate.getRow() >= 8)
             return true;
         return false;
     }
