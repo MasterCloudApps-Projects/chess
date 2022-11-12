@@ -9,6 +9,10 @@ function getHorseMoveRule() {
         return getLShapes();
     };
 
+    function nextMoveRule() {
+        return this;
+    }
+
     function getLShapes () {
         let movements = [];
         for(let vertical of [DirectionEnum.NORTH, DirectionEnum.SOUTH]){
@@ -45,7 +49,8 @@ function getHorseMoveRule() {
     return {
         ...moveRule,
         ...{
-            getPossibleMovements
+            getPossibleMovements,
+            nextMoveRule
         }
     }
 }

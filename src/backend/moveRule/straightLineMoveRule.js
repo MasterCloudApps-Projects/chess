@@ -27,10 +27,15 @@ function createStraightLineMoveRule(motionCoordinates) {
         return movements;
     }
 
+    function nextMoveRule() {
+        return this;
+    }
+
     return {
         ...moveRule,
         ...{
-            getPossibleMovements
+            getPossibleMovements,
+            nextMoveRule
         }
     }
 }

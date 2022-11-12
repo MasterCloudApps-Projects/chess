@@ -13,6 +13,10 @@ function getPawnMoveRule(isFirstMovementP, isFromNorthSideP) {
         return possibleMovements;
     }
 
+    function nextMoveRule() {
+        return this;
+    }
+
     function doAfterMovement (currentPosition, pieces) {
         moveRule.updateCurrentPosition(currentPosition, pieces);
         isFirstMovement = false;
@@ -81,7 +85,8 @@ function getPawnMoveRule(isFirstMovementP, isFromNorthSideP) {
             getPossibleMovements,
             doAfterMovement,
             shouldTurnToQueen,
-            getAttackMovements
+            getAttackMovements,
+            nextMoveRule
         }
     };
 }
