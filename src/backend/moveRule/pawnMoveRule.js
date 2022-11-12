@@ -29,9 +29,9 @@ function getPawnMoveRule(isFromNorthSideP) {
     }
     function shouldTurnToQueen () {
         let coordinate = moveRule.getCurrentCoordinate();
-        if (isFromNorthSide && coordinate.getRow() <= 2)
+        if (isFromNorthSide && coordinate.getRow() == pawnFirstPositions.W)
             return true;
-        if (!isFromNorthSide && coordinate.getRow() >= 7)
+        if (!isFromNorthSide && coordinate.getRow() == pawnFirstPositions.B)
             return true;
         return false;
     }
