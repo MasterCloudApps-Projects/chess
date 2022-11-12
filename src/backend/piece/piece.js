@@ -42,18 +42,20 @@ function createPiece(pieceAbbreviation, piecePosition, pieceMovementRule) {
     }
 
     function updateCurrentPosition(position, pieces) {
-        //let nextMoveRule = movement.nextMoveRule();
         movement.updateCurrentPosition(position, pieces);
-        movement = movement.nextMoveRule();
-        /**if(nextMoveRule != movement){
-            fullName = fullName.replace('pawn', 'queen');
-            abbreviation = abbreviation.replace('P', 'Q')
-            movement = nextMoveRule;
-        }**/
     }
 
     function isPossibleMove(destination, pieces) {
-        return movement.isPossibleMove(position, destination, pieces);
+        let isPossible =  movement.isPossibleMove(position, destination, pieces);
+        if(isPossible){
+            let nextMoveRule = movement.nextMoveRule();
+            if(nextMoveRule != movement){
+                fullName = fullName.replace('pawn', 'queen');
+                abbreviation = abbreviation.replace('P', 'Q')
+                movement = nextMoveRule;
+            }
+        }
+        return isPossible;
     }
 
     function getPossibleMovements(pieces) {
