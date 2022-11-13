@@ -19,6 +19,8 @@ describe('Calculation of the next coordinate', () => {
     test('Get Next Coordinate North Test', () => {
         let nextCoordinate = DirectionEnum.NORTH.getNextCoordinate(originCoordinate);
         expect(nextCoordinate.getPosition()).toBe('b4');
+        expect(nextCoordinate.getRow()).toBe('4');
+        expect(nextCoordinate.getColumn()).toBe(2);
     });
 
     test('Get Next Coordinate North Higher Value Test', () => {
@@ -31,6 +33,8 @@ describe('Calculation of the next coordinate', () => {
     test('Get Next Coordinate South Test', () => {
         let nextCoordinate = DirectionEnum.SOUTH.getNextCoordinate(originCoordinate);
         expect(nextCoordinate.getPosition()).toBe('b2');
+        expect(nextCoordinate.getRow()).toBe('2');
+        expect(nextCoordinate.getColumn()).toBe(2);
     });
 
     test('Get Next Coordinate South Lower Value Test', () => {
@@ -43,6 +47,8 @@ describe('Calculation of the next coordinate', () => {
     test('Get Next Coordinate East Test', () => {
         let nextCoordinate = DirectionEnum.EAST.getNextCoordinate(originCoordinate);
         expect(nextCoordinate.getPosition()).toBe('c3');
+        expect(nextCoordinate.getRow()).toBe('3');
+        expect(nextCoordinate.getColumn()).toBe(3);
     });
 
     test('Get Next Coordinate East Limit Values', () => {
@@ -55,6 +61,8 @@ describe('Calculation of the next coordinate', () => {
     test('Get Next Coordinate West Test', () => {
         let nextCoordinate = DirectionEnum.WEST.getNextCoordinate(originCoordinate);
         expect(nextCoordinate.getPosition()).toBe('a3');
+        expect(nextCoordinate.getRow()).toBe('3');
+        expect(nextCoordinate.getColumn()).toBe(1);
     });
 
     test('Get Next Coordinate West Limit Value Test', () => {
@@ -67,6 +75,8 @@ describe('Calculation of the next coordinate', () => {
     test('Get Next Coordinate Northeast Test', () => {
         let nextCoordinate = DirectionEnum.NORTHEAST.getNextCoordinate(originCoordinate);
         expect(nextCoordinate.getPosition()).toBe('c4');
+        expect(nextCoordinate.getRow()).toBe('4');
+        expect(nextCoordinate.getColumn()).toBe(3);
     });
 
     test('Get Next Coordinate Northeast Higher Value Test', () => {
@@ -77,6 +87,8 @@ describe('Calculation of the next coordinate', () => {
     test('Get Next Coordinate Northwest Test', () => {
         let nextCoordinate = DirectionEnum.NORTHWEST.getNextCoordinate(originCoordinate);
         expect(nextCoordinate.getPosition()).toBe('a4');
+        expect(nextCoordinate.getRow()).toBe('4');
+        expect(nextCoordinate.getColumn()).toBe(1);
     });
 
     test('Get Next Coordinate Northwest Higher Value Test', () => {
@@ -87,6 +99,8 @@ describe('Calculation of the next coordinate', () => {
     test('Get Next Coordinate Southeast Test', () => {
         let nextCoordinate = DirectionEnum.SOUTHEAST.getNextCoordinate(originCoordinate);
         expect(nextCoordinate.getPosition()).toBe('c2');
+        expect(nextCoordinate.getRow()).toBe('2');
+        expect(nextCoordinate.getColumn()).toBe(3);
     });
 
     test('Get Next Coordinate Southeast Limit Value Test', () => {
@@ -97,6 +111,8 @@ describe('Calculation of the next coordinate', () => {
     test('Get Next Coordinate Southwest Test', () => {
         let nextCoordinate = DirectionEnum.WEST.getNextCoordinate(originCoordinate);
         expect(nextCoordinate.getPosition()).toBe('a3');
+        expect(nextCoordinate.getRow()).toBe('3');
+        expect(nextCoordinate.getColumn()).toBe(1);
     });
 
     test('Get Next Coordinate Southwest Limit Value Test', () => {
