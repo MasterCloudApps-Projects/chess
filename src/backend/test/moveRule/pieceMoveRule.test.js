@@ -48,10 +48,10 @@ describe('Coordinate identification', () => {
 
 describe('Next Move Rule', () => {
     test('Get Next Move Rule', () => {
-        let result = piece.getNextMoveRule('PW');
+        let result = piece.getNextMoveRule('P');
         expect(result.moveRule).toBe(piece);
-        expect(result.abbreviation).toBe('PW');
+        expect(result.abbreviation).toBe('P');
     });
 });
 
-//Test isPossibleMove, getAttackMovements and getPossibleMovements are performed in the child classes
+//Test isPossibleMove, getAttackMovements, getPossibleMovements are performed in the child classes

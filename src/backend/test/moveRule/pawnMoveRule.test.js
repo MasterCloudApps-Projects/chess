@@ -170,7 +170,6 @@ describe('Get Next Move Rule', () => {
         expect(nextRule.abbreviation).toBe('P');
     });
 
-
     test('Get Next Move Rule Pawn Black Test', () => {
         pawnBlack.updateCurrentPosition('b8', topBlackBoard.getPieces());
         let nextRule = pawnBlack.getNextMoveRule('P');
