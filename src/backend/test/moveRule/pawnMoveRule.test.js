@@ -18,9 +18,9 @@ beforeEach(() => {
     pawnBlack = getPawnMoveRule(true, true);
 
     bottonWhiteBoard = boardBuilder().fromPieceLayoutString(layout.botton.replace('X', 'WP')).build();
-    bottonBlackBoard = boardBuilder().fromPieceLayoutString(layout.top.replace('X', 'BP')).build();
+    topBlackBoard = boardBuilder().fromPieceLayoutString(layout.top.replace('X', 'BP')).build();
     topWhiteBoard = boardBuilder().fromPieceLayoutString(layout.top.replace('X', 'WP')).build();
-    topBlackBoard = boardBuilder().fromPieceLayoutString(layout.botton.replace('X', 'BP')).build();
+    bottonBlackBoard = boardBuilder().fromPieceLayoutString(layout.botton.replace('X', 'BP')).build();
     surroundedWhiteBoard = boardBuilder().fromPieceLayoutString(layout.surrounded.replace(/X/g, 'WP')).build()
     surroundedBlackBoard = boardBuilder().fromPieceLayoutString(layout.surrounded.replace(/X/g, 'BP')).build()
     surroundedOpositeWhiteBoard = boardBuilder().fromPieceLayoutString(layout.surroundedByOpposite.replace('X', 'WP').replace(/Y/g, 'BP')).build();
@@ -40,12 +40,12 @@ describe('Get Possible Moves', () => {
 
     test('Get Forward Possible Movements for Black Test', () => {
         let possibleCoordinate = [];
-        pawnBlack.updateCurrentPosition('b3', bottonBlackBoard.getPieces());
+        pawnBlack.updateCurrentPosition('b8', topBlackBoard.getPieces());
 
         pawnBlack.getPossibleMovements().forEach(p => possibleCoordinate.push(p.getPosition()));
 
-        expect(possibleCoordinate.includes("b2")).toBeTruthy();
-        expect(possibleCoordinate.includes("b1")).toBeTruthy();
+        expect(possibleCoordinate.includes("b7")).toBeTruthy();
+        expect(possibleCoordinate.includes("b6")).toBeTruthy();
     });
 
     test('Get Forward Not Possible: white is at the end', () => {
@@ -59,7 +59,7 @@ describe('Get Possible Moves', () => {
 
     test('Get Forward Not Possible: black is at the end', () => {
         let possibleCoordinate = [];
-        pawnBlack.updateCurrentPosition('b1', topBlackBoard.getPieces());
+        pawnBlack.updateCurrentPosition('b1', bottonBlackBoard.getPieces());
 
         pawnBlack.getPossibleMovements().forEach(p => possibleCoordinate.push(p.getPosition()));
 
@@ -79,7 +79,7 @@ describe('Get Possible Moves', () => {
         expect(possibleCoordinateBlack.length === 0).toBeTruthy();
     });
 
-    test('Get Forward Possible Movements for White Test', () => {
+    test('Get Forward Possible Eating Movements for White Test', () => {
         let possibleCoordinate = [];
         pawnWhite.updateCurrentPosition('d2', surroundedOpositeWhiteBoard.getPieces());
 
@@ -91,7 +91,7 @@ describe('Get Possible Moves', () => {
         expect(possibleCoordinate.includes("e1")).toBeFalsy();
     });
 
-    test('Get Forward Possible Movements for Black Test', () => {
+    test('Get Forward Possible Eating Movements for Black Test', () => {
         let possibleCoordinate = [];
         pawnBlack.updateCurrentPosition('d2', surroundedOpositeBlackBoard.getPieces());
 
@@ -116,7 +116,7 @@ describe('Is Possible Moves', () => {
 
     test('Is Possible Moves Black Test', () => {
         expect(pawnBlack.isPossibleMove('b3', 'b2', bottonBlackBoard.getPieces())).toBeTruthy();
-        expect(pawnBlack.isPossibleMove('b3', 'b1', bottonBlackBoard.getPieces())).toBeTruthy();
+        expect(pawnBlack.isPossibleMove('b3', 'b1', topBlackBoard.getPieces())).toBeTruthy();
 
         expect(pawnBlack.isPossibleMove('d2', 'c1', surroundedOpositeBlackBoard.getPieces())).toBeTruthy();
         expect(pawnBlack.isPossibleMove('d2', 'e1', surroundedOpositeBlackBoard.getPieces())).toBeTruthy();
@@ -137,4 +137,56 @@ describe('Is Possible Moves', () => {
     });
 });
 
+describe('Get Attack Movements', () => {
+    test('Get Attack Movements for White Test', () => {
+        let moves = pawnWhite.getAttackMovements('d2', surroundedOpositeWhiteBoard.getPieces());
+        expect(moves.includes("e3")).toBeTruthy();
+        expect(moves.includes("c3")).toBeTruthy();
+    });
 
+    test('Get Attack Movements for Black Test', () => {
+        let moves = pawnBlack.getAttackMovements('d2', surroundedOpositeBlackBoard.getPieces());
+        expect(moves.includes("c1")).toBeTruthy();
+        expect(moves.includes("c1")).toBeTruthy();
+    });
+
+    test('Get Not Attack Movements for White Test', () => {
+        let moves = pawnWhite.getAttackMovements('b1', bottonWhiteBoard.getPieces());
+        expect(moves).toStrictEqual([]);
+    });
+
+    test('Get Not  Attack Movements for Black Test', () => {
+        let moves = pawnWhite.getAttackMovements('b3', bottonBlackBoard.getPieces());
+        expect(moves).toStrictEqual([]);
+    });
+});
+
+describe('Get Next Move Rule', () => {
+
+    test('Get Next Move Rule Pawn White Test', () => {
+        pawnWhite.updateCurrentPosition('b1', bottonWhiteBoard.getPieces());
+        let nextRule = pawnWhite.getNextMoveRule('P');
+        expect(nextRule.moveRule).toBe(pawnWhite);
+        expect(nextRule.abbreviation).toBe('P');
+    });
+
+
+    test('Get Next Move Rule Pawn Black Test', () => {
+        pawnBlack.updateCurrentPosition('b8', topBlackBoard.getPieces());
+        let nextRule = pawnBlack.getNextMoveRule('P');
+        expect(nextRule.moveRule).toBe(pawnBlack);
+        expect(nextRule.abbreviation).toBe('P');
+    });
+
+    test('Get Next Move Rule Queen White Test', () => {
+        pawnWhite.updateCurrentPosition('b8', topBlackBoard.getPieces());
+        let nextRule = pawnWhite.getNextMoveRule('P');
+        expect(nextRule.abbreviation).toBe('Q');
+    });
+
+    test('Get Next Move Rule Queen Black Test', () => {
+        pawnBlack.updateCurrentPosition('b1', bottonBlackBoard.getPieces());
+        let nextRule = pawnBlack.getNextMoveRule('P');
+        expect(nextRule.abbreviation).toBe('Q');
+    });
+});

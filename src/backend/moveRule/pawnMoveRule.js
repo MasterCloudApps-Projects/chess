@@ -83,7 +83,6 @@ function getPawnMoveRule(isFirstMovementP, isFromNorthSideP) {
         ...moveRule,
         ...{
             getPossibleMovements,
-            shouldTurnToQueen,
             getAttackMovements,
             getNextMoveRule
         }
