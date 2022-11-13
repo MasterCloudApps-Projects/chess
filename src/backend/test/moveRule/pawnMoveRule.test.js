@@ -151,12 +151,12 @@ describe('Get Attack Movements', () => {
     });
 
     test('Get Not Attack Movements for White Test', () => {
-        let moves = pawnWhite.getAttackMovements('b1', bottonWhiteBoard.getPieces());
+        let moves = pawnWhite.getAttackMovements('d2', surroundedWhiteBoard.getPieces());
         expect(moves).toStrictEqual([]);
     });
 
     test('Get Not  Attack Movements for Black Test', () => {
-        let moves = pawnWhite.getAttackMovements('b3', bottonBlackBoard.getPieces());
+        let moves = pawnBlack.getAttackMovements('d2', surroundedBlackBoard.getPieces());
         expect(moves).toStrictEqual([]);
     });
 });

@@ -39,7 +39,7 @@ describe('Coordinate identification', () => {
         expect(piece.isOpposingColor(createCoordinate(3, 3))).toBeTruthy();
     });
 
-    test('Is Opposing Color Test', () => {
+    test('Is Not Opposing Color Test', () => {
         piece.updateCurrentPosition('a1', boardPieces.getPieces());
         expect(piece.isOpposingColor(createCoordinate(1, 1))).toBeFalsy();
         expect(piece.isOpposingColor(createCoordinate(2, 2))).toBeFalsy();
