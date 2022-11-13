@@ -24,108 +24,58 @@ beforeEach(() => {
     surroundedOposite = boardBuilder().fromPieceLayoutString(layout.surroundedByOpposite.replace('X', 'WK').replace(/Y/g, 'BP')).build();
 });
 
+function getPossibleCoordiantes(origin, pieces){
+    let possibleCoordinates = [];
+    king.updateCurrentPosition(origin, pieces);
+    king.getPossibleMovements().forEach(p => possibleCoordinates.push(p.getPosition()));
+    return possibleCoordinates;
+}
 describe('Get Possible Moves', () => {
     test('Get Possibles Movements in the Middle Test', () => {
-        let possibleCoordinate = [];
-        king.updateCurrentPosition('d4', middleBoard.getPieces());
-
-        king.getPossibleMovements().forEach(p => possibleCoordinate.push(p.getPosition()));
-
-        expect(possibleCoordinate.includes("d5")).toBeTruthy();
-        expect(possibleCoordinate.includes("d3")).toBeTruthy();
-        expect(possibleCoordinate.includes("e4")).toBeTruthy();
-        expect(possibleCoordinate.includes("c4")).toBeTruthy();
-        expect(possibleCoordinate.includes("e5")).toBeTruthy();
-        expect(possibleCoordinate.includes("c5")).toBeTruthy();
-        expect(possibleCoordinate.includes("e3")).toBeTruthy();
-        expect(possibleCoordinate.includes("c3")).toBeTruthy();
+        let possibleCoordinates = getPossibleCoordiantes('d4', middleBoard.getPieces());
+        let expectedCoordinates = ['d5', 'd3', 'e4', 'c4', 'e5', 'c5', 'e3', 'c3'];
+        expectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeTruthy());
     });
 
     test('Get Possibles Movements in the top Test', () => {
-        let possibleCoordinate = [];
-        king.updateCurrentPosition('b8', topBoard.getPieces());
-
-        king.getPossibleMovements().forEach(p => possibleCoordinate.push(p.getPosition()));
-
-        expect(possibleCoordinate.includes("b9")).toBeFalsy()
-        expect(possibleCoordinate.includes("a9")).toBeFalsy();
-        expect(possibleCoordinate.includes("c9")).toBeFalsy();
-        expect(possibleCoordinate.includes("b7")).toBeTruthy();
-        expect(possibleCoordinate.includes("c8")).toBeTruthy();
-        expect(possibleCoordinate.includes("a8")).toBeTruthy();
-        expect(possibleCoordinate.includes("c7")).toBeTruthy();
-        expect(possibleCoordinate.includes("a7")).toBeTruthy();
+        let possibleCoordinates = getPossibleCoordiantes('b8', topBoard.getPieces());
+        let expectedCoordinates = ['b7', 'c8', 'a8', 'c7', 'a7'];
+        let notExpectedCoordinates = ['b9', 'a9', 'c9'];
+        expectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeTruthy());
+        notExpectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeFalsy());
     });
 
     test('Get Possibles Movements in the botton Test', () => {
-        let possibleCoordinate = [];
-        king.updateCurrentPosition('b1', bottonBoard.getPieces());
-
-        king.getPossibleMovements().forEach(p => possibleCoordinate.push(p.getPosition()));
-
-        expect(possibleCoordinate.includes("b0")).toBeFalsy()
-        expect(possibleCoordinate.includes("a0")).toBeFalsy();
-        expect(possibleCoordinate.includes("c0")).toBeFalsy();
-        expect(possibleCoordinate.includes("b2")).toBeTruthy();
-        expect(possibleCoordinate.includes("a2")).toBeTruthy();
-        expect(possibleCoordinate.includes("c2")).toBeTruthy();
-        expect(possibleCoordinate.includes("a1")).toBeTruthy();
-        expect(possibleCoordinate.includes("c1")).toBeTruthy();
+        let possibleCoordinates = getPossibleCoordiantes('b1', bottonBoard.getPieces());
+        let expectedCoordinates = ['b2', 'a2', 'c2', 'a1', 'c1'];
+        let notExpectedCoordinates = ['b0', 'a0', 'c0'];
+        expectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeTruthy());
+        notExpectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeFalsy());
     });
 
     test('Get Possibles Movements in the right Test', () => {
-        let possibleCoordinate = [];
-        king.updateCurrentPosition('h3', rightBoard.getPieces());
-
-        king.getPossibleMovements().forEach(p => possibleCoordinate.push(p.getPosition()));
-
-        expect(possibleCoordinate.includes("f3")).toBeFalsy()
-        expect(possibleCoordinate.includes("f4")).toBeFalsy();
-        expect(possibleCoordinate.includes("f2")).toBeFalsy();
-        expect(possibleCoordinate.includes("h4")).toBeTruthy();
-        expect(possibleCoordinate.includes("h2")).toBeTruthy();
-        expect(possibleCoordinate.includes("g4")).toBeTruthy();
-        expect(possibleCoordinate.includes("g2")).toBeTruthy();
+        let possibleCoordinates = getPossibleCoordiantes('h3', rightBoard.getPieces());
+        let expectedCoordinates = ['h4', 'h2', 'g4', 'g2'];
+        let notExpectedCoordinates = ['f3', 'f4', 'f2'];
+        expectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeTruthy());
+        notExpectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeFalsy());
     });
 
     test('Get Possibles Movements in the left Test', () => {
-        let possibleCoordinate = [];
-        king.updateCurrentPosition('a3', leftBoard.getPieces());
-
-        king.getPossibleMovements().forEach(p => possibleCoordinate.push(p.getPosition()));
-
-        console.log(possibleCoordinate);
-        expect(possibleCoordinate.includes("a4")).toBeTruthy();
-        expect(possibleCoordinate.includes("a2")).toBeTruthy();
-        expect(possibleCoordinate.includes("b3")).toBeTruthy();
-        expect(possibleCoordinate.includes("b4")).toBeTruthy();
-        expect(possibleCoordinate.includes("b2")).toBeTruthy();
-        expect(possibleCoordinate.includes("a3")).toBeTruthy();
+        let possibleCoordinates = getPossibleCoordiantes('a3', leftBoard.getPieces());
+        let expectedCoordinates = ['a4', 'a2', 'b3', 'b4', 'b2', 'a3'];
+        expectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeTruthy());
     });
 
     test('Get Not Possible Movements: king is surrounded', () => {
-        let possibleCoordinate = [];
-        king.updateCurrentPosition('d2', surroundedBoard.getPieces());
-
-        king.getPossibleMovements().forEach(p => possibleCoordinate.push(p.getPosition()));
-
-        expect(possibleCoordinate.length === 0).toBeTruthy();
+        let possibleCoordinates = getPossibleCoordiantes('d2', surroundedBoard.getPieces());
+        expect(possibleCoordinates.length === 0).toBeTruthy();
     });
 
     test('Get Possible Movements: king is surrounded by oposite', () => {
-        let possibleCoordinate = [];
-        king.updateCurrentPosition('d2', surroundedOposite.getPieces());
-
-        king.getPossibleMovements().forEach(p => possibleCoordinate.push(p.getPosition()));
-
-        expect(possibleCoordinate.includes("d3")).toBeTruthy();
-        expect(possibleCoordinate.includes("d1")).toBeTruthy();
-        expect(possibleCoordinate.includes("e2")).toBeTruthy();
-        expect(possibleCoordinate.includes("c2")).toBeTruthy();
-        expect(possibleCoordinate.includes("e3")).toBeTruthy();
-        expect(possibleCoordinate.includes("c3")).toBeTruthy();
-        expect(possibleCoordinate.includes("e1")).toBeTruthy();
-        expect(possibleCoordinate.includes("c1")).toBeTruthy();
+        let possibleCoordinates = getPossibleCoordiantes('d2', surroundedOposite.getPieces());
+        let expectedCoordinates = ['d3', 'd1', 'e2', 'c2', 'e3', 'c3', 'e1', 'c1'];
+        expectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeTruthy());
     });
 });
 
