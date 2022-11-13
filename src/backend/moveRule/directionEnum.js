@@ -14,7 +14,7 @@ function createDirection(row, column) {
         let newRow = parseInt(originCoordinate.getRow()) + parseInt(row);
         let newColumn = parseInt(originCoordinate.getColumn()) + parseInt(column);
         let newCoordinate = createCoordinate( newRow, newColumn );
-        return newCoordinate.isValid() ? newCoordinate : originCoordinate;
+        return newCoordinate.getPosition() ? newCoordinate : originCoordinate;
     }
 
     return {

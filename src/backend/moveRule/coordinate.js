@@ -1,7 +1,7 @@
 function createCoordinate(rowIndex, columnIndex) {
-
+    let rowTotal = 8;
     let columns = "abcdefgh";
-    let position = columns[columnIndex-1] +''+ rowIndex;
+    let position = initPosition(rowIndex, columnIndex);
 
     function setPosition(newPosition) {
         position = newPosition;
@@ -29,18 +29,18 @@ function createCoordinate(rowIndex, columnIndex) {
         return direction.getNextCoordinate(originCoordinate);
     }
 
-    function isValid() {
-        return (getRow() >= 1 && getRow() <= 8 && getColumn() >= 1 && getColumn() <= 8);
+    function initPosition(row, column){
+        if(row && row > 0 && row <= rowTotal && column && column > 0 && column <= columns.length)
+            return columns[columnIndex-1] + rowIndex;
     }
-
+    
     return {
         setPosition,
         getPosition,
         getColumn,
         getColumnLetter,
         getRow,
-        getNextCoordinate,
-        isValid
+        getNextCoordinate
     }
 }
 
