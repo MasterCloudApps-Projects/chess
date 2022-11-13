@@ -24,12 +24,6 @@ beforeEach(() => {
     surroundedOposite = boardBuilder().fromPieceLayoutString(layout.surroundedByOpposite.replace('X', 'WK').replace(/Y/g, 'BP')).build();
 });
 
-function getPossibleCoordiantes(origin, pieces){
-    let possibleCoordinates = [];
-    king.updateCurrentPosition(origin, pieces);
-    king.getPossibleMovements().forEach(p => possibleCoordinates.push(p.getPosition()));
-    return possibleCoordinates;
-}
 describe('Get Possible Moves', () => {
     test('Get Possibles Movements in the Middle Test', () => {
         let possibleCoordinates = getPossibleCoordiantes('d4', middleBoard.getPieces());
@@ -79,5 +73,73 @@ describe('Get Possible Moves', () => {
     });
 });
 
-//Todo: test pending attack movements, is possible movements
+describe('Is Possible Moves', () => {
 
+    test('Is Possible Moves ', () => {
+        //In the middle
+        expect(king.isPossibleMove('d4', 'c4', middleBoard.getPieces())).toBeTruthy();
+        expect(king.isPossibleMove('d4', 'e5', middleBoard.getPieces())).toBeTruthy();
+
+        //In the top
+        expect(king.isPossibleMove('b8', 'b7', topBoard.getPieces())).toBeTruthy();
+        expect(king.isPossibleMove('b8', 'a8', topBoard.getPieces())).toBeTruthy();
+
+        //In the botton
+        expect(king.isPossibleMove('b1', 'b2', bottonBoard.getPieces())).toBeTruthy();
+        expect(king.isPossibleMove('b1', 'a1', bottonBoard.getPieces())).toBeTruthy();
+
+        //In the right
+        expect(king.isPossibleMove('h3', 'h2', rightBoard.getPieces())).toBeTruthy();
+        expect(king.isPossibleMove('h3', 'g4', rightBoard.getPieces())).toBeTruthy();
+
+        //In the left
+        expect(king.isPossibleMove('a3', 'a2', leftBoard.getPieces())).toBeTruthy();
+        expect(king.isPossibleMove('a3', 'b4', leftBoard.getPieces())).toBeTruthy();
+
+        //In the surrounded by oposite'
+        expect(king.isPossibleMove('d2', 'c2', surroundedOposite.getPieces())).toBeTruthy();
+        expect(king.isPossibleMove('d2', 'e1', surroundedOposite.getPieces())).toBeTruthy();
+    });
+
+    test('Is Not Possible Moves', () => {
+        //In the middle
+        expect(king.isPossibleMove('d4', 'a4', middleBoard.getPieces())).toBeFalsy();
+        expect(king.isPossibleMove('d4', 'g2', middleBoard.getPieces())).toBeFalsy();
+
+        //In the top
+        expect(king.isPossibleMove('b8', 'a9', topBoard.getPieces())).toBeFalsy();
+        expect(king.isPossibleMove('b8', 'c9', topBoard.getPieces())).toBeFalsy();
+
+        //In the botton
+        expect(king.isPossibleMove('b1', 'a0', bottonBoard.getPieces())).toBeFalsy();
+        expect(king.isPossibleMove('b1', 'b0', bottonBoard.getPieces())).toBeFalsy();
+
+        //In the right
+        expect(king.isPossibleMove('h3', 'f4', rightBoard.getPieces())).toBeFalsy();
+        expect(king.isPossibleMove('h3', 'f2', rightBoard.getPieces())).toBeFalsy();
+
+        //In the left
+        expect(king.isPossibleMove('a3', 'c3', leftBoard.getPieces())).toBeFalsy();
+        expect(king.isPossibleMove('a3', 'd4', leftBoard.getPieces())).toBeFalsy();
+    });
+});
+
+describe('Get Attack Movements', () => {
+    test('Get Attack Movements Test', () => {
+        let moves = king.getAttackMovements('d2', surroundedOposite.getPieces());
+        expect(moves.includes("d3")).toBeTruthy();
+        expect(moves.includes("c3")).toBeTruthy();
+    });
+
+    test('Get Not Attack Movements Test', () => {
+        let moves = king.getAttackMovements('d2', surroundedBoard.getPieces());
+        expect(moves).toStrictEqual([]);
+    });
+});
+
+function getPossibleCoordiantes(origin, pieces){
+    let possibleCoordinates = [];
+    king.updateCurrentPosition(origin, pieces);
+    king.getPossibleMovements().forEach(p => possibleCoordinates.push(p.getPosition()));
+    return possibleCoordinates;
+}
