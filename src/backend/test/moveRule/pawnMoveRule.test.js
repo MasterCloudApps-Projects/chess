@@ -1,6 +1,7 @@
 import { getPawnMoveRule }  from '../../moveRule/pawnMoveRule';
 import { boardBuilder } from '../../main/boardBuilder.js';
 import { layout } from './utils/layoutBoard.js'
+import { getPossibleCoordiantes } from './utils/move.js'
 
 let pawnWhite;
 let pawnBlack;
@@ -29,62 +30,36 @@ beforeEach(() => {
 
 describe('Get Possible Moves', () => {
     test('Get Forward Possible Movements for White Test', () => {
-        let possibleCoordinate = [];
-        pawnWhite.updateCurrentPosition('b1', bottonWhiteBoard.getPieces());
-
-        pawnWhite.getPossibleMovements().forEach(p => possibleCoordinate.push(p.getPosition()));
-
+        let possibleCoordinate = getPossibleCoordiantes('b1', bottonWhiteBoard.getPieces(), pawnWhite);
         expect(possibleCoordinate.includes("b2")).toBeTruthy();
         expect(possibleCoordinate.includes("b3")).toBeTruthy();
     });
 
     test('Get Forward Possible Movements for Black Test', () => {
-        let possibleCoordinate = [];
-        pawnBlack.updateCurrentPosition('b8', topBlackBoard.getPieces());
-
-        pawnBlack.getPossibleMovements().forEach(p => possibleCoordinate.push(p.getPosition()));
-
+        let possibleCoordinate = getPossibleCoordiantes('b8', topBlackBoard.getPieces(), pawnBlack);
         expect(possibleCoordinate.includes("b7")).toBeTruthy();
         expect(possibleCoordinate.includes("b6")).toBeTruthy();
     });
 
     test('Get Forward Not Possible: white is at the end', () => {
-        let possibleCoordinate = [];
-        pawnWhite.updateCurrentPosition('b8', topWhiteBoard.getPieces());
-
-        pawnWhite.getPossibleMovements().forEach(p => possibleCoordinate.push(p.getPosition()));
-
+        let possibleCoordinate = getPossibleCoordiantes('b8', topWhiteBoard.getPieces(), pawnWhite);
         expect(possibleCoordinate.length === 0).toBeTruthy();
     });
 
     test('Get Forward Not Possible: black is at the end', () => {
-        let possibleCoordinate = [];
-        pawnBlack.updateCurrentPosition('b1', bottonBlackBoard.getPieces());
-
-        pawnBlack.getPossibleMovements().forEach(p => possibleCoordinate.push(p.getPosition()));
-
+        let possibleCoordinate = getPossibleCoordiantes('b1', bottonBlackBoard.getPieces(), pawnBlack);
         expect(possibleCoordinate.length === 0).toBeTruthy()
     });
 
     test('Get Forward Not Possible: pawn is surrounded', () => {
-        let possibleCoordinateWhite = [];
-        let possibleCoordinateBlack = [];
-        pawnWhite.updateCurrentPosition('d2', surroundedWhiteBoard.getPieces());
-        pawnBlack.updateCurrentPosition('d2', surroundedBlackBoard.getPieces());
-
-        pawnWhite.getPossibleMovements().forEach(p => possibleCoordinateWhite.push(p.getPosition()));
-        pawnBlack.getPossibleMovements().forEach(p => possibleCoordinateBlack.push(p.getPosition()));
-
+        let possibleCoordinateWhite = getPossibleCoordiantes('d2', surroundedWhiteBoard.getPieces(), pawnWhite);
+        let possibleCoordinateBlack = getPossibleCoordiantes('d2', surroundedBlackBoard.getPieces(), pawnBlack);
         expect(possibleCoordinateWhite.length === 0).toBeTruthy();
         expect(possibleCoordinateBlack.length === 0).toBeTruthy();
     });
 
     test('Get Forward Possible Eating Movements for White Test', () => {
-        let possibleCoordinate = [];
-        pawnWhite.updateCurrentPosition('d2', surroundedOpositeWhiteBoard.getPieces());
-
-        pawnWhite.getPossibleMovements().forEach(p => possibleCoordinate.push(p.getPosition()));
-
+        let possibleCoordinate = getPossibleCoordiantes('d2', surroundedOpositeWhiteBoard.getPieces(), pawnWhite);
         expect(possibleCoordinate.includes("e3")).toBeTruthy();
         expect(possibleCoordinate.includes("c3")).toBeTruthy();
         expect(possibleCoordinate.includes("c1")).toBeFalsy();
@@ -92,11 +67,7 @@ describe('Get Possible Moves', () => {
     });
 
     test('Get Forward Possible Eating Movements for Black Test', () => {
-        let possibleCoordinate = [];
-        pawnBlack.updateCurrentPosition('d2', surroundedOpositeBlackBoard.getPieces());
-
-        pawnBlack.getPossibleMovements().forEach(p => possibleCoordinate.push(p.getPosition()));
-
+        let possibleCoordinate = getPossibleCoordiantes('d2', surroundedOpositeBlackBoard.getPieces(), pawnBlack);
         expect(possibleCoordinate.includes("c1")).toBeTruthy();
         expect(possibleCoordinate.includes("e1")).toBeTruthy();
         expect(possibleCoordinate.includes("e3")).toBeFalsy();
