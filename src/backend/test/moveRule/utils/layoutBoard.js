@@ -55,19 +55,19 @@ _-_-_-_-_-_-_-_
 _-_-_-_-_-_-_-_
 _-_-_-_-_-_-_-_
 _-_-_-_-_-_-_-_
-_-_-X-X-X-_-_-_
-_-_-X-X-X-_-_-_
-_-_-X-X-X-_-_-_`;
-
-let surroundedByOpposite = `
-_-_-_-_-_-_-_-_
-_-_-_-_-_-_-_-_
-_-_-_-_-_-_-_-_
-_-_-_-_-_-_-_-_
-_-_-_-_-_-_-_-_
 _-_-Y-Y-Y-_-_-_
 _-_-Y-X-Y-_-_-_
 _-_-Y-Y-Y-_-_-_`;
+
+let circle = `
+_-_-_-_-_-_-_-_
+_-_-_-_-_-_-_-_
+_-_-Y-_-Y-_-_-_
+_-Y-_-_-_-Y-_-_
+_-_-_-X-_-_-_-_
+_-Y-_-_-_-Y-_-_
+_-_-Y-_-Y-_-_-_
+_-_-_-_-_-_-_-_`;
 
 const layout = {
     botton: botton,
@@ -76,7 +76,7 @@ const layout = {
     left: left,
     middle: middle,
     surrounded: surrounded,
-    surroundedByOpposite: surroundedByOpposite
+    circle: circle
 }
 
 export {

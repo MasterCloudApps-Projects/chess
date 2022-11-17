@@ -19,7 +19,7 @@ let bottonBoard;
 let rightBoard;
 let leftBoard;
 let surroundedBoard;
-let surroundedOposite;
+let surroundedEnemiesBoard;
 
 beforeEach(() => {
     lineNorth = createStraightLineMoveRule([DirectionEnum.NORTH]);
@@ -36,13 +36,12 @@ beforeEach(() => {
     bottonBoard = boardBuilder().fromPieceLayoutString(layout.botton.replace('X', 'WQ')).build();
     rightBoard = boardBuilder().fromPieceLayoutString(layout.top.replace('X', 'WQ')).build();
     leftBoard = boardBuilder().fromPieceLayoutString(layout.botton.replace('X', 'WQ')).build();
-    surroundedBoard = boardBuilder().fromPieceLayoutString(layout.surrounded.replace(/X/g, 'WQ')).build()
-    surroundedOposite = boardBuilder().fromPieceLayoutString(layout.surroundedByOpposite.replace('X', 'WQ').replace(/Y/g, 'BP')).build();
+    surroundedBoard = boardBuilder().fromPieceLayoutString(layout.surrounded.replace('X', 'WQ').replace(/Y/g, 'WP')).build();
+    surroundedEnemiesBoard = boardBuilder().fromPieceLayoutString(layout.surrounded.replace('X', 'WQ').replace(/Y/g, 'BP')).build();
 });
 
-describe('Get Possible Moves for Line North', () => {
-
-    test('Get Possibles Movements in the Middle Test', () => {
+describe('Get Possible moves for line north', () => {
+    test('Possible movements located in the middle test', () => {
         let possibleCoordinates = getPossibleCoordiantes('d4', middleBoard.getPieces(), lineNorth);
         let expectedCoordinates =  [ 'd5', 'd6', 'd7', 'd8' ];
         expectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeTruthy());
@@ -50,12 +49,12 @@ describe('Get Possible Moves for Line North', () => {
         notExpectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeFalsy());
     });
 
-    test('Get Possibles Movements in the Top Test', () => {
+    test('Possible movements located in the top test', () => {
         let possibleCoordinates = getPossibleCoordiantes('b8', topBoard.getPieces(), lineNorth);
         expect(possibleCoordinates.length === 0).toBeTruthy();
     });
 
-    test('Get Possibles Movements in the Botton Test', () => {
+    test('Possible movements located in the botton test', () => {
         let possibleCoordinates = getPossibleCoordiantes('b1', bottonBoard.getPieces(), lineNorth);
         let expectedCoordinates = ['b2', 'b3', 'b4', 'b5', 'b6', 'b7', 'b8'];
         let notExpectedCoordinates = ['c2', 'a2', 'c1', 'a1', 'd1'];
@@ -63,22 +62,21 @@ describe('Get Possible Moves for Line North', () => {
         notExpectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeFalsy());
     });
 
-    test('Get Not Possible Movements: piece is surrounded', () => {
+    test('Not Possible movements: piece is surrounded test', () => {
         let possibleCoordinates = getPossibleCoordiantes('d2', surroundedBoard.getPieces(), lineNorth);
         expect(possibleCoordinates.length === 0).toBeTruthy();
     });
 
-    test('Get Possible Movements: piece is surrounded by oposite', () => {
-        let possibleCoordinates = getPossibleCoordiantes('d2', surroundedOposite.getPieces(), lineNorth);
+    test('Possible movements: piece is surrounded by enemies test', () => {
+        let possibleCoordinates = getPossibleCoordiantes('d2', surroundedEnemiesBoard.getPieces(), lineNorth);
         let notExpectedCoordinates = ['c2', 'e2', 'c1', 'a1', 'c3', 'a3'];
         expect(possibleCoordinates.includes('d3')).toBeTruthy();
         notExpectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeFalsy());
     });
 });
 
-describe('Get Possible Moves for Line South', () => {
-
-    test('Get Possibles Movements in the Middle Test', () => {
+describe('Get Possible moves for line south', () => {
+    test('Possible movements located in the middle test', () => {
         let possibleCoordinates = getPossibleCoordiantes('d4', middleBoard.getPieces(), lineSouth);
         let expectedCoordinates =  [ 'd3', 'd2'];
         expectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeTruthy());
@@ -86,7 +84,7 @@ describe('Get Possible Moves for Line South', () => {
         notExpectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeFalsy());
     });
 
-    test('Get Possibles Movements in the Top Test', () => {
+    test('Possible movements located in the top test', () => {
         let possibleCoordinates = getPossibleCoordiantes('b8', topBoard.getPieces(), lineSouth);
         let expectedCoordinates = ['b7', 'b6', 'b5', 'b4', 'b3', 'b2', 'b1'];
         let notExpectedCoordinates = ['c8', 'a8', 'c7', 'a7'];
@@ -94,27 +92,26 @@ describe('Get Possible Moves for Line South', () => {
         notExpectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeFalsy());
     });
 
-    test('Get Possibles Movements in the Botton Test', () => {
+    test('Possible movements located in the botton test', () => {
         let possibleCoordinates = getPossibleCoordiantes('b1', bottonBoard.getPieces(), lineSouth);
         expect(possibleCoordinates.length === 0).toBeTruthy();
     });
 
-    test('Get Not Possible Movements: piece is surrounded', () => {
+    test('Not Possible movements: piece is surrounded test', () => {
         let possibleCoordinates = getPossibleCoordiantes('d2', surroundedBoard.getPieces(), lineSouth);
         expect(possibleCoordinates.length === 0).toBeTruthy();
     });
 
-    test('Get Possible Movements: piece is surrounded by oposite', () => {
-        let possibleCoordinates = getPossibleCoordiantes('d2', surroundedOposite.getPieces(), lineSouth);
+    test('Possible movements: piece is surrounded by enemies test', () => {
+        let possibleCoordinates = getPossibleCoordiantes('d2', surroundedEnemiesBoard.getPieces(), lineSouth);
         let notExpectedCoordinates = ['c2', 'e2', 'c1', 'a1', 'c3', 'a3', 'd3'];
         expect(possibleCoordinates.includes('d1')).toBeTruthy();
         notExpectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeFalsy());
     });
 });
 
-describe('Get Possible Moves for Line East', () => {
-
-    test('Get Possibles Movements in the Middle Test', () => {
+describe('Get Possible moves for line east', () => {
+    test('Possible movements located in the middle test', () => {
         let possibleCoordinates = getPossibleCoordiantes('d4', middleBoard.getPieces(), lineEast);
         let expectedCoordinates =  [ 'e4', 'f4', 'g4', 'h4' ];
         expectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeTruthy());
@@ -122,12 +119,12 @@ describe('Get Possible Moves for Line East', () => {
         notExpectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeFalsy());
     });
 
-    test('Get Possibles Movements in the Right Test', () => {
+    test('Possibles movements located in the right test', () => {
         let possibleCoordinates = getPossibleCoordiantes('h3', rightBoard.getPieces(), lineEast);
         expect(possibleCoordinates.length === 0).toBeTruthy();
     });
 
-    test('Get Possibles Movements in the Left Test', () => {
+    test('Possibles movements located in the left test', () => {
         let possibleCoordinates = getPossibleCoordiantes('a3', leftBoard.getPieces(), lineEast);
         let expectedCoordinates = ['b3', 'c3', 'd3', 'e3', 'f3', 'g3', 'h3'];
         let notExpectedCoordinates = ['a4', 'a2'];
@@ -135,22 +132,21 @@ describe('Get Possible Moves for Line East', () => {
         notExpectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeFalsy());
     });
 
-    test('Get Not Possible Movements: piece is surrounded', () => {
+    test('Not Possible movements: piece is surrounded test', () => {
         let possibleCoordinates = getPossibleCoordiantes('d2', surroundedBoard.getPieces(), lineEast);
         expect(possibleCoordinates.length === 0).toBeTruthy();
     });
 
-    test('Get Possible Movements: piece is surrounded by oposite', () => {
-        let possibleCoordinates = getPossibleCoordiantes('d2', surroundedOposite.getPieces(), lineEast);
+    test('Possible movements: piece is surrounded by enemies test', () => {
+        let possibleCoordinates = getPossibleCoordiantes('d2', surroundedEnemiesBoard.getPieces(), lineEast);
         let notExpectedCoordinates = ['d1', 'd3', 'c2', 'c3', 'c1', 'e1', 'e3'];
         expect(possibleCoordinates.includes('e2')).toBeTruthy();
         notExpectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeFalsy());
     });
 });
 
-describe('Get Possible Moves for Line Weat', () => {
-
-    test('Get Possibles Movements in the Middle Test', () => {
+describe('Get Possible moves for line west', () => {
+    test('Possible movements located in the middle test', () => {
         let possibleCoordinates = getPossibleCoordiantes('d4', middleBoard.getPieces(), lineWeast);
         let expectedCoordinates =  [ 'c4', 'b4', 'a4', ];
         expectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeTruthy());
@@ -158,8 +154,7 @@ describe('Get Possible Moves for Line Weat', () => {
         notExpectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeFalsy());
     });
 
-
-    test('Get Possibles Movements in the Right Test', () => {
+    test('Possibles movements located in the right test', () => {
         let possibleCoordinates = getPossibleCoordiantes('h3', rightBoard.getPieces(), lineWeast);
         let expectedCoordinates = ['a3', 'b3', 'c3', 'd3', 'e3', 'f3', 'g3'];
         let notExpectedCoordinates = ['h2', 'h1'];
@@ -167,28 +162,26 @@ describe('Get Possible Moves for Line Weat', () => {
         notExpectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeFalsy());
     });
 
-    test('Get Possibles Movements in the Left Test', () => {
+    test('Possibles movements located in the left test', () => {
         let possibleCoordinates = getPossibleCoordiantes('a3', leftBoard.getPieces(), lineWeast);
         expect(possibleCoordinates.length === 0).toBeTruthy();
     });
 
-    test('Get Not Possible Movements: piece is surrounded', () => {
+    test('Not Possible movements: piece is surrounded test', () => {
         let possibleCoordinates = getPossibleCoordiantes('d2', surroundedBoard.getPieces(), lineWeast);
         expect(possibleCoordinates.length === 0).toBeTruthy();
     });
 
-    test('Get Possible Movements: piece is surrounded by oposite', () => {
-        let possibleCoordinates = getPossibleCoordiantes('d2', surroundedOposite.getPieces(), lineWeast);
+    test('Possible movements: piece is surrounded by enemies test', () => {
+        let possibleCoordinates = getPossibleCoordiantes('d2', surroundedEnemiesBoard.getPieces(), lineWeast);
         let notExpectedCoordinates = ['d1', 'd3', 'e2', 'c3', 'c1', 'e1', 'e3'];
         expect(possibleCoordinates.includes('c2')).toBeTruthy();
         notExpectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeFalsy());
     });
-
 });
 
-describe('Get Possible Moves for Line Northeast', () => {
-
-    test('Get Possibles Movements in the Middle Test', () => {
+describe('Get Possible moves for line northeast', () => {
+    test('Possible movements located in the middle test', () => {
         let possibleCoordinates = getPossibleCoordiantes('d4', middleBoard.getPieces(), lineNortheast);
         let expectedCoordinates =  [ 'e5', 'f6', 'g7', 'h8' ];
         expectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeTruthy());
@@ -196,12 +189,12 @@ describe('Get Possible Moves for Line Northeast', () => {
         notExpectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeFalsy());
     });
 
-    test('Get Possibles Movements in the Top Test', () => {
+    test('Possible movements located in the top test', () => {
         let possibleCoordinates = getPossibleCoordiantes('b8', topBoard.getPieces(), lineNortheast);
         expect(possibleCoordinates.length === 0).toBeTruthy();
     });
 
-    test('Get Possibles Movements in the Botton Test', () => {
+    test('Possible movements located in the botton test', () => {
         let possibleCoordinates = getPossibleCoordiantes('b1', bottonBoard.getPieces(), lineNortheast);
         let expectedCoordinates = [ 'c2', 'd3', 'e4', 'f5', 'g6', 'h7' ];
         let notExpectedCoordinates = ['a1', 'c1', 'a2', 'b2'];
@@ -209,12 +202,12 @@ describe('Get Possible Moves for Line Northeast', () => {
         notExpectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeFalsy());
     });
 
-    test('Get Possibles Movements in the Right Test', () => {
+    test('Possibles movements located in the right test', () => {
         let possibleCoordinates = getPossibleCoordiantes('h3', rightBoard.getPieces(), lineNortheast);
         expect(possibleCoordinates.length === 0).toBeTruthy();
     });
 
-    test('Get Possibles Movements in the Left Test', () => {
+    test('Possibles movements located in the left test', () => {
         let possibleCoordinates = getPossibleCoordiantes('a3', leftBoard.getPieces(), lineNortheast);
         let expectedCoordinates =  [ 'b4', 'c5', 'd6', 'e7', 'f8' ];
         let notExpectedCoordinates = ['a4', 'a2', 'b3'];
@@ -222,22 +215,21 @@ describe('Get Possible Moves for Line Northeast', () => {
         notExpectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeFalsy());
     });
 
-    test('Get Not Possible Movements: piece is surrounded', () => {
+    test('Not Possible movements: piece is surrounded test', () => {
         let possibleCoordinates = getPossibleCoordiantes('d2', surroundedBoard.getPieces(), lineNortheast);
         expect(possibleCoordinates.length === 0).toBeTruthy();
     });
 
-    test('Get Possible Movements: piece is surrounded by oposite', () => {
-        let possibleCoordinates = getPossibleCoordiantes('d2', surroundedOposite.getPieces(), lineNortheast);
+    test('Possible movements: piece is surrounded by enemies test', () => {
+        let possibleCoordinates = getPossibleCoordiantes('d2', surroundedEnemiesBoard.getPieces(), lineNortheast);
         let notExpectedCoordinates = ['c2', 'e2', 'c1', 'a1', 'c3', 'a3', 'd3'];
         expect(possibleCoordinates.includes('e3')).toBeTruthy();
         notExpectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeFalsy());
     });
 });
 
-describe('Get Possible Moves for Line Northwest', () => {
-
-    test('Get Possibles Movements in the Middle Test', () => {
+describe('Get Possible moves for line northwest', () => {
+    test('Possible movements located in the middle test', () => {
         let possibleCoordinates = getPossibleCoordiantes('d4', middleBoard.getPieces(), lineNorthwest);
         let expectedCoordinates = [ 'c5', 'b6', 'a7' ];
         expectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeTruthy());
@@ -245,12 +237,12 @@ describe('Get Possible Moves for Line Northwest', () => {
         notExpectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeFalsy());
     });
 
-    test('Get Possibles Movements in the Top Test', () => {
+    test('Possible movements located in the top test', () => {
         let possibleCoordinates = getPossibleCoordiantes('b8', topBoard.getPieces(), lineNorthwest);
         expect(possibleCoordinates.length === 0).toBeTruthy();
     });
 
-    test('Get Possibles Movements in the Botton Test', () => {
+    test('Possible movements located in the botton test', () => {
         let possibleCoordinates = getPossibleCoordiantes('b1', bottonBoard.getPieces(), lineNorthwest);
         let expectedCoordinates = ['a2'];
         let notExpectedCoordinates = ['a1', 'c1', 'b2', 'c2'];
@@ -258,7 +250,7 @@ describe('Get Possible Moves for Line Northwest', () => {
         notExpectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeFalsy());
     });
 
-    test('Get Possibles Movements in the Right Test', () => {
+    test('Possibles movements located in the right test', () => {
         let possibleCoordinates = getPossibleCoordiantes('h3', rightBoard.getPieces(), lineNorthwest);
         let expectedCoordinates =  [ 'g4', 'f5', 'e6', 'd7', 'c8' ];
         let notExpectedCoordinates = ['a4', 'a2', 'b3', 'b4'];
@@ -266,27 +258,26 @@ describe('Get Possible Moves for Line Northwest', () => {
         notExpectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeFalsy());
     });
 
-    test('Get Possibles Movements in the Left Test', () => {
+    test('Possibles movements located in the left test', () => {
         let possibleCoordinates = getPossibleCoordiantes('a3', leftBoard.getPieces(), lineNorthwest);
         expect(possibleCoordinates.length === 0).toBeTruthy();
     });
 
-    test('Get Not Possible Movements: piece is surrounded', () => {
+    test('Not Possible movements: piece is surrounded test', () => {
         let possibleCoordinates = getPossibleCoordiantes('d2', surroundedBoard.getPieces(), lineNorthwest);
         expect(possibleCoordinates.length === 0).toBeTruthy();
     });
 
-    test('Get Possible Movements: piece is surrounded by oposite', () => {
-        let possibleCoordinates = getPossibleCoordiantes('d2', surroundedOposite.getPieces(), lineNorthwest);
+    test('Possible movements: piece is surrounded by enemies test', () => {
+        let possibleCoordinates = getPossibleCoordiantes('d2', surroundedEnemiesBoard.getPieces(), lineNorthwest);
         let notExpectedCoordinates = ['c2', 'e2', 'c1', 'a1', 'e3', 'a3', 'd3'];
         expect(possibleCoordinates.includes('c3')).toBeTruthy();
         notExpectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeFalsy());
     });
 });
 
-describe('Get Possible Moves for Line Southeast', () => {
-
-    test('Get Possibles Movements in the Middle Test', () => {
+describe('Get Possible moves for line southeast', () => {
+    test('Possible movements located in the middle test', () => {
         let possibleCoordinates = getPossibleCoordiantes('d4', middleBoard.getPieces(), lineSoutheast);
         let expectedCoordinates = [ 'e3', 'f2', 'g1' ];
         expectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeTruthy());
@@ -294,7 +285,7 @@ describe('Get Possible Moves for Line Southeast', () => {
         notExpectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeFalsy());
     });
 
-    test('Get Possibles Movements in the Top Test', () => {
+    test('Possible movements located in the top test', () => {
         let possibleCoordinates = getPossibleCoordiantes('b8', topBoard.getPieces(), lineSoutheast);
         let expectedCoordinates = [ 'c7', 'd6', 'e5', 'f4', 'g3', 'h2' ];
         let notExpectedCoordinates = ['a1', 'c1', 'a2', 'b2', 'c2'];
@@ -302,17 +293,17 @@ describe('Get Possible Moves for Line Southeast', () => {
         notExpectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeFalsy());
     });
 
-    test('Get Possibles Movements in the Botton Test', () => {
+    test('Possible movements located in the botton test', () => {
         let possibleCoordinates = getPossibleCoordiantes('b1', bottonBoard.getPieces(), lineSoutheast);
         expect(possibleCoordinates.length === 0).toBeTruthy();
     });
 
-    test('Get Possibles Movements in the Right Test', () => {
+    test('Possibles movements located in the right test', () => {
         let possibleCoordinates = getPossibleCoordiantes('h3', rightBoard.getPieces(), lineSoutheast);
         expect(possibleCoordinates.length === 0).toBeTruthy();
     });
 
-    test('Get Possibles Movements in the Left Test', () => {
+    test('Possibles movements located in the left test', () => {
         let possibleCoordinates = getPossibleCoordiantes('a3', leftBoard.getPieces(), lineSoutheast);
         let expectedCoordinates =  [ 'b2', 'c1'];
         let notExpectedCoordinates = ['a4', 'a2', 'b3', 'b4'];
@@ -320,22 +311,21 @@ describe('Get Possible Moves for Line Southeast', () => {
         notExpectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeFalsy());
     });
 
-    test('Get Not Possible Movements: piece is surrounded', () => {
+    test('Not Possible movements: piece is surrounded test', () => {
         let possibleCoordinates = getPossibleCoordiantes('d2', surroundedBoard.getPieces(), lineSoutheast);
         expect(possibleCoordinates.length === 0).toBeTruthy();
     });
 
-    test('Get Possible Movements: piece is surrounded by oposite', () => {
-        let possibleCoordinates = getPossibleCoordiantes('d2', surroundedOposite.getPieces(), lineSoutheast);
+    test('Possible movements: piece is surrounded by enemies test', () => {
+        let possibleCoordinates = getPossibleCoordiantes('d2', surroundedEnemiesBoard.getPieces(), lineSoutheast);
         let notExpectedCoordinates = ['c2', 'e2', 'c1', 'a1', 'c3', 'a3', 'd3', 'e3'];
         expect(possibleCoordinates.includes('e1')).toBeTruthy();
         notExpectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeFalsy());
     });
 });
 
-describe('Get Possible Moves for Line Southwest', () => {
-
-    test('Get Possibles Movements in the Middle Test', () => {
+describe('Get Possible moves for line southwest', () => {
+    test('Possible movements located in the middle test', () => {
         let possibleCoordinates = getPossibleCoordiantes('d4', middleBoard.getPieces(), lineSouthwest);
         let expectedCoordinates = [ 'c3', 'b2', 'a1' ];
         expectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeTruthy());
@@ -343,7 +333,7 @@ describe('Get Possible Moves for Line Southwest', () => {
         notExpectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeFalsy());
     });
 
-    test('Get Possibles Movements in the Top Test', () => {
+    test('Possible movements located in the top test', () => {
         let possibleCoordinates = getPossibleCoordiantes('b8', topBoard.getPieces(), lineSouthwest);
         let expectedCoordinates = [ 'a7' ];
         let notExpectedCoordinates = ['a1', 'c1', 'a2', 'b2', 'c2', 'c7'];
@@ -351,12 +341,12 @@ describe('Get Possible Moves for Line Southwest', () => {
         notExpectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeFalsy());
     });
 
-    test('Get Possibles Movements in the Botton Test', () => {
+    test('Possible movements located in the botton test', () => {
         let possibleCoordinates = getPossibleCoordiantes('b1', bottonBoard.getPieces(), lineSouthwest);
         expect(possibleCoordinates.length === 0).toBeTruthy();
     });
 
-    test('Get Possibles Movements in the Right Test', () => {
+    test('Possibles movements located in the right test', () => {
         let possibleCoordinates = getPossibleCoordiantes('h3', rightBoard.getPieces(), lineSouthwest);
         let expectedCoordinates = [ 'g2', 'f1' ];
         let notExpectedCoordinates = ['a4', 'a2', 'b3', 'b4'];
@@ -364,27 +354,26 @@ describe('Get Possible Moves for Line Southwest', () => {
         notExpectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeFalsy());
     });
 
-    test('Get Possibles Movements in the Left Test', () => {
+    test('Possibles movements located in the left test', () => {
         let possibleCoordinates = getPossibleCoordiantes('a3', rightBoard.getPieces(), lineSouthwest);
         expect(possibleCoordinates.length === 0).toBeTruthy();
     });
 
-    test('Get Not Possible Movements: piece is surrounded', () => {
+    test('Not Possible movements: piece is surrounded test', () => {
         let possibleCoordinates = getPossibleCoordiantes('d2', surroundedBoard.getPieces(), lineSouthwest);
         expect(possibleCoordinates.length === 0).toBeTruthy();
     });
 
-    test('Get Possible Movements: piece is surrounded by oposite', () => {
-        let possibleCoordinates = getPossibleCoordiantes('d2', surroundedOposite.getPieces(), lineSouthwest);
+    test('Possible movements: piece is surrounded by enemies test', () => {
+        let possibleCoordinates = getPossibleCoordiantes('d2', surroundedEnemiesBoard.getPieces(), lineSouthwest);
         let notExpectedCoordinates = ['c2', 'e2', 'c3', 'a1', 'e3', 'a3', 'd3'];
         expect(possibleCoordinates.includes('c1')).toBeTruthy();
         notExpectedCoordinates.forEach(c => expect(possibleCoordinates.includes(c)).toBeFalsy());
     });
 });
 
-describe('Is Possible Moves North', () => {
-
-    test('Is Possible Moves ', () => {
+describe('Possible moves north', () => {
+    test('Is possible moves test', () => {
         //In the middle
         expect(lineNorth.isPossibleMove('d4', 'd6', middleBoard.getPieces())).toBeTruthy();
         expect(lineNorth.isPossibleMove('d4', 'd5', middleBoard.getPieces())).toBeTruthy();
@@ -394,10 +383,10 @@ describe('Is Possible Moves North', () => {
         expect(lineNorth.isPossibleMove('b1', 'b8', bottonBoard.getPieces())).toBeTruthy();
 
         //In the surrounded by oposite'
-        expect(lineNorth.isPossibleMove('d2', 'd3', surroundedOposite.getPieces())).toBeTruthy();
+        expect(lineNorth.isPossibleMove('d2', 'd3', surroundedEnemiesBoard.getPieces())).toBeTruthy();
     });
 
-    test('Is Not Possible Moves', () => {
+    test('Is not possible moves test', () => {
         //In the middle
         expect(lineNorth.isPossibleMove('d4', 'd3', middleBoard.getPieces())).toBeFalsy();
         expect(lineNorth.isPossibleMove('d4', 'd2', middleBoard.getPieces())).toBeFalsy();
@@ -419,9 +408,8 @@ describe('Is Possible Moves North', () => {
     });
 });
 
-describe('Is Possible Moves South', () => {
-
-    test('Is Possible Moves ', () => {
+describe('Possible moves south', () => {
+    test('Is possible moves test', () => {
         //In the middle
         expect(lineSouth.isPossibleMove('d4', 'd3', middleBoard.getPieces())).toBeTruthy();
         expect(lineSouth.isPossibleMove('d4', 'd2', middleBoard.getPieces())).toBeTruthy();
@@ -431,10 +419,10 @@ describe('Is Possible Moves South', () => {
         expect(lineSouth.isPossibleMove('b8', 'b1', topBoard.getPieces())).toBeTruthy();
 
         //In the surrounded by oposite'
-        expect(lineSouth.isPossibleMove('d2', 'd1', surroundedOposite.getPieces())).toBeTruthy();
+        expect(lineSouth.isPossibleMove('d2', 'd1', surroundedEnemiesBoard.getPieces())).toBeTruthy();
     });
 
-    test('Is Not Possible Moves', () => {
+    test('Is not possible moves test', () => {
         //In the middle
         expect(lineSouth.isPossibleMove('d4', 'd5', middleBoard.getPieces())).toBeFalsy();
         expect(lineSouth.isPossibleMove('d4', 'd8', middleBoard.getPieces())).toBeFalsy();
@@ -455,9 +443,8 @@ describe('Is Possible Moves South', () => {
     });
 });
 
-describe('Is Possible Moves East', () => {
-
-    test('Is Possible Moves ', () => {
+describe('Possible moves east', () => {
+    test('Is possible moves test', () => {
         //In the middle
         expect(lineEast.isPossibleMove('d4', 'e4', middleBoard.getPieces())).toBeTruthy();
         expect(lineEast.isPossibleMove('d4', 'h4', middleBoard.getPieces())).toBeTruthy();
@@ -467,10 +454,10 @@ describe('Is Possible Moves East', () => {
         expect(lineEast.isPossibleMove('a3', 'g3', leftBoard.getPieces())).toBeTruthy();
 
         //In the surrounded by oposite'
-        expect(lineEast.isPossibleMove('d2', 'e2', surroundedOposite.getPieces())).toBeTruthy();
+        expect(lineEast.isPossibleMove('d2', 'e2', surroundedEnemiesBoard.getPieces())).toBeTruthy();
     });
 
-        test('Is Not Possible Moves', () => {
+    test('Is not possible moves test', () => {
         //In the middle
         expect(lineEast.isPossibleMove('d4', 'a4', middleBoard.getPieces())).toBeFalsy();
         expect(lineEast.isPossibleMove('d4', 'c4', middleBoard.getPieces())).toBeFalsy();
@@ -481,12 +468,10 @@ describe('Is Possible Moves East', () => {
         //In the surrounded
         expect(lineEast.isPossibleMove('d2', 'e2', surroundedBoard.getPieces())).toBeFalsy();
     });
-
 });
 
-describe('Is Possible Moves West', () => {
-
-    test('Is Possible Moves ', () => {
+describe('Possible moves west', () => {
+    test('Is possible moves test', () => {
         //In the middle
         expect(lineWeast.isPossibleMove('d4', 'c4', middleBoard.getPieces())).toBeTruthy();
         expect(lineWeast.isPossibleMove('d4', 'a4', middleBoard.getPieces())).toBeTruthy();
@@ -496,10 +481,10 @@ describe('Is Possible Moves West', () => {
         expect(lineWeast.isPossibleMove('h3', 'g3', rightBoard.getPieces())).toBeTruthy();
 
         //In the surrounded by oposite'
-        expect(lineWeast.isPossibleMove('d2', 'c2', surroundedOposite.getPieces())).toBeTruthy();
+        expect(lineWeast.isPossibleMove('d2', 'c2', surroundedEnemiesBoard.getPieces())).toBeTruthy();
     });
 
-    test('Is Not Possible Moves', () => {
+    test('Is not possible moves test', () => {
         //In the middle
         expect(lineWeast.isPossibleMove('d4', 'e4', middleBoard.getPieces())).toBeFalsy();
         expect(lineWeast.isPossibleMove('d4', 'h4', middleBoard.getPieces())).toBeFalsy();
@@ -510,12 +495,10 @@ describe('Is Possible Moves West', () => {
         //In the surrounded
         expect(lineWeast.isPossibleMove('d2', 'c2', surroundedBoard.getPieces())).toBeFalsy();
     });
-
 });
 
-describe('Is Possible Moves Northeast', () => {
-
-    test('Is Possible Moves ', () => {
+describe('Possible moves northeast', () => {
+    test('Is possible moves test', () => {
         //In the middle
         expect(lineNortheast.isPossibleMove('d4', 'e5', middleBoard.getPieces())).toBeTruthy();
         expect(lineNortheast.isPossibleMove('d4', 'h8', middleBoard.getPieces())).toBeTruthy();
@@ -529,10 +512,10 @@ describe('Is Possible Moves Northeast', () => {
         expect(lineNortheast.isPossibleMove('a3', 'f8', leftBoard.getPieces())).toBeTruthy();
 
         //In the surrounded by oposite'
-        expect(lineNortheast.isPossibleMove('d2', 'e3', surroundedOposite.getPieces())).toBeTruthy();
+        expect(lineNortheast.isPossibleMove('d2', 'e3', surroundedEnemiesBoard.getPieces())).toBeTruthy();
     });
 
-    test('Is Not Possible Moves', () => {
+    test('Is not possible moves test', () => {
         //In the middle
         expect(lineNortheast.isPossibleMove('d4', 'a1', middleBoard.getPieces())).toBeFalsy();
         expect(lineNortheast.isPossibleMove('d4', 'b2', middleBoard.getPieces())).toBeFalsy();
@@ -550,9 +533,8 @@ describe('Is Possible Moves Northeast', () => {
 
 });
 
-describe('Is Possible Moves Northwest', () => {
-
-    test('Is Possible Moves ', () => {
+describe('Possible moves northwest', () => {
+    test('Is possible moves test', () => {
         //In the middle
         expect(lineNorthwest.isPossibleMove('d4', 'c5', middleBoard.getPieces())).toBeTruthy();
         expect(lineNorthwest.isPossibleMove('d4', 'a7', middleBoard.getPieces())).toBeTruthy();
@@ -565,10 +547,10 @@ describe('Is Possible Moves Northwest', () => {
         expect(lineNorthwest.isPossibleMove('h3', 'c8', rightBoard.getPieces())).toBeTruthy();
 
         //In the surrounded by oposite'
-        expect(lineNorthwest.isPossibleMove('d2', 'c3', surroundedOposite.getPieces())).toBeTruthy();
+        expect(lineNorthwest.isPossibleMove('d2', 'c3', surroundedEnemiesBoard.getPieces())).toBeTruthy();
     });
 
-    test('Is Not Possible Moves', () => {
+    test('Is not possible moves test', () => {
         //In the middle
         expect(lineNorthwest.isPossibleMove('d4', 'e4', middleBoard.getPieces())).toBeFalsy();
         expect(lineNorthwest.isPossibleMove('d4', 'h4', middleBoard.getPieces())).toBeFalsy();
@@ -583,12 +565,10 @@ describe('Is Possible Moves Northwest', () => {
         //In the surrounded
         expect(lineNorthwest.isPossibleMove('d2', 'c3', surroundedBoard.getPieces())).toBeFalsy();
     });
-
 });
 
-describe('Is Possible Moves Southeast', () => {
-
-    test('Is Possible Moves ', () => {
+describe('Possible moves southeast', () => {
+    test('Is possible moves test', () => {
         //In the middle
         expect(lineSoutheast.isPossibleMove('d4', 'e3', middleBoard.getPieces())).toBeTruthy();
         expect(lineSoutheast.isPossibleMove('d4', 'g1', middleBoard.getPieces())).toBeTruthy();
@@ -602,10 +582,10 @@ describe('Is Possible Moves Southeast', () => {
         expect(lineSoutheast.isPossibleMove('a3', 'c1', leftBoard.getPieces())).toBeTruthy();
 
         //In the surrounded by oposite'
-        expect(lineSoutheast.isPossibleMove('d2', 'e1', surroundedOposite.getPieces())).toBeTruthy();
+        expect(lineSoutheast.isPossibleMove('d2', 'e1', surroundedEnemiesBoard.getPieces())).toBeTruthy();
     });
 
-    test('Is Not Possible Moves', () => {
+    test('Is not possible moves test', () => {
         //In the middle
         expect(lineSoutheast.isPossibleMove('d4', 'a1', middleBoard.getPieces())).toBeFalsy();
         expect(lineSoutheast.isPossibleMove('d4', 'b2', middleBoard.getPieces())).toBeFalsy();
@@ -623,9 +603,8 @@ describe('Is Possible Moves Southeast', () => {
 
 });
 
-describe('Is Possible Moves Southwest', () => {
-
-    test('Is Possible Moves ', () => {
+describe('Possible moves southwest', () => {
+    test('Is possible moves test', () => {
         //In the middle
         expect(lineSouthwest.isPossibleMove('d4', 'c3', middleBoard.getPieces())).toBeTruthy();
         expect(lineSouthwest.isPossibleMove('d4', 'a1', middleBoard.getPieces())).toBeTruthy();
@@ -638,10 +617,10 @@ describe('Is Possible Moves Southwest', () => {
         expect(lineSouthwest.isPossibleMove('h3', 'f1', rightBoard.getPieces())).toBeTruthy();
 
         //In the surrounded by oposite'
-        expect(lineSouthwest.isPossibleMove('d2', 'c1', surroundedOposite.getPieces())).toBeTruthy();
+        expect(lineSouthwest.isPossibleMove('d2', 'c1', surroundedEnemiesBoard.getPieces())).toBeTruthy();
     });
 
-    test('Is Not Possible Moves', () => {
+    test('Is not possible moves test', () => {
         //In the middle
         expect(lineSouthwest.isPossibleMove('d4', 'e4', middleBoard.getPieces())).toBeFalsy();
         expect(lineSouthwest.isPossibleMove('d4', 'h4', middleBoard.getPieces())).toBeFalsy();
@@ -656,88 +635,86 @@ describe('Is Possible Moves Southwest', () => {
         //In the surrounded
         expect(lineSouthwest.isPossibleMove('d2', 'c1', surroundedBoard.getPieces())).toBeFalsy();
     });
-
 });
 
-describe('Get Attack Movements', () => {
-    test('Get Attack Movements North', () => {
-        let moves = lineNorth.getAttackMovements('d2', surroundedOposite.getPieces());
+describe('Get attack movements', () => {
+    test('There are attack movements north test', () => {
+        let moves = lineNorth.getAttackMovements('d2', surroundedEnemiesBoard.getPieces());
         expect(moves.includes("d3")).toBeTruthy();
     });
 
-    test('Get Not Attack Movements North', () => {
+    test('Not attack movements north test', () => {
         let moves = lineNorth.getAttackMovements('d2', surroundedBoard.getPieces());
         expect(moves.includes("d3")).toBeFalsy();
     });
 
-    test('Get Attack Movements South', () => {
-        let moves = lineSouth.getAttackMovements('d2', surroundedOposite.getPieces());
+    test('There are attack movements south test', () => {
+        let moves = lineSouth.getAttackMovements('d2', surroundedEnemiesBoard.getPieces());
         expect(moves.includes("d1")).toBeTruthy();
     });
 
-    test('Get Not Attack Movements South', () => {
+    test('Not attack movements south test', () => {
         let moves = lineSouth.getAttackMovements('d2', surroundedBoard.getPieces());
         expect(moves.includes("d1")).toBeFalsy();
     });
 
-    test('Get Attack Movements East', () => {
-        let moves = lineEast.getAttackMovements('d2', surroundedOposite.getPieces());
+    test('There are attack movements east test', () => {
+        let moves = lineEast.getAttackMovements('d2', surroundedEnemiesBoard.getPieces());
         expect(moves.includes("e2")).toBeTruthy();
     });
 
-    test('Get Not Attack Movements East', () => {
+    test('Not attack movements east test', () => {
         let moves = lineEast.getAttackMovements('d2', surroundedBoard.getPieces());
         expect(moves.includes("e2")).toBeFalsy();
     });
 
-    test('Get Attack Movements West', () => {
-        let moves = lineWeast.getAttackMovements('d2', surroundedOposite.getPieces());
+    test('There are attack movements west test', () => {
+        let moves = lineWeast.getAttackMovements('d2', surroundedEnemiesBoard.getPieces());
         expect(moves.includes("c2")).toBeTruthy();
     });
 
-    test('Get Not Attack Movements West', () => {
+    test('Not attack movements west test', () => {
         let moves = lineWeast.getAttackMovements('d2', surroundedBoard.getPieces());
         expect(moves.includes("c2")).toBeFalsy();
     });
 
-    test('Get Attack Movements Northeast', () => {
-        let moves = lineNortheast.getAttackMovements('d2', surroundedOposite.getPieces());
+    test('There are attack movements northeast test', () => {
+        let moves = lineNortheast.getAttackMovements('d2', surroundedEnemiesBoard.getPieces());
         expect(moves.includes("e3")).toBeTruthy();
     });
 
-    test('Get Not Attack Movements Northeast', () => {
+    test('Not attack movements northeast test', () => {
         let moves = lineNortheast.getAttackMovements('d2', surroundedBoard.getPieces());
         expect(moves.includes("e3")).toBeFalsy();
     });
 
-    test('Get Attack Movements Northwest', () => {
-        let moves = lineNorthwest.getAttackMovements('d2', surroundedOposite.getPieces());
+    test('There are attack movements northwest test', () => {
+        let moves = lineNorthwest.getAttackMovements('d2', surroundedEnemiesBoard.getPieces());
         expect(moves.includes("c3")).toBeTruthy();
     });
 
-    test('Get Not Attack Movements Northwest', () => {
+    test('Not attack movements northwest test', () => {
         let moves = lineNorthwest.getAttackMovements('d2', surroundedBoard.getPieces());
         expect(moves.includes("c3")).toBeFalsy();
     });
 
-    test('Get Attack Movements Southeast', () => {
-        let moves = lineSoutheast.getAttackMovements('d2', surroundedOposite.getPieces());
+    test('There are attack movements southeast test', () => {
+        let moves = lineSoutheast.getAttackMovements('d2', surroundedEnemiesBoard.getPieces());
         expect(moves.includes("e1")).toBeTruthy();
     });
 
-    test('Get Not Attack Movements Southeast', () => {
+    test('Not attack movements southeast test', () => {
         let moves = lineSoutheast.getAttackMovements('d2', surroundedBoard.getPieces());
         expect(moves.includes("e1")).toBeFalsy();
     });
 
-    test('Get Attack Movements Southwest', () => {
-        let moves = lineSouthwest.getAttackMovements('d2', surroundedOposite.getPieces());
+    test('There are attack movements southwest test', () => {
+        let moves = lineSouthwest.getAttackMovements('d2', surroundedEnemiesBoard.getPieces());
         expect(moves.includes("c1")).toBeTruthy();
     });
 
-    test('Get Not Attack Movements Southwest', () => {
+    test('Not attack movements southwest test', () => {
         let moves = lineSouthwest.getAttackMovements('d2', surroundedBoard.getPieces());
         expect(moves.includes("c1")).toBeFalsy();
     });
-
 });
