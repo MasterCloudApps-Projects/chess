@@ -342,8 +342,10 @@ The Queen movement strategy is implemented via a composite movement of both Rook
 </p>
 
 #### Decorator
-The decorator pattern allows to easily implement functionality for the pawn to transform into a queen when making it to the end of the board. The decorator object inherits from a normal piece, implements new methods and overrides others to check and swap its piece name and movement strategy for those of a queen when conditions are met.
+The decorator pattern was initially implemented to allow functionality for the pawn to transform into a queen upon making it to the end of the board. The decorator object inherits from a normal piece, implements new methods and overrides others to check and swap its piece name and movement strategy for those of a queen when conditions are met.
 
 <p align="center">
     <img src=".readme/pawnDecoratorPatternDiagram.png" />
 </p>
+
+However, this pattern is the only one not present on the final version: It was scrapped in favor of a simpler, non-overdesigned approach in the **getNextMoveRule** method present in all moveRule objects, which allows all of them to return a "successor" move rule after each movement. This way, the pawn can keep returning itself until queen transformation conditions are met.
