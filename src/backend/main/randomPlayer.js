@@ -17,7 +17,6 @@ function createRandomPlayer() {
             destinations = board.movementsFromTheCoordinate(origin);
         } while(destinations.length === 0);
 
-
         return {
             origin: origin,
             destination: generateRandomMovement(destinations)

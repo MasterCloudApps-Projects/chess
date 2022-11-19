@@ -1,5 +1,5 @@
 import { createCoordinate }  from '../../moveRule/coordinate.js';
-import { DirectionEnum }  from '../../moveRule/directionEnum';
+import { DirectionEnum }  from '../../moveRule/directionEnum.js';
 
 let coordinate;
 let maxTopLeftCoordinate;

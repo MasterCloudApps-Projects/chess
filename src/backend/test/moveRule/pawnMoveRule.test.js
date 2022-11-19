@@ -1,7 +1,7 @@
-import { getPawnMoveRule }  from '../../moveRule/pawnMoveRule';
+import { getPawnMoveRule }  from '../../moveRule/pawnMoveRule.js';
 import { boardBuilder } from '../../main/boardBuilder.js';
-import { layout } from './utils/layoutBoard.js'
-import { getPossibleCoordiantes } from './utils/move.js'
+import { layout } from '../utils//layoutBoard.js';
+import { getPossibleCoordiantes } from '../utils/move.js';
 
 let pawnWhite;
 let pawnBlack;

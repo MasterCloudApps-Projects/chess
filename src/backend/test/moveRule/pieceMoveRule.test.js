@@ -1,6 +1,6 @@
 import { createPieceMoveRule }  from '../../moveRule/pieceMoveRule.js';
 import { createCoordinate }  from '../../moveRule/coordinate.js';
-import { boardBuilder } from '../boardBuilderTest.js'
+import { boardBuilder } from '../utils/boardBuilderTest.js';
 
 let board;
 let piece;

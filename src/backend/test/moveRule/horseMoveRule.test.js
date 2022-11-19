@@ -1,7 +1,7 @@
 import { getHorseMoveRule }  from '../../moveRule/horseMoveRule.js';
 import { boardBuilder } from '../../main/boardBuilder.js';
-import { layout } from './utils/layoutBoard.js'
-import { getPossibleCoordiantes } from './utils/move.js'
+import { layout } from '../utils//layoutBoard.js';
+import { getPossibleCoordiantes } from '../utils/move.js';
 
 let horse;
 let middleBoard;

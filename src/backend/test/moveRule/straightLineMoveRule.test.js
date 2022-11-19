@@ -1,8 +1,8 @@
-import { createStraightLineMoveRule }  from '../../moveRule/straightLineMoveRule';
+import { createStraightLineMoveRule }  from '../../moveRule/straightLineMoveRule.js';
 import { boardBuilder } from '../../main/boardBuilder.js';
-import { DirectionEnum }  from '../../moveRule/directionEnum';
-import { layout } from './utils/layoutBoard.js'
-import { getPossibleCoordiantes } from './utils/move.js'
+import { DirectionEnum }  from '../../moveRule/directionEnum.js';
+import { layout } from '../utils//layoutBoard.js';
+import { getPossibleCoordiantes } from '../utils/move.js';
 
 let lineNorth;
 let lineSouth;

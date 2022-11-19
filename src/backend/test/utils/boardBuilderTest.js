@@ -1,5 +1,5 @@
-import { createBoard } from '../main/board.js';
-import { getPiece } from '../piece/piecesBuilder.js';
+import { createBoard } from '../../main/board.js';
+import { getPiece } from '../../piece/piecesBuilder.js';
 
 function boardBuilder(initialDispositionParam, dimensionParam, letterParam) {
     let initialDisposition = initialDispositionParam;

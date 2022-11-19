@@ -1,7 +1,7 @@
-import { getBishopMoveRule }  from '../../moveRule/bishopMoveRule';
+import { getBishopMoveRule }  from '../../moveRule/bishopMoveRule.js';
 import { boardBuilder } from '../../main/boardBuilder.js';
-import { layout } from './utils/layoutBoard.js'
-import { getPossibleCoordiantes } from './utils/move.js'
+import { layout } from '../utils//layoutBoard.js';
+import { getPossibleCoordiantes } from '../utils/move.js';
 
 let bishop;
 let middleBoard;

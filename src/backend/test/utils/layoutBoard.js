@@ -1,4 +1,3 @@
-
 let botton = `
 _-_-_-_-_-_-_-_
 _-_-_-_-_-_-_-_
@@ -69,6 +68,26 @@ _-Y-_-_-_-Y-_-_
 _-_-Y-_-Y-_-_-_
 _-_-_-_-_-_-_-_`;
 
+let empty = `
+_-_-_-_-_-_-_-_
+_-_-_-_-_-_-_-_
+_-_-_-_-_-_-_-_
+_-_-_-_-_-_-_-_
+_-_-_-_-_-_-_-_
+_-_-_-_-_-_-_-_
+_-_-_-_-_-_-_-_
+_-_-_-_-_-_-_-_`;
+
+let allTypePieces =`
+BP-BR-BH-BB-BK-BQ-_-_
+WP-WR-WH-WB-WK-WQ-_-_
+_-_-_-_-_-_-_-_
+_-_-_-_-_-_-_-_
+_-_-_-_-_-_-_-_
+_-_-_-_-_-_-_-_
+_-_-_-_-_-_-_-_
+_-_-_-_-_-_-_-_`;
+
 const layout = {
     botton: botton,
     top: top,
@@ -76,7 +95,9 @@ const layout = {
     left: left,
     middle: middle,
     surrounded: surrounded,
-    circle: circle
+    circle: circle,
+    empty: empty,
+    allTypePieces: allTypePieces
 }
 
 export {

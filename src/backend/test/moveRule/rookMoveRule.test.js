@@ -1,7 +1,7 @@
 import { getRookMoveRule }  from '../../moveRule/rookMoveRule.js';
 import { boardBuilder } from '../../main/boardBuilder.js';
-import { layout } from './utils/layoutBoard.js'
-import { getPossibleCoordiantes } from './utils/move.js'
+import { layout } from '../utils//layoutBoard.js';
+import { getPossibleCoordiantes } from '../utils/move.js';
 
 let rook;
 let middleBoard;

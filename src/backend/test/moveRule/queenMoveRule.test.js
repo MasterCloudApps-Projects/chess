@@ -1,7 +1,7 @@
-import { getQueenMoveRule }  from '../../moveRule/queenMoveRule';
+import { getQueenMoveRule }  from '../../moveRule/queenMoveRule.js';
 import { boardBuilder } from '../../main/boardBuilder.js';
-import { layout } from './utils/layoutBoard.js'
-import { getPossibleCoordiantes } from './utils/move.js'
+import { layout } from '../utils//layoutBoard.js';
+import { getPossibleCoordiantes } from '../utils/move.js';
 
 let queen;
 let middleBoard;
