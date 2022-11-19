@@ -348,4 +348,4 @@ The decorator pattern was initially implemented to allow functionality for the p
     <img src=".readme/pawnDecoratorPatternDiagram.png" />
 </p>
 
-However, this pattern is the only one not present on the final version: It was scrapped in favor of a simpler, non-overdesigned approach in the **getNextMoveRule** method present in all moveRule objects, which allows all of them to return a "successor" move rule after each movement. This way, the pawn can keep returning itself until queen transformation conditions are met.
+However, this pattern is the only one not present in the final version: It was scrapped in favor of a simpler, non-overdesigned approach in the **getNextMoveRule** method present in all moveRule objects, which allows all of them to return a "successor" move rule after each movement. This way, the pawn can keep returning itself until queen transformation conditions are met.
