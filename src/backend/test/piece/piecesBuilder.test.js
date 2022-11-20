@@ -1,5 +1,4 @@
 import { piecesBuilder, getPiece } from "../../piece/piecesBuilder.js";
-import { getPawnMoveRule } from "../../moveRule/pawnMoveRule.js";
 import { layout } from "../utils/layoutBoard.js";
 
 describe('Piece builder', () => {
@@ -37,5 +36,19 @@ describe('Get piece', () => {
         expect(result.getPosition()).toBe('a1');
     });
 
-    //TODO
+    test('Get piece empty test', () => {
+        let result = getPiece('WP', 'b2');
+        expect(result.isEmpty()).toBeFalsy();
+        expect(result.getFullName()).toBe('white pawn');
+        expect(result.isWhite()).toBeTruthy();
+        expect(result.getPosition()).toBe('b2');
+    });
+
+    test('Get piece empty test', () => {
+        let result = getPiece('BP', 'b7');
+        expect(result.isEmpty()).toBeFalsy();
+        expect(result.getFullName()).toBe('black pawn');
+        expect(result.isWhite()).toBeFalsy();
+        expect(result.getPosition()).toBe('b7');
+    });
 });
