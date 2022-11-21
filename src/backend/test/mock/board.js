@@ -14,6 +14,13 @@ function createBoard () {
 
     function setMemento() { }
 
+    function isColorOnCheck() { }
+
+    function getValidMovementNotCausingCheck() { }
+
+    function getAllSquaresOfBlackPieces() { }
+
+    function movementsFromTheCoordinate() { }
     return {
         getAllCoordinatesByColor,
         tryMove,
@@ -21,7 +28,11 @@ function createBoard () {
         isStalemate,
         getBoardPieceNames,
         createMemento,
-        setMemento
+        setMemento,
+        isColorOnCheck,
+        getValidMovementNotCausingCheck,
+        getAllSquaresOfBlackPieces,
+        movementsFromTheCoordinate
     }
 }
 

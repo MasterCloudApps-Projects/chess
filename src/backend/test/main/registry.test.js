@@ -33,13 +33,13 @@ describe('Register', () => {
 describe('Undo / Redo', () => {
     test('Undo when it is possible test', () => {
         jest.spyOn(mockBoard, 'createMemento')
-                                  .mockReturnValue(board)
+                                  .mockReturnValueOnce(board)
                                   .mockReturnValue(boardTwo);
         const setMemento = jest.spyOn(mockBoard, 'setMemento');
         registry.register();
         registry.register();
         registry.undo();
-        expect(setMemento).toHaveBeenCalledWith(boardTwo);
+        expect(setMemento).toHaveBeenCalledWith(board);
         expect(setMemento).toHaveBeenCalledTimes(1);
     });
 
@@ -52,14 +52,14 @@ describe('Undo / Redo', () => {
 
     test('Redo when it is possible test', () => {
         jest.spyOn(mockBoard, 'createMemento')
-                                  .mockReturnValue(board)
+                                  .mockReturnValueOnce(board)
                                   .mockReturnValue(boardTwo);
         const setMemento = jest.spyOn(mockBoard, 'setMemento');
         registry.register();
         registry.undo();
         registry.redo();
         expect(setMemento).toHaveBeenCalledTimes(2);
-        expect(setMemento).toHaveBeenLastCalledWith(boardTwo);
+        expect(setMemento).toHaveBeenLastCalledWith(board);
     });
 
     test('Redo when it is not possible test', () => {
