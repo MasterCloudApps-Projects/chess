@@ -10,12 +10,18 @@ function createBoard () {
 
     function getBoardPieceNames() { }
 
+    function createMemento() { }
+
+    function setMemento() { }
+
     return {
         getAllCoordinatesByColor,
         tryMove,
         isOnCheckMate,
         isStalemate,
-        getBoardPieceNames
+        getBoardPieceNames,
+        createMemento,
+        setMemento
     }
 }
 
