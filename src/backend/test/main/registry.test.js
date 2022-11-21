@@ -64,7 +64,6 @@ describe('Undo / Redo', () => {
 
     test('Redo when it is not possible test', () => {
         const setMemento = jest.spyOn(mockBoard, 'setMemento');
-        console.log(registry.isRedoable())
         let result = registry.redo();
         expect(result).toBe(undefined);
         expect(setMemento).not.toBeCalled();
