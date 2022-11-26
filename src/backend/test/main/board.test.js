@@ -44,7 +44,11 @@ describe('Try move', () => {
     })
 });
 
-describe('Endgame situations', () => {
+describe('Game state situations', () => {
+    test('Board is not on check', () => {
+        expect(tryMoveBoard.isColorOnCheck(PieceColorEnum.White)).not.toBeTruthy();
+    });
+
     test('Board is on check', () => {
         expect(checkBoard.isColorOnCheck(PieceColorEnum.Black)).toBeTruthy();
     });

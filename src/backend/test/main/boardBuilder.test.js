@@ -3,12 +3,14 @@ import { boardBuilder } from '../../main/boardBuilder.js';
 
 describe('Build board', () => {
     test('Build board', () => {
-        expect(checkBoardPieces(layout.stalemate.substring(1).split('\n').join('-').split('-'),
-            boardBuilder().fromPieceLayoutString(layout.stalemate).build()))
-            .toBeTruthy();
-        expect(checkBoardPieces(layout.tryMove.substring(1).split('\n').join('-').split('-'),
-            boardBuilder().fromPieceLayoutString(layout.tryMove).build()))
-            .toBeTruthy();
+        expect(checkBoardPieces(
+                layout.stalemate.substring(1).split('\n').join('-').split('-'),
+                boardBuilder().fromPieceLayoutString(layout.stalemate).build())
+            ).toBeTruthy();
+        expect(checkBoardPieces(
+                layout.tryMove.substring(1).split('\n').join('-').split('-'),
+                boardBuilder().fromPieceLayoutString(layout.tryMove).build())
+            ).toBeTruthy();
     })
 });
 
