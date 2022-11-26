@@ -88,6 +88,46 @@ _-_-_-_-_-_-_-_
 _-_-_-_-_-_-_-_
 _-_-_-_-_-_-_-_`;
 
+let tryMove = `
+_-_-_-_-_-_-_-_
+_-_-_-_-_-_-_-_
+_-_-_-BP-_-_-_-_
+_-_-_-_-_-_-_-BB
+_-_-_-_-_-_-_-_
+_-_-_-_-_-_-_-_
+_-_-_-WQ-WP-_-_-_
+_-_-_-WK-_-_-_-_`;
+
+let checkMate = `
+BR-BH-BB-BK-BQ-BB-BH-BR
+BP-_-_-BP-BP-BP-BP-BP
+_-_-_-_-_-_-_-_
+WQ-_-_-_-_-_-_-_
+_-_-_-_-_-_-_-_
+_-_-_-_-_-_-_-_
+WP-WP-WP-WP-WP-WP-WP-WP
+WR-WH-WB-WK-_-WB-WH-WR`;
+
+let check = `
+BR-BH-BB-BK-BQ-BB-BH-BR
+BP-BP-BP-BP-_-BP-BP-BP
+_-_-_-_-_-_-_-_
+_-_-_-_-_-_-_-_
+_-_-_-_-_-_-_-WQ
+_-_-_-_-_-_-_-_
+WP-WP-WP-WP-WP-WP-WP-WP
+WR-WH-WB-WK-_-WB-WH-WR`;
+
+let stalemate = `
+BK-_-_-_-_-_-_-_
+_-_-_-_-_-_-_-_
+_-WQ-_-_-_-_-_-_
+_-_-_-_-_-_-_-_
+_-_-_-_-_-_-_-_
+_-_-_-_-_-_-_-_
+_-_-_-_-_-_-_-_
+_-_-_-_-_-_-_-_`;
+
 const layout = {
     botton: botton,
     top: top,
@@ -97,7 +137,11 @@ const layout = {
     surrounded: surrounded,
     circle: circle,
     empty: empty,
-    allTypePieces: allTypePieces
+    allTypePieces: allTypePieces,
+    tryMove: tryMove,
+    checkMate: checkMate,
+    check: check,
+    stalemate: stalemate
 }
 
 export {
