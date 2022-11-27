@@ -98,6 +98,26 @@ _-_-_-_-_-_-_-_
 _-_-_-WQ-WP-_-_-_
 _-_-_-WK-_-_-_-_`;
 
+let tryMoveAfterEating = `
+_-_-_-_-_-_-_-_
+_-_-_-_-_-_-_-_
+_-_-_-WQ-_-_-_-_
+_-_-_-_-_-_-_-BB
+_-_-_-_-_-_-_-_
+_-_-_-_-_-_-_-_
+_-_-_-_-WP-_-_-_
+_-_-_-WK-_-_-_-_`;
+
+let tryMoveAfterMoveToLimit = `
+_-_-_-_-_-_-_-_
+_-_-_-_-_-_-_-_
+_-_-_-BP-_-_-_-_
+_-_-_-_-_-_-_-BB
+_-_-_-_-_-_-_-_
+_-_-_-_-_-_-_-_
+WQ-_-_-_-WP-_-_-_
+_-_-_-WK-_-_-_-_`;
+
 let checkMate = `
 BR-BH-BB-BK-BQ-BB-BH-BR
 BP-_-_-BP-BP-BP-BP-BP
@@ -139,6 +159,8 @@ const layout = {
     empty: empty,
     allTypePieces: allTypePieces,
     tryMove: tryMove,
+    tryMoveAfterMoveToLimit: tryMoveAfterMoveToLimit,
+    tryMoveAfterEating: tryMoveAfterEating,
     checkMate: checkMate,
     check: check,
     stalemate: stalemate
