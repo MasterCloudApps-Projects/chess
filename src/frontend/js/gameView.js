@@ -65,7 +65,6 @@ function createGameView() {
         const res = await restClient.http(`/${gameUUID}/status`, 'GET');
         status = res.data.status;
         if (status === "finished") {
-            console.log("End game");
             boardView.paintFinishedStatus();
         }
     }

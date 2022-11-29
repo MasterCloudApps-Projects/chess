@@ -14,6 +14,29 @@ Nodemon execution
 npm run dev
 ```
 
+# Building and launching docker image
+Moreover, it is possible to build a docker image of the app using the *Dockerfile*.
+
+Building image (named chess):
+```
+docker build -t chess .
+```
+Run docker container based on the chess image:
+```
+docker run -dp 3000:3000 chess
+```
+
+## Using GitHub Packages
+There is also the possibility of using the image uploaded to github container repo. This option will be available only being a collaborator of the project.
+
+First of all, it is necessary to sign in to the [Container registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry).
+
+Then, it is possible to pull and run the version *1.0.0*:
+```
+docker pull ghcr.io/mastercloudapps-projects/chess:1.0.0
+docker run -dp 3000:3000 ghcr.io/mastercloudapps-projects/chess:1.0.0
+```
+
 # Technical Documentation
 This work serves as a study of several well-known software design patterns implemented on the JavaScript language (by using the NodeJS platform), all applied in the context of a simple chess engine.
 
@@ -319,8 +342,10 @@ The Queen movement strategy is implemented via a composite movement of both Rook
 </p>
 
 #### Decorator
-The decorator pattern allows to easily implement functionality for the pawn to transform into a queen when making it to the end of the board. The decorator object inherits from a normal piece, implements new methods and overrides others to check and swap its piece name and movement strategy for those of a queen when conditions are met.
+The decorator pattern was initially implemented to allow functionality for the pawn to transform into a queen upon making it to the end of the board. The decorator object inherits from a normal piece, implements new methods and overrides others to check and swap its piece name and movement strategy for those of a queen when conditions are met.
 
 <p align="center">
     <img src=".readme/pawnDecoratorPatternDiagram.png" />
 </p>
+
+However, this pattern is the only one not present in the final version: It was scrapped in favor of a simpler, non-overdesigned approach in the **getNextMoveRule** method present in all moveRule objects, which allows all of them to return a "successor" move rule after each movement. This way, the pawn can keep returning itself until queen transformation conditions are met.

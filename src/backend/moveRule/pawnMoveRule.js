@@ -1,4 +1,5 @@
 import { createPieceMoveRule } from "./pieceMoveRule.js";
+import { getQueenMoveRule } from "./queenMoveRule.js"
 import { DirectionEnum } from "./directionEnum.js"
 
 function getPawnMoveRule(isFirstMovementP, isFromNorthSideP) {
@@ -13,16 +14,19 @@ function getPawnMoveRule(isFirstMovementP, isFromNorthSideP) {
         return possibleMovements;
     }
 
-    function doAfterMovement (currentPosition, pieces) {
-        moveRule.updateCurrentPosition(currentPosition, pieces);
+    function getNextMoveRule(currentAbbreviation) {
         isFirstMovement = false;
+        if (shouldTurnToQueen())
+            return { moveRule: getQueenMoveRule(), abbreviation: 'Q' }
+        else
+            return { moveRule: this, abbreviation: currentAbbreviation }
     }
 
     function shouldTurnToQueen () {
         let coordinate = moveRule.getCurrentCoordinate();
         if (isFromNorthSide && coordinate.getRow() <= 1)
             return true;
-        if (!isFromNorthSide && coordinate.getRow() >= 8)
+        if (!isFromNorthSide && isFromNorthSide === false && coordinate.getRow() >= 8)
             return true;
         return false;
     }
@@ -79,9 +83,8 @@ function getPawnMoveRule(isFirstMovementP, isFromNorthSideP) {
         ...moveRule,
         ...{
             getPossibleMovements,
-            doAfterMovement,
-            shouldTurnToQueen,
-            getAttackMovements
+            getAttackMovements,
+            getNextMoveRule
         }
     };
 }

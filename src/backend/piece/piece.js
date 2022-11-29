@@ -46,7 +46,15 @@ function createPiece(pieceAbbreviation, piecePosition, pieceMovementRule) {
     }
 
     function isPossibleMove(destination, pieces) {
-        return movement.isPossibleMove(position, destination, pieces);
+        let res = movement.isPossibleMove(position, destination, pieces);
+        if (res) {
+            updateCurrentPosition(destination, pieces);
+            let nextMoveRule = movement.getNextMoveRule(abbreviation[1]);
+            movement = nextMoveRule.moveRule;
+            abbreviation = abbreviation[0] + nextMoveRule.abbreviation;
+            fullName = color.getLiteral() + ' ' + PieceNameMap[abbreviation[1]]
+        }
+        return res;
     }
 
     function getPossibleMovements(pieces) {

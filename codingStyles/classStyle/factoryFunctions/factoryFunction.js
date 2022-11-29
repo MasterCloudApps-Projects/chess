@@ -1,34 +1,28 @@
-// Reference: 
+// Reference:
 // https://www.geeksforgeeks.org/what-are-factory-functions-in-javascript/
 // https://www.javascripttutorial.net/javascript-factory-functions/
 
-function CreateA() { 
-
-    // Attempting to use private attributes or functions like these turn the pattern into a pseudo clousure
-    let privateAttribute = "A This is a private attribute.";
-    function privateFunction() {
-        console.log("A This is a private function.");
-        console.log(privateAttribute);
-    }
-
-    return { 
+function CreateA() {
+    return {
         publicAttribute: "A This is a public attribute.",
-        publicMethod: function () { 
+        publicMethod: function () {
             console.log("A This is a public method.");
-            privateFunction();        
         },
         publicMethod2: function () {
             console.log("This is another public method. ");
         }
     }
 }
+
 CreateA.publicStaticMethod = function() {
     console.log("This is a static method.");
 }
-CreateA.STATIC_FIELD = "This is a static field";
 
+CreateA.STATIC_FIELD = "This is a static field";
 console.log(CreateA.STATIC_FIELD);
+
 CreateA.publicStaticMethod();
+
 let objA = new CreateA();
 console.log(objA.publicAttribute);
 objA.publicMethod();

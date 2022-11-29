@@ -1,24 +1,14 @@
 function createRegistry () {
 
-    function undo() {
+    function undo() { }
 
-    }
+    function redo() { }
 
-    function redo() {
+    function register() { }
 
-    }
+    function isUndoable() { }
 
-    function register() {
-
-    }
-
-    function isUndoable() {
-
-    }
-
-    function isRedoable() {
-
-    }
+    function isRedoable() { }
 
     return {
         register,

@@ -1,31 +1,38 @@
 function createBoard () {
 
-    function getAllCoordinatesByColor() {
+    function getAllCoordinatesByColor() { }
 
-    }
+    function tryMove() { }
 
-    function tryMove() {
+    function isOnCheckMate() { }
 
-    }
+    function isStalemate() { }
 
-    function isOnCheckMate() {
+    function getBoardPieceNames() { }
 
-    }
+    function createMemento() { }
 
-    function isStalemate() {
+    function setMemento() { }
 
-    }
+    function isColorOnCheck() { }
 
-    function getBoardPieceNames() {
+    function getValidMovementNotCausingCheck() { }
 
-    }
+    function getAllSquaresOfBlackPieces() { }
 
+    function movementsFromTheCoordinate() { }
     return {
         getAllCoordinatesByColor,
         tryMove,
         isOnCheckMate,
         isStalemate,
-        getBoardPieceNames
+        getBoardPieceNames,
+        createMemento,
+        setMemento,
+        isColorOnCheck,
+        getValidMovementNotCausingCheck,
+        getAllSquaresOfBlackPieces,
+        movementsFromTheCoordinate
     }
 }
 

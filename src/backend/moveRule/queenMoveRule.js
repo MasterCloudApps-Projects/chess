@@ -18,7 +18,7 @@ function getQueenMoveRule() {
     return {
         ...moveRule,
         ...{
-            getPossibleMovements
+            getPossibleMovements,
         }
     }
 }

@@ -25,7 +25,7 @@ function getKingMoveRule() {
     return {
         ...moveRule,
         ...{
-            getPossibleMovements
+            getPossibleMovements,
         }
     }
 }

@@ -68,7 +68,6 @@ function createGame(uuidGame) {
     }
 
     function endGame() {
-        console.log("End game");
         status = GameStatusEnum.finished;
     }
 

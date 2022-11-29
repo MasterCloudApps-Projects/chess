@@ -45,7 +45,7 @@ function getHorseMoveRule() {
     return {
         ...moveRule,
         ...{
-            getPossibleMovements
+            getPossibleMovements,
         }
     }
 }
