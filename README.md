@@ -208,13 +208,12 @@ function createSeason(season){
 ```
 
 ## Project Structure
-The ajadrez architecture follows the Model-View-Controller. On the one hand the backend is decoupled with the domain model and the controllers ([*/Router/*](https://github.com/MasterCloudApps-Projects/chess/tree/main/src/backend/router)) and the frontend with the views have been decoupled on the one hand.
+The chess architecture follows the Model-View-Controller. On one hand is the backend, containing the domain model and the controllers ([*/Router/*](https://github.com/MasterCloudApps-Projects/chess/tree/main/src/backend/router)), and on the other is the frontend along with the views.
 
 ### Backend
-The backend is invoked from the view, using the exposed REST operations of the routes.
+The backend is invoked from the view, using the exposed REST endpoints.
 
-The *Game* stands out in the model. The *Game* directs the flow of the game by interacting with the rest of the models. This component in addition to the
-*GameHistory* are the models used from the routes. Thus the routes redirect the actions of the server to the model itself.
+The *Game* module stands out in the model. *Game* directs the flow of the game by interacting with the rest of the modules. This component in addition to the *GameHistory* are the models called from the routers, thus the routers redirect the actions of the server to the model itself.
 
 A detailed diagram of the relationships between the modules that form the backend is shown.
 
@@ -235,11 +234,8 @@ The following diagram shows the relationship between the different view modules.
     <img src=".readme/chessFrontendDiagram.png" />
 </p>
 
-A priori, it is confusing that the interaction between the frontend and the backend is not done from a single main view (such as *GameView*).
+A priori, it is confusing that the interaction between the frontend and the backend is not done from one single main view (such as *GameView*), however this was done for a reason. The chess engine was initially developed for a single user, the other player being the *RandomPlayer*. The CPU player is used from the view as well as the user, which allows to easily separate this functionality for a second player in any future versions. As such, when generating the *RandomPlayer* interaction it was decided to do it from its own *PlayerView* view.
 
-A priori, it is confusing that the interaction between the frontend and the backend is not done from a single main view (such as *GameView*).
-
-This was done for a reason. Chess was initially developed for a single user, the other player being the *RandomPlayer*. The CPU player is used from the view as well as the user, which allows in future versions to easily separate this functionality for a second player. When generating the *RandomPlayer* interaction it was decided to do it from an own *PlayerView* view.
 ## Design Pattern Implementation
 Next up is a list of all the design patterns applied on the chess engine, each one along with a short description of its role within the project and its participants, followed by small UML diagram of the achieved implementation.
 
