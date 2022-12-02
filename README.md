@@ -1,5 +1,8 @@
 # Patterned NodeJS
-**Software Design Patterns using JavaScript, on a NodeJS chess engine.**
+<p align="center">
+<b>Software Design Patterns using JavaScript, on a NodeJS chess engine.</b>
+    <img src=".readme/chessGUI.png" />
+</p>
 
 # Launching the chess engine
 It is possible to execute the application for development purposes (with enabled auto-reload), or to just normally run it. As such, there are two scripts for these scenarios: *start* and *dev*.
