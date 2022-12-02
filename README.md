@@ -1,5 +1,8 @@
 # Patterned NodeJS
 <p align="center">
+<img src="https://github.com/MasterCloudApps-Projects/chess/actions/workflows/main.yml/badge.svg"/>
+<img src="https://img.shields.io/github/v/tag/MasterCloudApps-Projects/chess"/>
+<img src="https://img.shields.io/github/license/MasterCloudApps-Projects/chess"/> <br>
 <b>Software Design Patterns using JavaScript, on a NodeJS chess engine.</b>
     <img src=".readme/chessGUI.png" />
 </p>
