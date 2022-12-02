@@ -10,12 +10,13 @@
     "dependencies": {
         "axios": "^0.27.2",
         "cors": "^2.8.5",
+        "coverage": "^0.4.1",
         "express": "4.17.1",
         "mustache": "^4.2.0",
         "nodemon": "^2.0.19"
     },
     "devDependencies": {
-        "jest": "^29.2.2",
-        "@babel/plugin-transform-modules-commonjs": "^7.16.8"
+        "@babel/plugin-transform-modules-commonjs": "^7.16.8",
+        "jest": "^29.2.2"
     }
 }

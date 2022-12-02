@@ -1,4 +1,4 @@
-name: Main workflow
+name: Build
 
 on:
   push:
@@ -24,6 +24,8 @@ jobs:
       run: npm ci
     - name: Execute tests
       run: npm test
+    - name: Generate test coverage
+      run: npx coverage --exclude src\backend\test\** npm test
     - name: get-npm-version
       id: package-version
       uses: martinbeentjes/npm-get-version-action@main
