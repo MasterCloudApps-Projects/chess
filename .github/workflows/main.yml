@@ -41,4 +41,4 @@ jobs:
     - name: Upload code coverage
       uses: EndBug/add-and-commit@v9.1.0
       with:
-        message: 'Auto CI: updating code coverage
+        message: 'Auto CI: updating code coverage'
