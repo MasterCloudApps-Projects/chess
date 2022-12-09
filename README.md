@@ -37,10 +37,10 @@ There is also the possibility of using the image uploaded to github container re
 
 First of all, it is necessary to sign in to the [Container registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry).
 
-Then, it is possible to pull and run the version *1.0.0*:
+Then, it is possible to pull and run the version *1.0.1*:
 ```
-docker pull ghcr.io/mastercloudapps-projects/chess:1.0.0
-docker run -dp 3000:3000 ghcr.io/mastercloudapps-projects/chess:1.0.0
+docker pull ghcr.io/mastercloudapps-projects/chess:1.0.1
+docker run -dp 3000:3000 ghcr.io/mastercloudapps-projects/chess:1.0.1
 ```
 
 # Technical Documentation
